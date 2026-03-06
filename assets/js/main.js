@@ -19,7 +19,7 @@ if (cur && dot) {
     cur.style.top  = cy + "px";
     requestAnimationFrame(loop);
   })();
-  document.querySelectorAll("a, button, .sc, .step, .pc, .ps, .num").forEach(function(el) {
+  document.querySelectorAll("a, button, .sc, .step, .pc, .ps, .num, .sol, .case, .os-item").forEach(function(el) {
     el.addEventListener("mouseenter", function() { cur.classList.add("hover"); });
     el.addEventListener("mouseleave", function() { cur.classList.remove("hover"); });
   });
@@ -45,7 +45,41 @@ var io = new IntersectionObserver(function(entries) {
     }
   });
 }, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
-document.querySelectorAll(".rv, .rvl, .rvr").forEach(function(el) { io.observe(el); });
+document.querySelectorAll(".rv, .rvl, .rvr, .rvd").forEach(function(el) { io.observe(el); });
+
+// Tape track duplicate (sector pages)
+var tape = document.querySelector(".tape-track");
+if (tape) tape.innerHTML += tape.innerHTML;
+
+// Sector deep-dive accordion (.di-hd)
+document.querySelectorAll(".di-hd").forEach(function(btn) {
+  btn.addEventListener("click", function() {
+    var item = btn.closest(".di");
+    var isOpen = item.classList.contains("open");
+    document.querySelectorAll(".di.open").forEach(function(d) { d.classList.remove("open"); });
+    if (!isOpen) item.classList.add("open");
+  });
+});
+
+// Sector CTA form (#cta-form)
+var ctaForm = document.getElementById("cta-form");
+var ctaSuccess = document.getElementById("cta-success");
+if (ctaForm) {
+  ctaForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    ctaForm.style.opacity = "0";
+    ctaForm.style.transition = "opacity .4s";
+    setTimeout(function() {
+      ctaForm.style.display = "none";
+      if (ctaSuccess) {
+        ctaSuccess.style.display = "flex";
+        ctaSuccess.style.opacity = "0";
+        ctaSuccess.style.transition = "opacity .5s";
+        setTimeout(function() { ctaSuccess.style.opacity = "1"; }, 50);
+      }
+    }, 400);
+  });
+}
 
 // Step animations in hero
 var stepIO = new IntersectionObserver(function(entries) {
