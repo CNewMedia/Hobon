@@ -98,8 +98,8 @@
 <div class="numbers">
   <div class="num rv"><div class="num-val"><span class="count" data-target="40">0</span><sup>+</sup></div><div class="num-lbl">Jaar expertise in PE-verpakkingen</div></div>
   <div class="num rv d1"><div class="num-val"><span class="count" data-target="6">0</span></div><div class="num-lbl">Kleurendruk in eigen flexodrukkerij</div></div>
-  <div class="num rv d2"><div class="num-val" style="font-size:44px;letter-spacing:-.01em">BRC AA</div><div class="num-lbl">Hoogste certificeringsniveau</div></div>
-  <div class="num rv d3"><div class="num-val" style="font-size:48px">BE+NL</div><div class="num-lbl">Actief in Belgi&euml; en Nederland</div></div>
+  <div class="num rv d2"><div class="num-val num-val--sm">BRC AA</div><div class="num-lbl">Hoogste certificeringsniveau</div></div>
+  <div class="num rv d3"><div class="num-val num-val--md">BE+NL</div><div class="num-lbl">Actief in Belgi&euml; en Nederland</div></div>
 </div>
 
 <!-- OVER HOBON -->
@@ -138,7 +138,7 @@
       <div class="sec-tag rv"><div class="sec-tag-line"></div><span class="sec-tag-txt">Sectoren</span></div>
       <h2 class="sectors-h2 rv d1">Uw sector,<span>onze expertise</span></h2>
     </div>
-    <a href="contact.html" class="sectors-cta rv d2"><span>Alle sectoren</span><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a href="#sectoren" class="sectors-cta rv d2"><span>Alle sectoren</span><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
   </div>
   <div class="s-scroll">
     <div class="s-rail" id="sRail">
@@ -191,7 +191,7 @@
       <div class="sec-tag rv"><div class="sec-tag-line"></div><span class="sec-tag-txt">Werkwijze</span></div>
       <h2 class="process-h2 rv d1">Van vraag naar<span>de juiste keuze</span></h2>
     </div>
-    <a href="contact.html" class="btn-secondary rv d2" style="color:rgba(26,45,107,.5);border-color:rgba(26,45,107,.2)"><span style="color:var(--navy)">Start het gesprek</span><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="var(--navy)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a href="contact.html" class="btn-secondary btn-secondary--navy rv d2"><span>Start het gesprek</span><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
   </div>
   <div class="process-grid">
     <div class="ps rv"><div class="ps-accent"></div><div class="ps-n">01</div><span class="ps-step">Intake</span><h3 class="ps-title">Toepassingsanalyse</h3><p class="ps-desc">Machine, lijnsnelheid, producteigenschappen, retailvereisten, audits. Wij stellen de juiste vragen zodat er geen verrassingen zijn bij de eerste productierun.</p></div>
@@ -258,22 +258,9 @@
         <div class="ct"><div class="ct-av">DO</div><div><div class="ct-name">Dorine Van Moorhem</div><div class="ct-role">Interne Sales &middot; +32&nbsp;9&nbsp;376&nbsp;27&nbsp;65</div></div></div>
       </div>
     </div>
-    <div class="rv d2">
-      <form class="cf" onsubmit="return false;">
-        <div class="cf-row">
-          <div class="cf-field"><label class="cf-lbl" for="cfn">Naam *</label><input class="cf-in" id="cfn" type="text" placeholder="Jan Janssen" required></div>
-          <div class="cf-field"><label class="cf-lbl" for="cfb">Bedrijf *</label><input class="cf-in" id="cfb" type="text" placeholder="Uw bedrijfsnaam" required></div>
-        </div>
-        <div class="cf-row">
-          <div class="cf-field"><label class="cf-lbl" for="cfe">E-mail *</label><input class="cf-in" id="cfe" type="email" placeholder="jan@bedrijf.be" required></div>
-          <div class="cf-field"><label class="cf-lbl" for="cft">Ik zoek...</label><select class="cf-sel" id="cft"><option value="" disabled selected>Kies een optie</option><option>Technisch advies</option><option>Offerte aanvragen</option><option>Staal of monster</option><option>Andere vraag</option></select></div>
-        </div>
-        <div class="cf-row">
-          <div class="cf-field full"><label class="cf-lbl" for="cfm">Uw toepassing of uitdaging</label><textarea class="cf-ta" id="cfm" placeholder="Beschrijf uw machine, product, sector of probleem. Hoe meer detail, hoe beter ons advies."></textarea></div>
-        </div>
-        <div class="cf-bottom"><button class="cf-btn" type="submit"><span>Vraag versturen</span><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-        <div class="cf-privacy">Uw gegevens worden uitsluitend gebruikt voor de behandeling van uw aanvraag. Wij verkopen geen data aan derden. <a href="#">Privacybeleid</a>.</div>
-      </form>
+    <div class="rv d2 cf-cta">
+      <p class="contact-body">Vul het volledige contactformulier in op onze contactpagina voor een snelle reactie. Gemiddelde reactietijd: 1 werkdag.</p>
+      <a href="contact.html" class="btn-primary"><span>Naar contactformulier</span><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
   </div>
 </section>
@@ -290,34 +277,34 @@
       <div class="ft-col-h">Sectoren</div>
       <nav class="ft-links">
         <a href="sectoren/voeding.html">Voeding &amp; levensmiddelen</a>
-        <a href="#">Landbouw &amp; veevoeders</a>
-        <a href="#">Logistiek &amp; palletten</a>
-        <a href="#">Industrie &amp; chemie</a>
-        <a href="#">Textiel &amp; retail</a>
-        <a href="#">Duurzame verpakkingen</a>
+        <a href="#" data-placeholder="tijdelijk">Landbouw &amp; veevoeders</a>
+        <a href="#" data-placeholder="tijdelijk">Logistiek &amp; palletten</a>
+        <a href="#" data-placeholder="tijdelijk">Industrie &amp; chemie</a>
+        <a href="#" data-placeholder="tijdelijk">Textiel &amp; retail</a>
+        <a href="#" data-placeholder="tijdelijk">Duurzame verpakkingen</a>
       </nav>
     </div>
     <div>
       <div class="ft-col-h">Producten</div>
       <nav class="ft-links">
-        <a href="#">Automatenfolie &amp; FFS</a>
-        <a href="#">Dolafzakken</a>
-        <a href="#">Patijnrollen &amp; buizen</a>
-        <a href="#">Krimphoezen</a>
-        <a href="#">PE zakken op maat</a>
-        <a href="#">Stretchfolie</a>
+        <a href="#" data-placeholder="tijdelijk">Automatenfolie &amp; FFS</a>
+        <a href="#" data-placeholder="tijdelijk">Dolafzakken</a>
+        <a href="#" data-placeholder="tijdelijk">Patijnrollen &amp; buizen</a>
+        <a href="#" data-placeholder="tijdelijk">Krimphoezen</a>
+        <a href="#" data-placeholder="tijdelijk">PE zakken op maat</a>
+        <a href="#" data-placeholder="tijdelijk">Stretchfolie</a>
       </nav>
     </div>
     <div>
       <div class="ft-col-h">Contact</div>
       <div class="ft-ci"><div class="ft-ci-l">Adres</div><div class="ft-ci-v">Arisdonk 139<br>B-9950 Lievegem</div></div>
-      <div class="ft-ci"><div class="ft-ci-l">Telefoon</div><div class="ft-ci-v"><a href="tel:+3293774516" style="color:var(--mist);">+32 9 377 45 16</a></div></div>
-      <div class="ft-ci"><div class="ft-ci-l">E-mail</div><div class="ft-ci-v"><a href="mailto:info@hobon.be" style="color:var(--mist);">info@hobon.be</a></div></div>
+      <div class="ft-ci"><div class="ft-ci-l">Telefoon</div><div class="ft-ci-v"><a href="tel:+3293774516">+32 9 377 45 16</a></div></div>
+      <div class="ft-ci"><div class="ft-ci-l">E-mail</div><div class="ft-ci-v"><a href="mailto:info@hobon.be">info@hobon.be</a></div></div>
     </div>
   </div>
   <div class="ft-bottom">
     <p class="ft-copy">&copy; 2026 Hobon NV &middot; Alle rechten voorbehouden</p>
-    <div style="display:flex;align-items:center;gap:8px;"><div style="background:var(--orange);padding:4px 8px;border-radius:3px;font-size:9px;font-weight:700;color:var(--ink);">BRC AA</div><span style="font-size:11.5px;color:#aab0c0;">BRC Packaging Level AA</span></div>
+    <div class="ft-brc"><div class="ft-brc-box"><span>BRC<br>AA</span></div><span class="ft-brc-txt">BRC Packaging Level AA</span></div>
   </div>
 </footer>
 
