@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insight — Waarom een &quot;goede&quot; folie alsnog breuk kan geven op uw FFS-lijn | Hobon</title>
+<meta name="description" content="Diepgaande technische uitleg waarom folies die op papier kloppen toch breuk geven op FFS-lijnen, en welke parameters u moet bijsturen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div id="cur"></div>
+<div id="cur-dot"></div>
+
+<!-- HEADER -->
+<header class="hdr" id="hdr">
+  <a href="./" class="hdr-logo" aria-label="Hobon">
+    <img src="assets/images/logo.jpg" alt="Hobon">
+  </a>
+  <nav class="hdr-nav">
+    <a href="sectoren/voeding.html">Sectoren</a>
+    <a href="./#werkwijze">Werkwijze</a>
+    <a href="./#producten">Producten</a>
+    <a href="./#over">Over Hobon</a>
+    <a href="insights.html" class="active">Insights</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  <a href="contact.html" class="hdr-cta"><span>Vraag advies</span></a>
+  <button class="hdr-hamburger" id="hambtn" aria-label="Menu openen" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="mob-nav" id="mobnav" aria-hidden="true">
+  <a href="sectoren/voeding.html">Sectoren<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <a href="./#werkwijze">Werkwijze<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <a href="./#producten">Producten<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <a href="./#over">Over Hobon<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <a href="insights.html" class="active">Insights<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <a href="contact.html">Contact<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <a href="contact.html" class="mob-nav-cta">Vraag advies</a>
+</nav>
+
+<main class="ins-detail-page">
+  <!-- ARTICLE HERO -->
+  <article class="ins-detail">
+    <header class="ins-detail-hero">
+      <div class="ins-detail-meta">
+        <a href="insights.html" class="ins-detail-back">Terug naar insights</a>
+        <span class="ins-detail-cat">Lijnperformance</span>
+        <div class="ins-detail-meta-row">
+          <span>28 feb 2026</span>
+          <span>&middot;</span>
+          <span>8 min leestijd</span>
+        </div>
+      </div>
+      <h1 class="ins-detail-title">Waarom een &quot;goede&quot; folie alsnog breuk kan geven op uw FFS-lijn</h1>
+      <p class="ins-detail-intro">
+        In veel dossiers zien we dat folies op papier perfect lijken: correcte dikte, juiste materiaal, degelijke leverancier.
+        Toch ontstaat breuk zodra de lijn sneller gaat draaien, of zodra de batch wijzigt.
+        Dit artikel ontleedt de technische oorzaken achter zulke gevallen, en wat u eraan kunt doen.
+      </p>
+      <div class="ins-detail-hero-media">
+        <img src="https://images.unsplash.com/photo-1581090700227-1e37b190418e?w=1400&q=80&auto=format&fit=crop" alt="FFS-lijn met verpakkingsfolie in productie">
+      </div>
+    </header>
+
+    <!-- ARTICLE BODY -->
+    <div class="ins-detail-body">
+      <div class="ins-detail-main">
+        <section>
+          <h2>1. &quot;Goede folie&quot; zonder lijncontext bestaat niet</h2>
+          <p>
+            In offertes en datasheets wordt vaak gesproken over &quot;hoge kwaliteit folie&quot; of &quot;geschikt voor FFS&quot; zonder dat de
+            concrete lijncontext gekend is. In de praktijk bepaalt een combinatie van <strong>machinekarakteristieken</strong>,
+            <strong>temperatuurprofiel</strong>, <strong>trekweg</strong> en <strong>belasting door het product</strong> of een folie zich stabiel gedraagt.
+          </p>
+          <p>
+            Een folie die uitstekend werkt op een horizontale FFS-lijn bij 25 m/min kan op een verticale lijn bij 45 m/min plots
+            breuk geven. De eigenschappen van de folie zijn dan niet noodzakelijk &quot;slecht&quot;, maar <strong>niet afgestemd
+            op uw procesparameters</strong>.
+          </p>
+        </section>
+
+        <section>
+          <h2>2. Typische technische oorzaken van breuk</h2>
+          <p>
+            In onze lijnanalyses zien we telkens opnieuw een aantal terugkerende oorzaken. Hieronder een greep uit de meest
+            voorkomende technische triggers.
+          </p>
+          <ul>
+            <li><strong>Te lage of te hoge MD/TD-verhouding</strong> in de extrusie, waardoor de folie bij trekspanning inscheurt.</li>
+            <li><strong>Onvoldoende slip</strong> (te stroef), waardoor de folie onregelmatig door de knikrollen loopt en lokaal belast wordt.</li>
+            <li><strong>Te hoge krimpneiging</strong> bij het sealen, waardoor de folie in de sealzone dunner wordt dan voorzien.</li>
+            <li><strong>Batchvariatie in grondstof</strong> die zich vertaalt in andere trek- en sealeigenschappen.</li>
+          </ul>
+          <p>
+            Zonder metingen blijven deze oorzaken vaak &quot;onzichtbaar&quot; en wordt er vooral aan de machinezijde gezocht. In realiteit
+            is het samenspel tussen folie en machine bepalend.
+          </p>
+        </section>
+
+        <section class="ins-detail-callout">
+          <div class="ins-detail-callout-inner">
+            <p class="ins-detail-callout-kicker">Praktijkobservatie</p>
+            <p class="ins-detail-callout-text">
+              In meer dan 70% van de lijnaudits die wij uitvoeren, is de oorzaak van breuk geen pure machinefout maar een
+              <strong>mismatch tussen foliesamenstelling en lijnsnelheid</strong>.
+              Een kleine aanpassing in samenstelling of temperatuurprofiel volstaat vaak om stabiel te draaien.
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <h2>3. Vier parameters die u altijd moet laten meten</h2>
+          <p>
+            Om breuk structureel te vermijden, is het zinloos om alleen &quot;gevoel&quot; of ervaring te volgen. Een beperkt pakket
+            metingen geeft u veel meer houvast. In onze praktijk gebruiken we doorgaans minimaal deze vier parameters:
+          </p>
+          <ol>
+            <li><strong>Treksterkte in MD en TD</strong> bij relevante temperaturen.</li>
+            <li><strong>Sealkracht</strong> in functie van temperatuur en druk.</li>
+            <li><strong>Dikteprofiel</strong> over de breedte van de folie.</li>
+            <li><strong>Wrijvingscoëfficiënt</strong> (COF) aan folie/folie en folie/metaal.</li>
+          </ol>
+          <p>
+            Deze gegevens laten toe om gericht bij te sturen in extrusie en receptuur. Bovendien kunnen ze gekoppeld worden aan
+            uw concrete lijnparameters (snelheid, temperatuur, productgewicht) zodat we niet in het ijle bijsturen.
+          </p>
+        </section>
+
+        <section>
+          <h2>4. Hoe een lijnaudit bij Hobon verloopt</h2>
+          <p>
+            Een typische lijnaudit start niet bij de folie, maar bij uw proces:
+          </p>
+          <ul>
+            <li>Inventarisatie van <strong>lijnconfiguratie</strong> (trekweg, sealstations, snijsystemen).</li>
+            <li>Opname van <strong>instellingen</strong> (temperatuurprofiel, snelheid, spanningsinstellingen).</li>
+            <li>Analyse van <strong>producteigenschappen</strong> (gewicht, vulgraad, impact bij val).</li>
+            <li>Doorlichting van <strong>bestaande foliespecificatie</strong> en beschikbare testdata.</li>
+          </ul>
+          <p>
+            Pas daarna kijken we naar de folie zelf. Vaak stellen we een aangepaste samenstelling of dikkere/dunnere variant voor,
+            maar even vaak zit de winst in <strong>een andere combinatie van parameters</strong> op de lijn.
+          </p>
+        </section>
+
+        <section>
+          <h2>5. Wanneer u moet overwegen om folie te wisselen</h2>
+          <p>
+            Een foliewissel is zelden de eerste stap. Wel zien we een aantal duidelijke signalen dat uw huidige specificatie niet
+            meer past:
+          </p>
+          <ul>
+            <li>U moet structureel trager draaien dan in de ontwerpfase voorzien.</li>
+            <li>Er is een hoge afhankelijkheid van &quot;de juiste operator&quot; om storingen te vermijden.</li>
+            <li>Elke nieuwe batch vraagt finetuning van instellingen.</li>
+            <li>Kleine veranderingen in product of verpakking leiden snel tot breuk.</li>
+          </ul>
+          <p>
+            In die gevallen is het zinvol om samen de foliespecificatie opnieuw tegen het licht te houden, eerder dan te blijven
+            compenseren aan de machinezijde.
+          </p>
+        </section>
+
+        <section class="ins-detail-nextstep">
+          <h2>Van inzicht naar concrete actie op uw lijn</h2>
+          <p>
+            Herkent u deze situaties op uw eigen FFS-lijn? Dan is dit een geschikt moment om uw huidige foliespecificatie kritisch
+            te bekijken. Een korte intake over uw lijnconfiguratie, producten en huidige storingen volstaat om te bepalen
+            <strong>welke metingen en tests zinvol zijn</strong>.
+          </p>
+          <p>
+            Hobon begeleidt u daarbij stap voor stap: van analyse van uw huidige folie tot de productie van een aangepaste
+            specificatie in onze eigen extrusie en flexodrukkerij.
+          </p>
+        </section>
+      </div>
+
+      <aside class="ins-detail-aside">
+        <div class="ins-detail-aside-box">
+          <p class="ins-detail-aside-kicker">Technisch gesprek plannen</p>
+          <p class="ins-detail-aside-text">
+            Wilt u deze case spiegelen aan uw eigen lijn? Plan een technisch gesprek met onze lijnspecialisten.
+          </p>
+          <a href="contact.html" class="btn-primary btn-primary--full"><span>Plan een gesprek</span><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+
+        <div class="ins-detail-aside-box">
+          <p class="ins-detail-aside-kicker">Samenvatting</p>
+          <ul class="ins-detail-aside-list">
+            <li>Breuk is meestal het gevolg van een mismatch tussen folie en proces.</li>
+            <li>Vier kernparameters geven houvast: treksterkte, sealkracht, dikteprofiel en COF.</li>
+            <li>Een lijnaudit start bij uw lijnconfiguratie, niet bij de folie alleen.</li>
+            <li>Een foliewissel is pas zinvol na een onderbouwde analyse.</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </article>
+
+  <!-- RELATED INSIGHTS -->
+  <section class="ins-related">
+    <div class="ins-related-hdr">
+      <div class="sec-tag rv"><div class="sec-tag-line"></div><span class="sec-tag-txt">Gerelateerde insights</span></div>
+      <h2 class="ins-related-h2 rv d1">Meer lezen over<span>lijnperformance &amp; folie-keuze</span></h2>
+    </div>
+    <div class="ins-related-grid">
+      <article class="ins-card rv d1">
+        <a href="insight-detail.html" class="ins-card-link">
+          <div class="ins-card-media">
+            <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&q=80&auto=format&fit=crop" alt="Operator aan verpakkingslijn">
+          </div>
+          <div class="ins-card-body">
+            <span class="ins-card-cat">Lijnperformance</span>
+            <h3 class="ins-card-title">Hoe u lijnsnelheid verhoogt zonder meer stilstand</h3>
+            <p class="ins-card-intro">
+              Een hogere output hoeft geen synoniem te zijn van meer storingen. We tonen waar de echte limieten zitten.
+            </p>
+            <div class="ins-card-meta">
+              <span>7 min leestijd</span>
+              <span>&middot;</span>
+              <span>5 feb 2026</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="ins-card rv d2">
+        <a href="insight-detail.html" class="ins-card-link">
+          <div class="ins-card-media">
+            <img src="https://images.unsplash.com/photo-1581090700029-848c9a3e3408?w=800&q=80&auto=format&fit=crop" alt="Recyclaatgranulaten voor PE-folie">
+          </div>
+          <div class="ins-card-body">
+            <span class="ins-card-cat">Recyclaat &amp; duurzaamheid</span>
+            <h3 class="ins-card-title">Wanneer recyclaat wél past op uw bestaande folielijn</h3>
+            <p class="ins-card-intro">
+              Niet elk project vraagt een nieuwe machine. Soms volstaat een aangepaste samenstelling en testtraject.
+            </p>
+            <div class="ins-card-meta">
+              <span>9 min leestijd</span>
+              <span>&middot;</span>
+              <span>16 jan 2026</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="ins-card rv d3">
+        <a href="insight-detail.html" class="ins-card-link">
+          <div class="ins-card-media">
+            <img src="https://images.unsplash.com/photo-1581090464777-5c9afce5474f?w=800&q=80&auto=format&fit=crop" alt="Labtest van folie-eigenschappen">
+          </div>
+          <div class="ins-card-body">
+            <span class="ins-card-cat">Technische parameters</span>
+            <h3 class="ins-card-title">Welke foliewaarden u niet mag negeren in datasheets</h3>
+            <p class="ins-card-intro">
+              Niet elke eigenschap is even kritisch. We helpen u het onderscheid maken tussen nice-to-know en need-to-know.
+            </p>
+            <div class="ins-card-meta">
+              <span>6 min leestijd</span>
+              <span>&middot;</span>
+              <span>4 dec 2025</span>
+            </div>
+          </div>
+        </a>
+      </article>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="ins-cta ins-cta--detail">
+    <div class="ins-cta-inner">
+      <div>
+        <div class="sec-tag rv"><div class="sec-tag-line"></div><span class="sec-tag-txt">Contact</span></div>
+        <h2 class="ins-cta-h2 rv d1">Bespreek uw<span>eigen FFS- of verpakkingslijn</span></h2>
+        <p class="ins-cta-body rv d2">
+          Wilt u weten of uw huidige foliespecificatie nog past bij uw product en snelheid?
+          Stuur ons uw situatie en we geven een onderbouwde eerste inschatting.
+        </p>
+      </div>
+      <div class="rv d3">
+        <a href="contact.html" class="btn-primary"><span>Start het gesprek</span><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft">
+    <div>
+      <img src="assets/images/logo.jpg" alt="Hobon" class="ft-logo">
+      <p class="ft-tagline">De juiste folie voorkomt problemen. Verkeerde keuzes kosten u meer dan u denkt.</p>
+    </div>
+    <div>
+      <div class="ft-col-h">Sectoren</div>
+      <nav class="ft-links">
+        <a href="sectoren/voeding.html">Voeding &amp; levensmiddelen</a>
+        <a href="#" data-placeholder="tijdelijk">Landbouw &amp; veevoeders</a>
+        <a href="#" data-placeholder="tijdelijk">Logistiek &amp; palletten</a>
+        <a href="#" data-placeholder="tijdelijk">Industrie &amp; chemie</a>
+        <a href="#" data-placeholder="tijdelijk">Textiel &amp; retail</a>
+        <a href="#" data-placeholder="tijdelijk">Duurzame verpakkingen</a>
+      </nav>
+    </div>
+    <div>
+      <div class="ft-col-h">Producten</div>
+      <nav class="ft-links">
+        <a href="#" data-placeholder="tijdelijk">Automatenfolie &amp; FFS</a>
+        <a href="#" data-placeholder="tijdelijk">Dolafzakken</a>
+        <a href="#" data-placeholder="tijdelijk">Patijnrollen &amp; buizen</a>
+        <a href="#" data-placeholder="tijdelijk">Krimphoezen</a>
+        <a href="#" data-placeholder="tijdelijk">PE zakken op maat</a>
+        <a href="#" data-placeholder="tijdelijk">Stretchfolie</a>
+      </nav>
+    </div>
+    <div>
+      <div class="ft-col-h">Contact</div>
+      <div class="ft-ci"><div class="ft-ci-l">Adres</div><div class="ft-ci-v">Arisdonk 139<br>B-9950 Lievegem</div></div>
+      <div class="ft-ci"><div class="ft-ci-l">Telefoon</div><div class="ft-ci-v"><a href="tel:+3293774516">+32 9 377 45 16</a></div></div>
+      <div class="ft-ci"><div class="ft-ci-l">E-mail</div><div class="ft-ci-v"><a href="mailto:info@hobon.be">info@hobon.be</a></div></div>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <p class="ft-copy">&copy; 2026 Hobon NV &middot; Alle rechten voorbehouden</p>
+    <div class="ft-brc"><div class="ft-brc-box"><span>BRC<br>AA</span></div><span class="ft-brc-txt">BRC Packaging Level AA</span></div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
+
