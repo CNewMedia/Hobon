@@ -39,8 +39,8 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9990;b
 
 /* HEADER */
 .hdr{position:fixed;top:0;left:0;right:0;z-index:500;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(255,255,255,0.97);border-bottom:1px solid var(--rule-lt);box-shadow:0 1px 24px rgba(0,0,0,0.06);transition:box-shadow .3s;backdrop-filter:blur(16px);}
-.hdr-logo{height:36px;display:block;}
-.hdr-logo img{height:100%;width:auto;display:block;}
+.hdr-logo{height:44px;display:block;}
+.hdr-logo img{height:44px;width:auto;max-height:44px;display:block;}
 .hdr-nav{display:flex;align-items:center;}
 .hdr-nav a{font-family:var(--f-body);font-size:13.5px;font-weight:500;color:rgba(15,17,23,0.5);padding:0 18px;height:68px;display:flex;align-items:center;border-right:1px solid var(--rule-lt);transition:color .2s,background .2s;letter-spacing:.01em;position:relative;}
 .hdr-nav a:first-child{border-left:1px solid var(--rule-lt);}
@@ -149,8 +149,8 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9990;b
 .c-loc-map-pin{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 8px rgba(245,163,0,.2),0 4px 16px rgba(0,0,0,.4);}
 .c-loc-body{padding:20px 24px 22px;display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;}
 .c-loc-item{}
-.c-loc-lbl{font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:4px;}
-.c-loc-val{font-size:13px;color:rgba(255,255,255,.6);line-height:1.6;}
+.c-loc-lbl{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:4px;}
+.c-loc-val{font-size:15px;color:rgba(255,255,255,.7);line-height:1.7;}
 .c-loc-val a{color:rgba(255,255,255,.6);border-bottom:1px solid rgba(255,255,255,.1);transition:color .2s,border-color .2s;}
 .c-loc-val a:hover{color:var(--white);border-color:rgba(255,255,255,.4);}
 .c-loc-dir{display:inline-flex;align-items:center;gap:7px;margin-top:14px;grid-column:span 2;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(245,163,0,.6);border-bottom:1px solid rgba(245,163,0,.2);padding-bottom:2px;transition:color .2s,border-color .2s;cursor:pointer;}
@@ -165,9 +165,9 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9990;b
 .faq-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
 .faq-eyebrow-line{width:20px;height:2px;background:var(--orange);}
 .faq-eyebrow-txt{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);}
-.faq-h2{font-family:var(--f-head);font-size:clamp(32px,3.5vw,48px);font-weight:700;letter-spacing:-.02em;color:var(--white);line-height:.97;}
+.faq-h2{font-family:var(--f-head);font-size:clamp(38px,4vw,56px);font-weight:750;letter-spacing:-.025em;color:var(--white);line-height:.95;}
 .faq-h2 span{color:rgba(255,255,255,.2);font-weight:300;font-size:.72em;display:block;margin-top:6px;}
-.faq-note{font-size:13px;color:rgba(255,255,255,.3);line-height:1.7;margin-top:20px;}
+.faq-note{font-size:14.5px;color:rgba(255,255,255,.3);line-height:1.7;margin-top:20px;}
 .faq-items{display:flex;flex-direction:column;}
 .fi{border-top:1px solid var(--rule-dk);}
 .fi:last-child{border-bottom:1px solid var(--rule-dk);}
@@ -520,14 +520,7 @@ footer{background:var(--white);padding:72px 52px 40px;border-top:2px solid var(-
         <div class="c-loc-map-pin"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 2C7.24 2 5 4.24 5 7c0 4 5 9 5 9s5-5 5-9c0-2.76-2.24-5-5-5zm0 6.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" fill="var(--ink)"/></svg></div>
       </div>
       <div class="c-loc-body">
-        <div class="c-loc-item"><div class="c-loc-lbl">Adres</div><div class="c-loc-val">Arisdonk 139<br>B-9950 Lievegem</div></div>
         <div class="c-loc-item"><div class="c-loc-lbl">Telefoon</div><div class="c-loc-val"><a href="tel:+3293774516">+32 9 377 45 16</a></div></div>
-        <div class="c-loc-item"><div class="c-loc-lbl">E-mail</div><div class="c-loc-val"><a href="/cdn-cgi/l/email-protection#721b1c141d321a1d101d1c5c1017"><span class="__cf_email__" data-cfemail="4f262129200f27202d2021612d2a">[email&#160;protected]</span></a></div></div>
-        <div class="c-loc-item"><div class="c-loc-lbl">Website</div><div class="c-loc-val"><a href="https://cnewmedia.github.io/Hobon/">www.hobon.be</a></div></div>
-        <a class="c-loc-dir" href="https://maps.google.com/?q=Arisdonk+139+Lievegem" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Routebeschrijving openen
-        </a>
       </div>
     </div>
   </div>
