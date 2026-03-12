@@ -26,7 +26,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9990;b
 
 /* HEADER */
 .hdr{position:fixed;top:0;left:0;right:0;z-index:500;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(255,255,255,0.97);border-bottom:1px solid var(--rule-lt);box-shadow:0 1px 24px rgba(0,0,0,0.06);backdrop-filter:blur(16px);transition:box-shadow .3s;}
-.hdr-logo{height:44px;display:block;}
+.hdr-logo{height:200px;display:block;}
 .hdr-logo img{height:100%;width:auto;display:block;}
 .hdr-nav{display:flex;align-items:center;}
 .hdr-nav a{font-family:var(--f-body);font-size:13.5px;font-weight:500;color:rgba(15,17,23,0.5);padding:0 18px;height:68px;display:flex;align-items:center;border-right:1px solid var(--rule-lt);transition:color .2s,background .2s;letter-spacing:.01em;position:relative;}
