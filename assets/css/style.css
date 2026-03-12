@@ -171,9 +171,9 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9990;b
 .sc:first-child{border-left:1px solid var(--rule-dk);}
 .sc:hover{background:rgba(255,255,255,.03);}
 .sc-img{height:160px;overflow:hidden;position:relative;flex-shrink:0;}
-.sc-img img{width:100%;height:100%;object-fit:cover;opacity:0.32;transition:opacity .4s,transform .5s var(--ease);}
-.sc:hover .sc-img img{opacity:0.55;transform:scale(1.05);}
-.sc-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,var(--ink) 100%);}
+.sc-img img{width:100%;height:100%;object-fit:cover;opacity:0.6;transition:opacity .4s,transform .5s var(--ease);}
+.sc:hover .sc-img img{opacity:0.85;transform:scale(1.05);}
+.sc-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 35%,rgba(24,32,50,.9) 100%);}
 .sc-body{padding:24px 32px 32px;display:flex;flex-direction:column;flex:1;}
 .sc-bg-n{font-family:var(--f-head);font-size:120px;font-weight:800;line-height:1;color:rgba(255,255,255,.025);position:absolute;right:-8px;bottom:20px;letter-spacing:-.04em;user-select:none;pointer-events:none;transition:color .4s;}
 .sc:hover .sc-bg-n{color:rgba(245,163,0,.05);}
@@ -371,11 +371,11 @@ footer{background:var(--white);padding:76px 52px 44px;border-top:2px solid var(-
   .sc{flex:0 0 280px;}
   .s-hint{padding:14px 28px;}
 
-  .process{padding:80px 28px;}
+  .process{padding:88px 28px;}
   .process-hdr{flex-direction:column;align-items:flex-start;gap:16px;}
   .process-grid{grid-template-columns:repeat(2,1fr);}
 
-  .products{padding:80px 28px;}
+  .products{padding:88px 28px;}
   .products-hdr{flex-direction:column;align-items:flex-start;gap:16px;}
   .prod-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
   .pc:first-child{grid-column:span 2;}
@@ -418,10 +418,10 @@ footer{background:var(--white);padding:76px 52px 44px;border-top:2px solid var(-
   .sc-photo{height:160px;}
   .s-hint{padding:12px 20px;}
 
-  .process{padding:56px 20px;}
+  .process{padding:60px 20px;}
   .process-grid{grid-template-columns:1fr;}
 
-  .products{padding:56px 20px;}
+  .products{padding:60px 20px;}
   .prod-grid{grid-template-columns:1fr;}
   .pc:first-child{grid-column:span 1;}
 
