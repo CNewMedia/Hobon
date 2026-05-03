@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Design tokens (match approved mock + prompt) */
+  --color-navy: #1a2d6b;
+  --color-navy-d: #111e4a;
+  --color-orange: #f5a300;
+  --color-orange-d: #d48b00;
+  --color-white: #ffffff;
+  --color-chalk: #f6f4f0;
+  --color-bone: #ede9e3;
+  --color-ink: #0f1117;
+  --color-ink-mid: #171b27;
+  --color-ink-lt: #1e2436;
+  --color-mist: #8891a8;
+  --color-rule-lt: #ddd8d0;
+}
