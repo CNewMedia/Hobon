@@ -30,6 +30,26 @@ function block(text: string) {
   ];
 }
 
+function pt(style: "normal" | "h2" | "h3" | "blockquote", text: string) {
+  return {
+    _type: "block",
+    _key: k(),
+    style,
+    markDefs: [],
+    children: [{ _type: "span", _key: k(), marks: [], text }],
+  };
+}
+
+function daysAgoIso(days: number) {
+  const d = new Date();
+  d.setDate(d.getDate() - days);
+  return d.toISOString();
+}
+
+function r(id: string) {
+  return { _type: "reference", _ref: id, _key: k() };
+}
+
 async function main() {
   if (!token) {
     console.error("Missing SANITY_API_WRITE_TOKEN in environment.");
@@ -607,90 +627,281 @@ async function main() {
     _id: "aboutPage-nl",
     _type: "aboutPage",
     language: "nl",
-    title: "Over Hobon",
-    seo: { metaTitle: "Over Hobon | Hobon", metaDescription: "[TODO: copy invullen]" },
-    body: block(
-      "[TODO: Over-pagina — Copy Brief + [TODO: Frederik review]. Placeholder tot finale copy beschikbaar is.]",
-    ),
+    seo: { metaTitle: "Over Hobon | Hobon", metaDescription: "Hobon — uw technische partner voor verpakkingsfolie op maat." },
+    hero: {
+      headline: "Over Hobon",
+      subline: "Uw technische partner voor verpakkingsfolie op maat",
+    },
+    storyBlocks: [
+      {
+        _type: "headlineBodyBlock",
+        _key: k(),
+        headline: "Een familiebedrijf met technische DNA",
+        body: block(
+          "Hobon groeide uit een familiale onderneming met focus op productie én technische ondersteuning. [TODO: Frederik review — exact oprichtingsverhaal en cultuur aanvullen.]",
+        ),
+      },
+      {
+        _type: "headlineBodyBlock",
+        _key: k(),
+        headline: "Onze missie: advies voor product",
+        body: block(
+          "Wij geloven dat de juiste foliekeuze begint vóór de bestelling: machine, lijn, product en compliance samen bekijken — geen catalogusantwoord.",
+        ),
+      },
+      {
+        _type: "headlineBodyBlock",
+        _key: k(),
+        headline: "Hobon en Van Hollebeke Plastics: één keten",
+        body: block(
+          "Met productie in Lievegem en Roeselare (VHP) combineren we schaal en specialisatie voor PE-verpakkingen op maat.",
+        ),
+      },
+      {
+        _type: "headlineBodyBlock",
+        _key: k(),
+        headline: "Waarom dit partnerschap uniek is",
+        body: block(
+          "Advies, extrusie, bedrukking en kwaliteitscontrole onder één dak — minder interfaces, meer grip op uw lijnresultaat.",
+        ),
+      },
+    ],
+    keyFacts: [
+      {
+        _type: "aboutKeyFact",
+        _key: k(),
+        number: "BRC AA",
+        label: "Packaging-certificering",
+        description: "Voor levensmiddelenverpakkingen",
+      },
+      {
+        _type: "aboutKeyFact",
+        _key: k(),
+        number: "100%",
+        label: "Inhouse productie",
+        description: "Van extruderen tot bedrukken",
+      },
+      {
+        _type: "aboutKeyFact",
+        _key: k(),
+        number: "6",
+        label: "Kleuren bedrukking",
+        description: "Flexodruk voor zakken en FFS-folies",
+      },
+      {
+        _type: "aboutKeyFact",
+        _key: k(),
+        number: "BE/NL/FR",
+        label: "Actieve markten",
+        description: "Met kennis van lokale vereisten",
+      },
+    ],
+    approach: {
+      headline: "Hoe wij werken: advies eerst, dan product",
+      body: [
+        pt(
+          "normal",
+          "We starten met uw toepassing: lijnsnelheid, sealzone, retail-eisen en audits. Pas daarna vertalen we dat naar een concreet materiaalvoorstel.",
+        ),
+        pt(
+          "normal",
+          "Ons team combineert sales engineers met productie-expertise — u spreekt met mensen die uw folie ook daadwerkelijk produceren. [TODO: Frederik review — teamcopy verfijnen.]",
+        ),
+      ],
+    },
+    cta: {
+      title: "Benieuwd wat wij voor uw verpakkingslijn kunnen betekenen?",
+      buttonLabel: "Bespreek uw vraag",
+      buttonLink: { _type: "reference", _ref: "contactPage-nl" },
+    },
   });
 
   tx.createOrReplace({
     _id: "aboutPage-fr",
     _type: "aboutPage",
     language: "fr",
-    title: "[FR: vertaling nodig]",
-    seo: { metaTitle: "[FR: vertaling nodig]" },
-    body: block("[FR: vertaling nodig]"),
+    seo: { metaTitle: "[FR: vertaling nodig]", metaDescription: "[FR: vertaling nodig]" },
+    hero: { headline: "[FR: vertaling nodig]", subline: "[FR: vertaling nodig]" },
+    storyBlocks: [],
+    keyFacts: [],
+    approach: { headline: "[FR]", body: block("[FR: vertaling nodig]") },
+    cta: {
+      title: "[FR]",
+      buttonLabel: "[FR]",
+      buttonLink: { _type: "reference", _ref: "contactPage-fr" },
+    },
   });
 
   tx.createOrReplace({
     _id: "aboutPage-en",
     _type: "aboutPage",
     language: "en",
-    title: "[EN: translation needed]",
-    seo: { metaTitle: "[EN: translation needed]" },
-    body: block("[EN: translation needed]"),
+    seo: { metaTitle: "[EN: translation needed]", metaDescription: "[EN: translation needed]" },
+    hero: { headline: "[EN: translation needed]", subline: "[EN: translation needed]" },
+    storyBlocks: [],
+    keyFacts: [],
+    approach: { headline: "[EN]", body: block("[EN: translation needed]") },
+    cta: {
+      title: "[EN]",
+      buttonLabel: "[EN]",
+      buttonLink: { _type: "reference", _ref: "contactPage-en" },
+    },
   });
 
   tx.createOrReplace({
     _id: "sustainabilityPage-nl",
     _type: "sustainabilityPage",
     language: "nl",
-    title: "Duurzaamheid",
-    seo: { metaTitle: "Duurzaamheid | Hobon", metaDescription: "[TODO: Copy Brief sectie 08]" },
-    intro: "[TODO: Copy Brief sectie 08 — duurzaamheid intro]",
-    body: block("[TODO: Copy Brief sectie 08 — volledige body nog aan te vullen door copywriter]"),
+    seo: {
+      metaTitle: "Duurzaamheid | Hobon",
+      metaDescription: "Duurzaamheid zonder concessies aan uw productielijn — recyclaat, virgin en materiaalreductie.",
+    },
+    hero: {
+      headline: "Duurzaamheid zonder concessies aan uw lijn",
+      subline: "Uw ESG-doelen vertaald naar concrete materiaalkeuzes",
+    },
+    standpoint: {
+      headline: "Onze visie op duurzaamheid",
+      body: [
+        pt(
+          "normal",
+          "Voor Hobon is duurzaamheid geen slogan maar een technische oefening: recyclaat waar het kan, virgin waar het moet, en dunner waar de lijn het toelaat.",
+        ),
+        pt(
+          "normal",
+          "We helpen klanten ESG-doelen te vertalen naar haalbare PE-specs — zonder stilstand of kwaliteitsverlies op de lijn.",
+        ),
+      ],
+    },
+    practicePoints: [
+      {
+        _type: "titleBodyBlock",
+        _key: k(),
+        title: "Recyclaat of virgin",
+        body: block(
+          "Advies op maat per toepassing en sector — geen dogma's, wel technische realiteit.",
+        ),
+      },
+      {
+        _type: "titleBodyBlock",
+        _key: k(),
+        title: "Dunner = minder materiaal",
+        body: block(
+          "Materiaalreductie zonder kwaliteitsverlies, dankzij multi-layer technologie.",
+        ),
+      },
+      {
+        _type: "titleBodyBlock",
+        _key: k(),
+        title: "Inhouse kwaliteitscontrole",
+        body: block(
+          "Consistente kwaliteit, ook bij duurzamere materialen.",
+        ),
+      },
+    ],
+    cta: {
+      title: "Wil u uw duurzaamheidsdoelstellingen vertalen naar verpakkingskeuzes?",
+      buttonLabel: "Bespreek uw vraag met ons",
+      buttonLink: { _type: "reference", _ref: "contactPage-nl" },
+    },
   });
 
   tx.createOrReplace({
     _id: "sustainabilityPage-fr",
     _type: "sustainabilityPage",
     language: "fr",
-    title: "[FR: vertaling nodig]",
-    seo: { metaTitle: "[FR]" },
-    intro: "[FR: vertaling nodig]",
-    body: block("[FR: vertaling nodig]"),
+    seo: { metaTitle: "[FR]", metaDescription: "[FR]" },
+    hero: { headline: "[FR: vertaling nodig]", subline: "[FR: vertaling nodig]" },
+    standpoint: { headline: "[FR]", body: block("[FR: vertaling nodig]") },
+    practicePoints: [],
+    cta: {
+      title: "[FR]",
+      buttonLabel: "[FR]",
+      buttonLink: { _type: "reference", _ref: "contactPage-fr" },
+    },
   });
 
   tx.createOrReplace({
     _id: "sustainabilityPage-en",
     _type: "sustainabilityPage",
     language: "en",
-    title: "[EN: translation needed]",
-    seo: { metaTitle: "[EN]" },
-    intro: "[EN: translation needed]",
-    body: block("[EN: translation needed]"),
+    seo: { metaTitle: "[EN]", metaDescription: "[EN]" },
+    hero: { headline: "[EN: translation needed]", subline: "[EN: translation needed]" },
+    standpoint: { headline: "[EN]", body: block("[EN: translation needed]") },
+    practicePoints: [],
+    cta: {
+      title: "[EN]",
+      buttonLabel: "[EN]",
+      buttonLink: { _type: "reference", _ref: "contactPage-en" },
+    },
   });
 
   tx.createOrReplace({
     _id: "contactPage-nl",
     _type: "contactPage",
     language: "nl",
-    title: "Contact",
-    seo: { metaTitle: "Contact | Hobon", metaDescription: "[TODO: Copy Brief sectie 09]" },
-    intro:
-      "[TODO: Copy Brief sectie 09 — contactintro] Telefonisch bereikbaar op +32 9 377 45 16 (Hobon) en VHP +32 51 22 95 95.",
-    body: block("[TODO: Copy Brief sectie 09 — formulierintro & openingsuren indien van toepassing]"),
+    seo: { metaTitle: "Contact | Hobon", metaDescription: "Bespreek uw verpakkingsvraag met Hobon." },
+    hero: {
+      headline: "Bespreek uw verpakkingsvraag",
+      subline: "Onze specialisten denken graag met u mee — zonder verplichting",
+    },
+    intro: "Heeft u een verpakkingsvraag? Vul het formulier in of neem direct contact op.",
+    formTitle: "Bespreek uw verpakkingsvraag",
+    formSubmitLabel: "Verstuur mijn vraag",
+    formThankYouMessage:
+      "Bedankt voor uw bericht. Een van onze specialisten neemt binnen 1 werkdag contact met u op.",
+    formFields: {
+      firstname: "Voornaam",
+      lastname: "Naam",
+      company: "Bedrijf",
+      email: "E-mail",
+      phone: "Telefoon",
+      sector: "Sector",
+      message: "Bericht",
+    },
+    additionalInfo: block("Liever telefonisch? Bel Hobon of VHP — de nummers vindt u rechts bij de locaties."),
   });
 
   tx.createOrReplace({
     _id: "contactPage-fr",
     _type: "contactPage",
     language: "fr",
-    title: "[FR: vertaling nodig]",
-    seo: { metaTitle: "[FR]" },
+    seo: { metaTitle: "[FR]", metaDescription: "[FR]" },
+    hero: { headline: "[FR: vertaling nodig]", subline: "[FR: vertaling nodig]" },
     intro: "[FR: vertaling nodig]",
-    body: block("[FR: vertaling nodig]"),
+    formTitle: "[FR]",
+    formSubmitLabel: "[FR]",
+    formThankYouMessage: "[FR: vertaling nodig]",
+    formFields: {
+      firstname: "[FR]",
+      lastname: "[FR]",
+      company: "[FR]",
+      email: "[FR]",
+      phone: "[FR]",
+      sector: "[FR]",
+      message: "[FR]",
+    },
   });
 
   tx.createOrReplace({
     _id: "contactPage-en",
     _type: "contactPage",
     language: "en",
-    title: "[EN: translation needed]",
-    seo: { metaTitle: "[EN]" },
+    seo: { metaTitle: "[EN]", metaDescription: "[EN]" },
+    hero: { headline: "[EN: translation needed]", subline: "[EN: translation needed]" },
     intro: "[EN: translation needed]",
-    body: block("[EN: translation needed]"),
+    formTitle: "[EN]",
+    formSubmitLabel: "[EN]",
+    formThankYouMessage: "[EN: translation needed]",
+    formFields: {
+      firstname: "[EN]",
+      lastname: "[EN]",
+      company: "[EN]",
+      email: "[EN]",
+      phone: "[EN]",
+      sector: "[EN]",
+      message: "[EN]",
+    },
   });
 
   tx.createOrReplace({
@@ -751,27 +962,33 @@ async function main() {
     _id: "insightsOverviewPage-nl",
     _type: "insightsOverviewPage",
     language: "nl",
-    title: "Insights / Kennisbank",
-    seo: { metaTitle: "Insights | Hobon", metaDescription: "[TODO: meta beschrijving insights-overzicht]" },
-    intro: "[TODO: insights-overzicht intro — placeholder tot copy beschikbaar is]",
+    seo: {
+      metaTitle: "Insights | Hobon",
+      metaDescription: "Praktische artikelen over verpakkingsfolie, kwaliteit en duurzaamheid.",
+    },
+    hero: {
+      headline: "Inzichten & kennisbank",
+      subline: "Praktische artikelen over verpakkingsfolie, kwaliteit en duurzaamheid",
+    },
+    intro: "",
   });
 
   tx.createOrReplace({
     _id: "insightsOverviewPage-fr",
     _type: "insightsOverviewPage",
     language: "fr",
-    title: "[FR: vertaling nodig]",
-    seo: { metaTitle: "[FR]" },
-    intro: "[FR: vertaling nodig]",
+    seo: { metaTitle: "[FR]", metaDescription: "[FR]" },
+    hero: { headline: "[FR: vertaling nodig]", subline: "[FR: vertaling nodig]" },
+    intro: "",
   });
 
   tx.createOrReplace({
     _id: "insightsOverviewPage-en",
     _type: "insightsOverviewPage",
     language: "en",
-    title: "[EN: translation needed]",
-    seo: { metaTitle: "[EN]" },
-    intro: "[EN: translation needed]",
+    seo: { metaTitle: "[EN]", metaDescription: "[EN]" },
+    hero: { headline: "[EN: translation needed]", subline: "[EN: translation needed]" },
+    intro: "",
   });
 
   const sectorsNl = [
@@ -1241,38 +1458,263 @@ async function main() {
     });
   }
 
-  const insightsNl = [
+  const insightCatsNl = [
     {
-      slug: "audit-klaar-met-de-juiste-folie",
-      title: "Audit-klaar met de juiste foliekeuze",
-      lead: "Waarom materiaalspecificatie en documentatie samenhangen met uw BRC/IFS-realiteit.",
-      body: block("[TODO: volledig artikel — placeholder voor kennisbank]"),
+      _id: "insight-cat-nl-kwaliteit",
+      title: "Kwaliteit",
+      slug: "kwaliteit",
+      description: "Audits, certificering, technische standaarden",
+      color: "orange",
     },
     {
-      slug: "recyclaat-op-de-lijn",
-      title: "Recyclaat op de lijn zonder stilstand",
-      lead: "Korte intro over haalbare recyclaat blends voor food — [TODO: uitwerken].",
-      body: block("[TODO: volledig artikel — placeholder]"),
+      _id: "insight-cat-nl-duurzaamheid",
+      title: "Duurzaamheid",
+      slug: "duurzaamheid",
+      description: "Recyclaat, materiaalreductie, ESG-doelen",
+      color: "navy",
     },
     {
-      slug: "ffs-lijn-65-meter",
-      title: "FFS op hoge snelheid: specs die tellen",
-      lead: "Praktische checklist voor lijnbaanbreuk en materiaalanalyse — [TODO: uitwerken].",
-      body: block("[TODO: volledig artikel — placeholder]"),
+      _id: "insight-cat-nl-faalkosten",
+      title: "Faalkosten",
+      slug: "faalkosten",
+      description: "Lijnstilstand, breuk, audit-issues",
+      color: "orange",
+    },
+    {
+      _id: "insight-cat-nl-innovatie",
+      title: "Innovatie",
+      slug: "innovatie",
+      description: "Nieuwe materialen, technieken, toepassingen",
+      color: "navy",
     },
   ];
+  for (const c of insightCatsNl) {
+    tx.createOrReplace({ ...c, _type: "insightCategory", language: "nl" });
+  }
 
-  for (const a of insightsNl) {
+  const insightCatsFr = ["kwaliteit", "duurzaamheid", "faalkosten", "innovatie"];
+  for (const slug of insightCatsFr) {
     tx.createOrReplace({
-      _id: `insight-nl-${a.slug}`,
+      _id: `insight-cat-fr-${slug}`,
+      _type: "insightCategory",
+      language: "fr",
+      title: `[FR: vertaling nodig] ${slug}`,
+      slug: { _type: "slug", current: slug },
+      description: "[FR: vertaling nodig]",
+    });
+  }
+  for (const slug of insightCatsFr) {
+    tx.createOrReplace({
+      _id: `insight-cat-en-${slug}`,
+      _type: "insightCategory",
+      language: "en",
+      title: `[EN: translation needed] ${slug}`,
+      slug: { _type: "slug", current: slug },
+      description: "[EN: translation needed]",
+    });
+  }
+
+  const bodyBrc = [
+    pt("h2", "Wat AA-niveau is versus andere graden"),
+    pt(
+      "normal",
+      "BRC Packaging Level AA is het hoogste niveau binnen het Global Standard for Packaging Materials. Het betekent dat uw leverancier jaarlijks extern wordt geaudit op voedselveiligheid, traceerbaarheid en procesbeheersing — niet enkel op papier.",
+    ),
+    pt("h2", "Welke audits en frequentie"),
+    pt(
+      "normal",
+      "U mag een geldig AA-certificaat verwachten met duidelijke scope (welke productielijnen, welke materialen). Audits zijn doorgaans jaarlijks; bij grote wijzigingen in proces of raw materials kan een extra review nodig zijn.",
+    ),
+    pt("h2", "Technische eisen aan virgin materialen"),
+    pt(
+      "normal",
+      "Voor direct food contact gebruikt Hobon virgin PE-granulaten met volledige migratie- en conformiteitsdocumentatie. Dat is geen marketingkeuze maar een auditbare realiteit op uw BRC-dossier.",
+    ),
+    pt("h2", "Hoe Hobon u begeleidt"),
+    pt(
+      "normal",
+      "We leveren certificaten, specificatiebladen en batchdocumentatie klaar voor uw QA-team. Vraag ons naar het BRC-packaging dossier vóór uw audit — dan zijn er geen verrassingen op de lijn.",
+    ),
+    pt("blockquote", "Niet-conformiteit op folie is bijna altijd traceerbaar tot specificatie of batchdocumentatie — wij helpen die keten sluiten."),
+  ];
+
+  const bodyRecyclaat = [
+    pt("h2", "Verschil in eigenschappen"),
+    pt(
+      "normal",
+      "Recyclaat kan variëren in treksterkte, kleurstabiliteit en geur. Virgin PE is homogener — belangrijk wanneer uw retailer strikte sensorische limieten hanteert.",
+    ),
+    pt("h2", "EU 10/2011 en food contact"),
+    pt(
+      "normal",
+      "Migratie en overall compliance blijven leidend. Recyclaat voor food vereist aanvullende due diligence op inputstromen en additieven.",
+    ),
+    pt("h2", "Wanneer recyclaat wél werkt"),
+    pt(
+      "normal",
+      "Industriële zakken, secundaire verpakkingen of niet-hechtend food-contact — daar zien we recyclaat technisch en economisch renderen.",
+    ),
+    pt("h2", "Hybride oplossingen"),
+    pt(
+      "normal",
+      "Multi-layer met recyclaat-core en virgin functionele lagen kan de sweet spot zijn tussen CO₂-reductie en lijnstabiliteit.",
+    ),
+  ];
+
+  const bodyFaalkosten = [
+    pt("h2", "Voorbeeld: geur-issue door verkeerde folie"),
+    pt(
+      "normal",
+      "Een voedingsproducent schakelde naar goedkopere LDPE — binnen weken meldingen van geur in het eindproduct. Root cause: onvoldoende barrière en batchvariatie.",
+    ),
+    pt("h2", "Voorbeeld: breuk door te dunne spec"),
+    pt(
+      "normal",
+      "Een logistieke lijn verhoogde snelheid; folie bleef binnen spec op papier maar brak mechanisch door lagere sealsterkte bij hogere cyclus.",
+    ),
+    pt("h2", "Rekenvoorbeeld"),
+    pt(
+      "normal",
+      "Eén uur stilstand kost vaak meer dan de jaarlijkse meerprijs van een beter materiaal. Hobon rekent dat vooraf mee in het advies.",
+    ),
+    pt("h2", "Hoe wij faalrisico's vroeg zien"),
+    pt(
+      "normal",
+      "Machineaudit, trek- en sealcurves, en batch-koppeling — we koppelen uw lijnparameters aan de folie-spec vóór productie.",
+    ),
+  ];
+
+  const bodyDunner = [
+    pt("h2", 'Mythe: "dunner = zwakker"'),
+    pt(
+      "normal",
+      "Dikte alleen zegt weinig zonder te weten welke co-extrusie, additieven en oriëntatie u gebruikt.",
+    ),
+    pt("h2", "Technologie die dunner mogelijk maakt"),
+    pt(
+      "normal",
+      "Multi-layer en additivering kunnen barrière en sterkte leveren bij lagere micron — minder PE per pallet.",
+    ),
+    pt("h2", "CO₂ per ton minder PE"),
+    pt(
+      "normal",
+      "Minder materiaal betekent minder extrusie-energie en transportgewicht — concrete CO₂-winst als de lijn het aankan.",
+    ),
+    pt("h2", "Cases"),
+    pt(
+      "normal",
+      "Klanten die van 80µm naar 50µm gingen zonder kwaliteitsverlies — na grondige lijntest en gecontroleerde trial-run.",
+    ),
+  ];
+
+  tx.createOrReplace({
+    _id: "insight-nl-brc-aa-in-de-praktijk",
+    _type: "insightArticle",
+    language: "nl",
+    title: "BRC Packaging Level AA: wat betekent dit concreet?",
+    slug: { _type: "slug", current: "brc-aa-in-de-praktijk" },
+    lead: "BRC-certificering is meer dan een sticker. Wat betekent het voor uw audit-traject, materiaalkeuzes en lijnsnelheid?",
+    publishedAt: daysAgoIso(14),
+    category: { _type: "reference", _ref: "insight-cat-nl-kwaliteit" },
+    body: bodyBrc,
+    relatedArticles: [r("insight-nl-faalkosten-verkeerde-foliekeuze"), r("insight-nl-recyclaat-of-virgin-de-juiste-keuze")],
+    seo: {
+      metaTitle: "BRC AA in de praktijk | Hobon Insights",
+      metaDescription: "Wat BRC Packaging Level AA concreet betekent voor audits en folie.",
+    },
+  });
+
+  tx.createOrReplace({
+    _id: "insight-nl-recyclaat-of-virgin-de-juiste-keuze",
+    _type: "insightArticle",
+    language: "nl",
+    title: "Recyclaat of virgin: wanneer kiest u wat?",
+    slug: { _type: "slug", current: "recyclaat-of-virgin-de-juiste-keuze" },
+    lead: "Duurzaamheid is geen one-size-fits-all. Voor voedingsverpakkingen gelden andere regels dan voor industriële zakken.",
+    publishedAt: daysAgoIso(35),
+    category: { _type: "reference", _ref: "insight-cat-nl-duurzaamheid" },
+    body: bodyRecyclaat,
+    relatedArticles: [r("insight-nl-dunner-folie-zelfde-kwaliteit"), r("insight-nl-brc-aa-in-de-praktijk")],
+    seo: {
+      metaTitle: "Recyclaat of virgin | Hobon Insights",
+      metaDescription: "Wanneer recyclaat technisch en regelgevend haalbaar is.",
+    },
+  });
+
+  tx.createOrReplace({
+    _id: "insight-nl-faalkosten-verkeerde-foliekeuze",
+    _type: "insightArticle",
+    language: "nl",
+    title: "Wat kost een verkeerde foliekeuze écht?",
+    slug: { _type: "slug", current: "faalkosten-verkeerde-foliekeuze" },
+    lead: "Lijnstilstand, breuk, audit-issues. De rekening van een goedkope folie loopt sneller op dan u denkt.",
+    publishedAt: daysAgoIso(56),
+    category: { _type: "reference", _ref: "insight-cat-nl-faalkosten" },
+    body: bodyFaalkosten,
+    relatedArticles: [r("insight-nl-brc-aa-in-de-praktijk"), r("insight-nl-dunner-folie-zelfde-kwaliteit")],
+    seo: {
+      metaTitle: "Faalkosten verkeerde folie | Hobon Insights",
+      metaDescription: "Lijnstilstand en audit-risico door verkeerde materiaalkeuze.",
+    },
+  });
+
+  tx.createOrReplace({
+    _id: "insight-nl-dunner-folie-zelfde-kwaliteit",
+    _type: "insightArticle",
+    language: "nl",
+    title: "Dunner folie, zelfde kwaliteit: waarom advies geld bespaart",
+    slug: { _type: "slug", current: "dunner-folie-zelfde-kwaliteit" },
+    lead: "Materiaalreductie is de meest onderschatte duurzaamheidswinst — als u de technische specs goed afstemt.",
+    publishedAt: daysAgoIso(21),
+    category: { _type: "reference", _ref: "insight-cat-nl-duurzaamheid" },
+    body: bodyDunner,
+    relatedArticles: [r("insight-nl-recyclaat-of-virgin-de-juiste-keuze")],
+    seo: {
+      metaTitle: "Dunner folie, zelfde kwaliteit | Hobon Insights",
+      metaDescription: "Materiaalreductie zonder kwaliteitsverlies op de lijn.",
+    },
+  });
+
+  const stubSlugs = [
+    "brc-aa-in-de-praktijk",
+    "recyclaat-of-virgin-de-juiste-keuze",
+    "faalkosten-verkeerde-foliekeuze",
+    "dunner-folie-zelfde-kwaliteit",
+  ];
+  const stubSlugToCat: Record<string, string> = {
+    "brc-aa-in-de-praktijk": "kwaliteit",
+    "recyclaat-of-virgin-de-juiste-keuze": "duurzaamheid",
+    "faalkosten-verkeerde-foliekeuze": "faalkosten",
+    "dunner-folie-zelfde-kwaliteit": "duurzaamheid",
+  };
+  for (const slug of stubSlugs) {
+    const cat = stubSlugToCat[slug] ?? "kwaliteit";
+    tx.createOrReplace({
+      _id: `insight-fr-${slug}`,
       _type: "insightArticle",
-      language: "nl",
-      title: a.title,
-      slug: { _type: "slug", current: a.slug },
-      publishedAt: new Date().toISOString(),
-      lead: a.lead,
-      body: a.body,
-      seo: { metaTitle: `${a.title} | Hobon Insights`, metaDescription: "[TODO]" },
+      language: "fr",
+      title: "[FR: vertaling nodig]",
+      slug: { _type: "slug", current: slug },
+      lead: "[FR: vertaling nodig]",
+      publishedAt: daysAgoIso(60),
+      category: { _type: "reference", _ref: `insight-cat-fr-${cat}` },
+      body: [],
+      seo: { metaTitle: "[FR]", metaDescription: "[FR]" },
+    });
+  }
+  for (const slug of stubSlugs) {
+    const cat = stubSlugToCat[slug] ?? "kwaliteit";
+    tx.createOrReplace({
+      _id: `insight-en-${slug}`,
+      _type: "insightArticle",
+      language: "en",
+      title: "[EN: translation needed]",
+      slug: { _type: "slug", current: slug },
+      lead: "[EN: translation needed]",
+      publishedAt: daysAgoIso(60),
+      category: { _type: "reference", _ref: `insight-cat-en-${cat}` },
+      body: [],
+      seo: { metaTitle: "[EN]", metaDescription: "[EN]" },
     });
   }
 
