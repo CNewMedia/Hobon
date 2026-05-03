@@ -1,5 +1,4 @@
-import { MinimalPage } from "@/components/templates/MinimalPage";
-import { SimpleRichText } from "@/components/portable/SimpleRichText";
+import { AboutTemplate } from "@/components/about/AboutTemplate";
 import type { Locale } from "@/lib/i18n/config";
 import { client } from "@/lib/sanity/client";
 import { aboutPageQuery } from "@/lib/sanity/queries";
@@ -32,9 +31,5 @@ export default async function AboutPage({
 }) {
   const { locale } = await params;
   const doc = await client.fetch(aboutPageQuery, { locale });
-  return (
-    <MinimalPage title={doc?.title ?? "Over Hobon"}>
-      <SimpleRichText value={doc?.body} />
-    </MinimalPage>
-  );
+  return <AboutTemplate locale={locale as Locale} aboutPage={doc} />;
 }

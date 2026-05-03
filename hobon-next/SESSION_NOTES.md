@@ -76,6 +76,37 @@
 ### Open issues / TODO
 
 - `formRecipientEmail` in schema/seed — nog niet overal in formulier-componenten aangesloten (SectorCtaForm e.d.).
+
+---
+
+## Sessie 3a — Content templates (Contact + Insights + Over + Duurzaamheid)
+
+### Wat is gebouwd
+
+- Vijf nieuwe templates: **ContactTemplate** (+ client **ContactForm** met mailto + fallback `action`), **InsightsOverviewTemplate**, **InsightDetailTemplate** (Portable Text, leestijd, gerelateerd of terug-link, CTA naar contact), **AboutTemplate**, **SustainabilityTemplate**.
+- Nieuw documenttype **insightCategory** (i18n) + Studio-lijst onder Content; **insightArticle** met categorie-ref, lead, relatedArticles, enz.
+- **Seed**: vier NL-categorieën, vier NL-artikels met body, FR/EN stubs; contact/about/sustainability/insights-overview NL-copy zoals in de briefing; insights-overview `hero`.
+- Routes: `/[locale]/contact`, `/insights`, `/insights/[slug]` (incl. `generateStaticParams` + `dynamicParams`), `/over`, `/duurzaamheid`.
+- **hobon-mock.css**: contact-layout (`.c-*`), about/duurzaamheid (`.abt-*`, `.sus-*`), insights overview hero-variant (`.ins-hero--overview`) en responsive grids.
+
+### Pragmatische beslissingen
+
+1. **Contact submit**: primaire flow via `<button type="submit">` + `preventDefault` en dynamische `mailto:`-URL (zelfde gedrag als gevraagd); minimale `mailto:` als form-`action` voor edge cases zonder JS.
+2. **Insights filter-chips**: alleen UI + `console.log('filter not implemented')` met TODO-comment voor ticket **HOB-XX**.
+3. **`SimpleRichText`**: optionele variant **`onNavy`** voor leesbare tekst op het donkere standpunt-blok op Duurzaamheid.
+4. **Statische insight-paden**: dataset bepaalt welke `[slug]` bij build worden voorgegenereerd; `dynamicParams = true` zodat nieuwe Studio-slugs zonder rebuild toch renderen.
+
+### Open issues
+
+- Insights filterbalk visueel maar niet functioneel (TODO HOB-XX).
+- Over/Duurzaamheid story-content bevat `[TODO: Frederik review]` markers in seed waar gevraagd.
+- FR/EN blijft placeholder; geen echte vertaling.
+- Geen echte kaart op contact (placeholder “Kaart — later”).
+- Na **seed** opnieuw `npm run build` draaien zodat `generateStaticParams` alle nieuwe insight-slugs oppikt (oude dataset kan nog oude slugs tonen).
+
+### Aanbevolen vervolg
+
+- **Sessie 3b**: drie overige sectoren + productoverzicht + producttemplates (zie gebruikersbrief).
 - Echte **privacy/cookie/BRC**-URL’s en **VAT** in `organizationSchema` invullen.
 - FR/EN **product/sector/insight**-documenten en nav koppelen zodra copy er is.
 - `NEXT_PUBLIC_SITE_URL` op Vercel op productiedomein zetten wanneer van toepassing.
