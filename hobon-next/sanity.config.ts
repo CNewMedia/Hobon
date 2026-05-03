@@ -3,6 +3,7 @@ import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { documentInternationalization } from "@sanity/document-internationalization";
 import { schemaTypes } from "./sanity/schemas";
+import { structure } from "./sanity/structure";
 
 const i18nSchemaTypes = [
   "homePage",
@@ -15,6 +16,9 @@ const i18nSchemaTypes = [
   "sector",
   "product",
   "insightArticle",
+  "headerNavigation",
+  "footerNavigation",
+  "seoDefaults",
 ] as const;
 
 export default defineConfig({
@@ -24,7 +28,7 @@ export default defineConfig({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "14bi8ppf",
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   plugins: [
-    structureTool(),
+    structureTool({ structure }),
     visionTool(),
     documentInternationalization({
       supportedLanguages: [
