@@ -61,6 +61,7 @@ export const structure: StructureResolver = (S) =>
               S.documentTypeListItem("sector").title("Sectoren"),
               S.documentTypeListItem("product").title("Producten"),
               S.documentTypeListItem("insightArticle").title("Insight articles"),
+              S.documentTypeListItem("insightCategory").title("Insight categories"),
             ]),
         ),
       S.divider(),

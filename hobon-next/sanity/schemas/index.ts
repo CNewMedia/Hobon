@@ -9,6 +9,12 @@ import { menuItem } from "./objects/menuItem";
 import { footerLink } from "./objects/footerLink";
 import { footerColumn } from "./objects/footerColumn";
 import { pageScriptOverride } from "./objects/pageScriptOverride";
+import { pageHero } from "./objects/pageHero";
+import { contactFormLabels } from "./objects/contactFormLabels";
+import { pageCta } from "./objects/pageCta";
+import { headlineBodyBlock } from "./objects/headlineBodyBlock";
+import { titleBodyBlock } from "./objects/titleBodyBlock";
+import { aboutKeyFact } from "./objects/aboutKeyFact";
 import { siteSettings } from "./documents/siteSettings";
 import { homePage } from "./documents/homePage";
 import { aboutPage } from "./documents/aboutPage";
@@ -19,6 +25,7 @@ import { sectorOverviewPage } from "./documents/sectorOverviewPage";
 import { insightsOverviewPage } from "./documents/insightsOverviewPage";
 import { sector } from "./documents/sector";
 import { product } from "./documents/product";
+import { insightCategory } from "./documents/insightCategory";
 import { insightArticle } from "./documents/insightArticle";
 import { headerNavigation } from "./documents/headerNavigation";
 import { footerNavigation } from "./documents/footerNavigation";
@@ -37,6 +44,12 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   footerLink,
   footerColumn,
   pageScriptOverride,
+  pageHero,
+  contactFormLabels,
+  pageCta,
+  headlineBodyBlock,
+  titleBodyBlock,
+  aboutKeyFact,
   siteSettings,
   analyticsAndTracking,
   cookieConsent,
@@ -49,6 +62,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   insightsOverviewPage,
   sector,
   product,
+  insightCategory,
   insightArticle,
   headerNavigation,
   footerNavigation,

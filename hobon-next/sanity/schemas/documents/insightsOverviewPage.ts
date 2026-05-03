@@ -7,7 +7,7 @@ export const insightsOverviewPage = defineType({
   fields: [
     defineField({ name: "language", type: "string", readOnly: true, hidden: true }),
     defineField({ name: "seo", type: "seo" }),
-    defineField({ name: "title", type: "string" }),
-    defineField({ name: "intro", type: "text" }),
+    defineField({ name: "hero", title: "Hero", type: "pageHero" }),
+    defineField({ name: "intro", title: "Intro (optional legacy)", type: "text", rows: 3 }),
   ],
 });

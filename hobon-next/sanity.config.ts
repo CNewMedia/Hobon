@@ -16,6 +16,7 @@ const i18nSchemaTypes = [
   "sector",
   "product",
   "insightArticle",
+  "insightCategory",
   "headerNavigation",
   "footerNavigation",
   "seoDefaults",

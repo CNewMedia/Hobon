@@ -106,12 +106,73 @@ export const sectorNavQuery = `*[_type == "sector" && language == $locale] | ord
   navLabel
 }`;
 
-export const aboutPageQuery = `*[_type == "aboutPage" && language == $locale][0]`;
-export const sustainabilityPageQuery = `*[_type == "sustainabilityPage" && language == $locale][0]`;
-export const contactPageQuery = `*[_type == "contactPage" && language == $locale][0]`;
+export const aboutPageQuery = `*[_type == "aboutPage" && language == $locale][0]{
+  ...,
+  seo,
+  hero,
+  storyBlocks[]{headline, body},
+  keyFacts[]{number, label, description},
+  approach{headline, body},
+  cta{
+    title,
+    buttonLabel,
+    buttonLink->{_type, _id, "slug": slug.current}
+  }
+}`;
+
+export const sustainabilityPageQuery = `*[_type == "sustainabilityPage" && language == $locale][0]{
+  ...,
+  seo,
+  hero,
+  standpoint{headline, body},
+  practicePoints[]{title, body},
+  cta{
+    title,
+    buttonLabel,
+    buttonLink->{_type, _id, "slug": slug.current}
+  }
+}`;
+
+export const contactPageQuery = `*[_type == "contactPage" && language == $locale][0]{
+  ...,
+  seo,
+  hero,
+  intro,
+  formTitle,
+  formSubmitLabel,
+  formThankYouMessage,
+  formFields,
+  additionalInfo
+}`;
+
 export const productOverviewPageQuery = `*[_type == "productOverviewPage" && language == $locale][0]`;
 export const sectorOverviewPageQuery = `*[_type == "sectorOverviewPage" && language == $locale][0]`;
-export const insightsOverviewPageQuery = `*[_type == "insightsOverviewPage" && language == $locale][0]`;
+export const insightsOverviewPageQuery = `*[_type == "insightsOverviewPage" && language == $locale][0]{
+  ...,
+  seo,
+  hero,
+  intro
+}`;
+
+export const insightCategoriesQuery = `*[_type == "insightCategory" && language == $locale] | order(title asc) {
+  _id,
+  title,
+  "slug": slug.current,
+  description,
+  color
+}`;
+
+export const insightsListQuery = `*[_type == "insightArticle" && language == $locale] | order(publishedAt desc) {
+  ...,
+  seo,
+  "slug": slug.current,
+  category->{title, "slug": slug.current, color},
+  featuredImage
+}`;
+
+export const insightSlugsForLocaleQuery = `*[_type == "insightArticle" && language == $locale && defined(slug.current)]{
+  "slug": slug.current
+}`;
 
 export const productBySlugQuery = `*[_type == "product" && language == $locale && slug.current == $slug][0]`;
 
@@ -120,11 +181,22 @@ export const productsForLocaleQuery = `*[_type == "product" && language == $loca
   "slug": slug.current
 }`;
 
-export const insightBySlugQuery = `*[_type == "insightArticle" && language == $locale && slug.current == $slug][0]`;
-
-export const insightsForLocaleQuery = `*[_type == "insightArticle" && language == $locale] | order(publishedAt desc) {
-  title,
+export const insightBySlugQuery = `*[_type == "insightArticle" && language == $locale && slug.current == $slug][0]{
+  ...,
+  seo,
   "slug": slug.current,
-  publishedAt,
-  lead
+  featuredImage,
+  category->{title, "slug": slug.current, color},
+  body,
+  relatedArticles[]->{
+    title,
+    "slug": slug.current,
+    publishedAt,
+    lead,
+    featuredImage,
+    category->{title}
+  }
 }`;
+
+/** @deprecated use insightsListQuery */
+export const insightsForLocaleQuery = insightsListQuery;
