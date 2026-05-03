@@ -41,11 +41,338 @@ async function main() {
   tx.createOrReplace({
     _id: "siteSettings",
     _type: "siteSettings",
-    phone: "+32 9 377 45 16",
-    email: "info@hobon.be",
-    hobonAddress: "Arisdonk 139\nB-9950 Lievegem",
-    vhpAddress: "Oostnieuwkerkesteenweg 207\nB-8800 Roeselare",
-    vhpPhone: "+32 51 22 95 95",
+    companyName: "Hobon",
+    formRecipientEmail: "info@cnip.be",
+    primaryPhone: "+32 9 377 45 16",
+    primaryEmail: "info@hobon.be",
+    locations: [
+      {
+        _type: "location",
+        _key: k(),
+        name: "Hobon - Lievegem",
+        streetAddress: "Arisdonk 139",
+        postalCode: "B-9950",
+        city: "Lievegem",
+        country: "BE",
+        phone: "+32 9 377 45 16",
+        email: "info@hobon.be",
+        latitude: 51.0856,
+        longitude: 3.5972,
+        openingHours: ["Mo-Fr 08:00-17:00"],
+      },
+      {
+        _type: "location",
+        _key: k(),
+        name: "Van Hollebeke Plastics (VHP) - Roeselare",
+        streetAddress: "Oostnieuwkerkesteenweg 207",
+        postalCode: "B-8800",
+        city: "Roeselare",
+        country: "BE",
+        phone: "+32 51 22 95 95",
+        email: "info@hobon.be",
+        latitude: 50.9492,
+        longitude: 3.1056,
+        openingHours: ["Mo-Fr 08:00-17:00"],
+      },
+    ],
+  });
+
+  const ref = (id: string) => ({ _type: "reference", _ref: id });
+
+  const menuItem = (
+    label: string,
+    linkType: "internal" | "external" | "dropdown",
+    opts: { refId?: string; url?: string; sub?: ReturnType<typeof menuBlock> },
+  ) => {
+    const base: Record<string, unknown> = {
+      _type: "menuItem",
+      _key: k(),
+      label,
+      linkType,
+    };
+    if (linkType === "internal" && opts.refId) base.internalLink = ref(opts.refId);
+    if (linkType === "external" && opts.url) base.externalUrl = opts.url;
+    if (linkType === "dropdown" && opts.sub) base.subItems = opts.sub;
+    return base;
+  };
+
+  function menuBlock(items: Record<string, unknown>[]) {
+    return items;
+  }
+
+  tx.createOrReplace({
+    _id: "headerNavigation-nl",
+    _type: "headerNavigation",
+    language: "nl",
+    menuItems: menuBlock([
+      menuItem("Home", "internal", { refId: "homePage-nl" }),
+      menuItem("Producten", "dropdown", {
+        sub: menuBlock([
+          menuItem("Blaasfolies", "internal", { refId: "product-nl-blaasfolies" }),
+          menuItem("Zakken", "internal", { refId: "product-nl-zakken" }),
+          menuItem("Vellen", "internal", { refId: "product-nl-vellen" }),
+          menuItem("Stretch-hood", "internal", { refId: "product-nl-stretch-hood" }),
+          menuItem("Pattyn", "internal", { refId: "product-nl-pattyn" }),
+        ]),
+      }),
+      menuItem("Sectoren", "dropdown", {
+        sub: menuBlock([
+          menuItem("Voeding", "internal", { refId: "sector-nl-voeding" }),
+          menuItem("Logistiek", "internal", { refId: "sector-nl-logistiek" }),
+          menuItem("Chemie-industrie", "internal", { refId: "sector-nl-chemie" }),
+          menuItem("Agro-industrie", "internal", { refId: "sector-nl-agro" }),
+        ]),
+      }),
+      menuItem("Over Hobon", "internal", { refId: "aboutPage-nl" }),
+      menuItem("Duurzaamheid", "internal", { refId: "sustainabilityPage-nl" }),
+      menuItem("Insights", "internal", { refId: "insightsOverviewPage-nl" }),
+      menuItem("Contact", "internal", { refId: "contactPage-nl" }),
+    ]),
+    ctaButton: {
+      label: "Bespreek uw vraag",
+      url: "/nl/contact",
+      style: "primary",
+    },
+  });
+
+  tx.createOrReplace({
+    _id: "headerNavigation-fr",
+    _type: "headerNavigation",
+    language: "fr",
+    menuItems: menuBlock([
+      menuItem("[FR: Accueil]", "internal", { refId: "homePage-fr" }),
+      menuItem("[FR: Produits]", "dropdown", {
+        sub: menuBlock([
+          menuItem("[FR: Aperçu des produits (NL détail — contenu FR à venir)]", "internal", {
+            refId: "productOverviewPage-fr",
+          }),
+        ]),
+      }),
+      menuItem("[FR: Secteurs]", "dropdown", {
+        sub: menuBlock([
+          menuItem("[FR: Aperçu des secteurs (NL détail — contenu FR à venir)]", "internal", {
+            refId: "sectorOverviewPage-fr",
+          }),
+        ]),
+      }),
+      menuItem("[FR: À propos]", "internal", { refId: "aboutPage-fr" }),
+      menuItem("[FR: Durabilité]", "internal", { refId: "sustainabilityPage-fr" }),
+      menuItem("[FR: Insights]", "internal", { refId: "insightsOverviewPage-fr" }),
+      menuItem("[FR: Contact]", "internal", { refId: "contactPage-fr" }),
+    ]),
+    ctaButton: {
+      label: "[FR: Discuter de votre besoin]",
+      url: "/fr/contact",
+      style: "primary",
+    },
+  });
+
+  tx.createOrReplace({
+    _id: "headerNavigation-en",
+    _type: "headerNavigation",
+    language: "en",
+    menuItems: menuBlock([
+      menuItem("[EN: Home]", "internal", { refId: "homePage-en" }),
+      menuItem("[EN: Products]", "dropdown", {
+        sub: menuBlock([
+          menuItem("[EN: Products overview (NL detail — EN content TODO)]", "internal", {
+            refId: "productOverviewPage-en",
+          }),
+        ]),
+      }),
+      menuItem("[EN: Sectors]", "dropdown", {
+        sub: menuBlock([
+          menuItem("[EN: Sectors overview (NL detail — EN content TODO)]", "internal", {
+            refId: "sectorOverviewPage-en",
+          }),
+        ]),
+      }),
+      menuItem("[EN: About Hobon]", "internal", { refId: "aboutPage-en" }),
+      menuItem("[EN: Sustainability]", "internal", { refId: "sustainabilityPage-en" }),
+      menuItem("[EN: Insights]", "internal", { refId: "insightsOverviewPage-en" }),
+      menuItem("[EN: Contact]", "internal", { refId: "contactPage-en" }),
+    ]),
+    ctaButton: {
+      label: "[EN: Discuss your enquiry]",
+      url: "/en/contact",
+      style: "primary",
+    },
+  });
+
+  const footerLink = (
+    label: string,
+    linkType: "internal" | "external",
+    opts: { refId?: string; url?: string },
+  ) => {
+    const o: Record<string, unknown> = {
+      _type: "footerLink",
+      _key: k(),
+      label,
+      linkType,
+    };
+    if (linkType === "internal" && opts.refId) o.internalLink = ref(opts.refId);
+    if (linkType === "external" && opts.url) o.externalUrl = opts.url;
+    return o;
+  };
+
+  const footerColumn = (title: string, links: Record<string, unknown>[]) => ({
+    _type: "footerColumn",
+    _key: k(),
+    title,
+    links,
+  });
+
+  tx.createOrReplace({
+    _id: "footerNavigation-nl",
+    _type: "footerNavigation",
+    language: "nl",
+    slogan: "Hobon - uw technische partner voor verpakkingsfolie op maat.",
+    columns: [
+      footerColumn("Producten", [
+        footerLink("Productoverzicht", "internal", { refId: "productOverviewPage-nl" }),
+        footerLink("Blaasfolies", "internal", { refId: "product-nl-blaasfolies" }),
+        footerLink("Zakken", "internal", { refId: "product-nl-zakken" }),
+        footerLink("Vellen", "internal", { refId: "product-nl-vellen" }),
+      ]),
+      footerColumn("Sectoren", [
+        footerLink("Alle sectoren", "internal", { refId: "sectorOverviewPage-nl" }),
+        footerLink("Voeding", "internal", { refId: "sector-nl-voeding" }),
+        footerLink("Logistiek", "internal", { refId: "sector-nl-logistiek" }),
+      ]),
+      footerColumn("Bedrijf", [
+        footerLink("Over Hobon", "internal", { refId: "aboutPage-nl" }),
+        footerLink("Duurzaamheid", "internal", { refId: "sustainabilityPage-nl" }),
+        footerLink("Contact", "internal", { refId: "contactPage-nl" }),
+      ]),
+    ],
+    bottomLinks: [
+      footerLink("Privacy Policy", "external", { url: "https://www.hobon.be/privacy-policy" }),
+      footerLink("Cookiebeleid", "external", { url: "https://www.hobon.be/cookies" }),
+      footerLink("BRC-certificaat", "external", {
+        url: "https://www.brcgs.com/",
+      }),
+    ],
+    copyright: "© 2026 Hobon. Alle rechten voorbehouden.",
+    showBrcBadge: true,
+  });
+
+  tx.createOrReplace({
+    _id: "footerNavigation-fr",
+    _type: "footerNavigation",
+    language: "fr",
+    slogan: "[FR: Hobon — votre partenaire technique pour films d'emballage sur mesure.]",
+    columns: [
+      footerColumn("[FR: Produits]", [
+        footerLink("[FR: Aperçu]", "internal", { refId: "productOverviewPage-fr" }),
+      ]),
+      footerColumn("[FR: Secteurs]", [
+        footerLink("[FR: Tous les secteurs]", "internal", { refId: "sectorOverviewPage-fr" }),
+      ]),
+      footerColumn("[FR: Entreprise]", [
+        footerLink("[FR: À propos]", "internal", { refId: "aboutPage-fr" }),
+        footerLink("[FR: Durabilité]", "internal", { refId: "sustainabilityPage-fr" }),
+        footerLink("[FR: Contact]", "internal", { refId: "contactPage-fr" }),
+      ]),
+    ],
+    bottomLinks: [
+      footerLink("[FR: Politique de confidentialité]", "external", { url: "https://www.hobon.be/privacy-policy" }),
+      footerLink("[FR: Cookies]", "external", { url: "https://www.hobon.be/cookies" }),
+      footerLink("[FR: Certificat BRC]", "external", { url: "https://www.brcgs.com/" }),
+    ],
+    copyright: "© 2026 Hobon. [FR: Tous droits réservés.]",
+    showBrcBadge: true,
+  });
+
+  tx.createOrReplace({
+    _id: "footerNavigation-en",
+    _type: "footerNavigation",
+    language: "en",
+    slogan: "[TODO: EN tagline for Hobon packaging films.]",
+    columns: [
+      footerColumn("[EN: Products]", [
+        footerLink("[EN: Overview]", "internal", { refId: "productOverviewPage-en" }),
+      ]),
+      footerColumn("[EN: Sectors]", [
+        footerLink("[EN: All sectors]", "internal", { refId: "sectorOverviewPage-en" }),
+      ]),
+      footerColumn("[EN: Company]", [
+        footerLink("[EN: About]", "internal", { refId: "aboutPage-en" }),
+        footerLink("[EN: Sustainability]", "internal", { refId: "sustainabilityPage-en" }),
+        footerLink("[EN: Contact]", "internal", { refId: "contactPage-en" }),
+      ]),
+    ],
+    bottomLinks: [
+      footerLink("[EN: Privacy Policy]", "external", { url: "https://www.hobon.be/privacy-policy" }),
+      footerLink("[EN: Cookie policy]", "external", { url: "https://www.hobon.be/cookies" }),
+      footerLink("[EN: BRC certificate]", "external", { url: "https://www.brcgs.com/" }),
+    ],
+    copyright: "© 2026 Hobon. [EN: All rights reserved.]",
+    showBrcBadge: true,
+  });
+
+  tx.createOrReplace({
+    _id: "analyticsAndTracking",
+    _type: "analyticsAndTracking",
+    googleAnalyticsId: "",
+    googleTagManagerId: "",
+    customHeadScripts: "",
+    customBodyEndScripts: "",
+    pageOverrides: [],
+  });
+
+  tx.createOrReplace({
+    _id: "cookieConsent",
+    _type: "cookieConsent",
+    provider: "cookiebot",
+    cookiebotCbid: "[YOUR_COOKIEBOT_CBID]",
+    cookiebotEnabled: false,
+  });
+
+  tx.createOrReplace({
+    _id: "seoDefaults-nl",
+    _type: "seoDefaults",
+    language: "nl",
+    defaultMetaTitle: "Hobon — Verpakkingsfolie op maat",
+    defaultMetaTitleSuffix: " | Hobon",
+    defaultMetaDescription:
+      "Hobon is uw technische partner voor PE-verpakkingsfolie. Advies voor aankoop, minder faalkosten. Actief in BE, NL en FR.",
+    twitterHandle: "",
+    organizationSchema: {
+      legalName: "Hobon NV",
+      foundingDate: "1985-01-01",
+      vatNumber: "[TODO: BE VAT]",
+      socialLinks: [],
+    },
+  });
+
+  tx.createOrReplace({
+    _id: "seoDefaults-fr",
+    _type: "seoDefaults",
+    language: "fr",
+    defaultMetaTitle: "[TODO: FR default title]",
+    defaultMetaTitleSuffix: " | Hobon",
+    defaultMetaDescription: "[TODO: FR meta description]",
+    twitterHandle: "",
+    organizationSchema: {
+      legalName: "[TODO: FR legal name]",
+      vatNumber: "[TODO: FR VAT]",
+      socialLinks: [],
+    },
+  });
+
+  tx.createOrReplace({
+    _id: "seoDefaults-en",
+    _type: "seoDefaults",
+    language: "en",
+    defaultMetaTitle: "[TODO: EN default title]",
+    defaultMetaTitleSuffix: " | Hobon",
+    defaultMetaDescription: "[TODO: EN meta description]",
+    twitterHandle: "",
+    organizationSchema: {
+      legalName: "[TODO: EN legal name]",
+      vatNumber: "[TODO: EN VAT]",
+      socialLinks: [],
+    },
   });
 
   const homeNl = {

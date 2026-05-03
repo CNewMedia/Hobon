@@ -4,6 +4,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { buildLocalizedPath } from "@/lib/i18n/paths";
 import { client } from "@/lib/sanity/client";
 import { insightsForLocaleQuery, insightsOverviewPageQuery } from "@/lib/sanity/queries";
+import { getSeoDefaults } from "@/lib/sanity/seoDefaults";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({
@@ -12,11 +13,16 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const doc = await client.fetch(insightsOverviewPageQuery, { locale });
+  const loc = locale as Locale;
+  const [doc, defaults] = await Promise.all([
+    client.fetch(insightsOverviewPageQuery, { locale }),
+    getSeoDefaults(loc),
+  ]);
   return buildPageMetadata({
-    locale: locale as Locale,
+    locale: loc,
     seo: doc?.seo ?? null,
     pathParts: [{ type: "key", key: "insights" }],
+    defaults,
   });
 }
 

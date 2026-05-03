@@ -18,6 +18,7 @@ export function middleware(request: NextRequest) {
 
   const res = NextResponse.next();
   res.headers.set("x-locale", locale);
+  res.headers.set("x-pathname", pathname);
   return res;
 }
 

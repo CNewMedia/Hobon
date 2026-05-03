@@ -1,4 +1,55 @@
-export const siteSettingsQuery = `*[_type == "siteSettings"][0]`;
+export const siteSettingsQuery = `*[_type == "siteSettings"][0]{
+  ...,
+  logo,
+  brcBadge,
+  locations
+}`;
+
+export const headerNavigationQuery = `*[_type == "headerNavigation" && language == $locale][0]{
+  ...,
+  logo,
+  menuItems[]{
+    ...,
+    internalLink->{_type, _id, "slug": slug.current},
+    subItems[]{
+      ...,
+      internalLink->{_type, _id, "slug": slug.current},
+      subItems[]{
+        ...,
+        internalLink->{_type, _id, "slug": slug.current}
+      }
+    }
+  },
+  ctaButton
+}`;
+
+export const footerNavigationQuery = `*[_type == "footerNavigation" && language == $locale][0]{
+  ...,
+  columns[]{
+    title,
+    links[]{
+      ...,
+      internalLink->{_type, _id, "slug": slug.current}
+    }
+  },
+  bottomLinks[]{
+    ...,
+    internalLink->{_type, _id, "slug": slug.current}
+  }
+}`;
+
+export const seoDefaultsQuery = `*[_type == "seoDefaults" && language == $locale][0]{
+  defaultMetaTitle,
+  defaultMetaTitleSuffix,
+  defaultMetaDescription,
+  defaultOgImage,
+  twitterHandle,
+  organizationSchema
+}`;
+
+export const cookieConsentQuery = `*[_type == "cookieConsent" && _id == "cookieConsent"][0]`;
+
+export const analyticsAndTrackingQuery = `*[_type == "analyticsAndTracking" && _id == "analyticsAndTracking"][0]`;
 
 export const homePageQuery = `*[_type == "homePage" && language == $locale][0]{
   ...,

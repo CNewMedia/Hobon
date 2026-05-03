@@ -2,6 +2,7 @@ import { HomeTemplate } from "@/components/home/HomeTemplate";
 import type { Locale } from "@/lib/i18n/config";
 import { client } from "@/lib/sanity/client";
 import { homePageQuery, sectorsForLocaleQuery } from "@/lib/sanity/queries";
+import { getSeoDefaults } from "@/lib/sanity/seoDefaults";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({
@@ -10,11 +11,16 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const data = await client.fetch(homePageQuery, { locale });
+  const loc = locale as Locale;
+  const [data, defaults] = await Promise.all([
+    client.fetch(homePageQuery, { locale }),
+    getSeoDefaults(loc),
+  ]);
   return buildPageMetadata({
-    locale: locale as Locale,
+    locale: loc,
     seo: data?.seo ?? null,
     pathParts: [],
+    defaults,
   });
 }
 

@@ -8,7 +8,7 @@
 - Routes onder `app/[locale]/…` met **vertaalbare segmenten** (`lib/i18n/segments.ts`) en **rewrites** in `next.config.ts` (bijv. `/fr/secteurs/*` → intern `/fr/sectoren/*`).
 - Middleware: `/` → `/nl/`, header `x-locale` voor `lang` op `<html>`.
 - **Home** en **sector-detail**: volledige templates gekoppeld aan Sanity (`HomeTemplate`, `SectorTemplate`). Overige pagina’s: minimale layout (`MinimalPage` + `SimpleRichText`).
-- **SEO**: `generateMetadata` via `buildPageMetadata`, `robots.ts`, `sitemap.ts` (alle locales + dynamische slug-URL’s uit Sanity).
+- **SEO**: `generateMetadata` via `buildPageMetadata`, `robots.ts`, sitemap-index + per-locale sitemaps (zie Sessie 2).
 - **`npm run seed`**: `scripts/seed.ts` vult NL home + sectoren (detail **voeding** inhoudelijk gevuld uit mock; andere sectoren placeholders), producten, insights, siteSettings, singletons; FR/EN placeholder-titels.
 
 ## Wat werkt / wat is placeholder
@@ -41,3 +41,41 @@
 - **`SANITY_API_WRITE_TOKEN`**: seed en Studio-schrijfacties vereisen dit lokaal/Vercel; niet in git.
 - **Sanity quota**: bulk seed overschrijft documenten met vaste `_id`s — bij conflict met handmatige edits in Studio vooraf backup overwegen.
 - Bevestiging gewenst of **Tailwind-only** refactoring later nog nodig is, gezien bewuste keuze voor geïmporteerde mock-CSS.
+
+---
+
+## Sessie 2 — CMS Foundation
+
+### Wat is gebouwd
+
+- **Sanity-schema’s**: `headerNavigation`, `footerNavigation`, `analyticsAndTracking`, `cookieConsent`, `seoDefaults`; `siteSettings` uitgebreid met `companyName`, `logo`/`brcBadge` als `imageWithAlt`, `formRecipientEmail`, `primaryPhone`/`primaryEmail`, `locations[]`; objecten `location`, `menuItem` (recursive), `footerLink`, `footerColumn`, `pageScriptOverride`; **`seo.structuredData`** (Article / Product / WebPage / FAQPage + FAQ-entries).
+- **Studio**: `sanity/structure.ts` met groepen (Pagina’s / Content / Site Foundation / Marketing) en vaste document-ID’s voor singleton-gedrag; i18n-plugin uitgebreid met `headerNavigation`, `footerNavigation`, `seoDefaults`.
+- **SiteHeader + SiteFooter**: server components die GROQ-data per locale laden; interne links via `resolveInternalHref`; dropdown-nav (`hdr-dd` / mobiel genest); CTA uit CMS; footer-kolommen + bottom links + BRC (afbeelding of fallback-box); contactregel uit `siteSettings` (eerste locatie + primary phone/e-mail).
+- **Tracking**: `SiteAnalytics` + `GtmNoScript`; **Cookiebot** `beforeInteractive` + `data-blockingmode="auto"`; GTM/GA4/custom scripts en `pageOverrides` alleen als `cookieConsent.cookiebotEnabled` én geldige CBID (geen placeholder); pad-match via middleware-header `x-pathname` (zonder locale-prefix).
+- **SEO**: `buildPageMetadata` async met fallbacks uit `getSeoDefaults` (React `cache`), title-suffix, OG/Twitter; **Organization JSON-LD** globaal in `[locale]/layout.tsx`; **`lib/seo/structuredData.ts`** (Article, Product, WebPage, FAQPage, BreadcrumbList helpers — per-pagina injectie volgt in Sessie B).
+- **Sitemap**: `app/sitemap.xml/route.ts` als index → `sitemap-nl.xml` / `sitemap-fr.xml` / `sitemap-en.xml` met `lastmod`, `priority`, `changefreq` uit Sanity.
+- **`robots.ts`**: meerdere user-agents (o.a. GPTBot, ClaudeBot, …); vaste sitemap-URL `https://hobon-next.vercel.app/sitemap.xml`.
+- **`/llms.txt`**: route met NL-kern uit `seoDefaults` + dynamische insights-lijst.
+- **`SITE_ORIGIN`**: `lib/siteUrl.ts` (`NEXT_PUBLIC_SITE_URL` of Vercel-default); canonicals/JSON-LD/sitemaps/llms hiermee consistent.
+- **Seed**: uitgebreide `siteSettings`, navigatie per taal, marketing-singletons, `seoDefaults` NL/FR/EN.
+
+### Pragmatische keuzes
+
+1. **Tracking-gate**: snippets worden niet gerenderd tenzij Cookiebot **aan** staat met een echte CBID (placeholder `[YOUR_COOKIEBOT_CBID]` telt niet mee) — zo blijft acceptatie “geen tracking zonder consent-flow” ook zonder werkende Cookiebot-load.
+2. **FR/EN header-dropdowns**: verwijzen in de seed naar **overview**-documenten (`productOverviewPage-*` / `sectorOverviewPage-*`) i.p.v. naar alleen-NL product/sector-refs, om 404’s te vermijden tot er FR/EN content is.
+3. **Footer bottom links**: externe placeholders (`hobon.be`, `brcgs.com`) — aan te passen in Studio naar echte privacy-/cookie-URL’s en BRC-PDF.
+4. **Dropdown-CSS**: minimale toevoegingen in `hobon-mock.css` (`hdr-dd`, mobiel subnav) zodat bestaande header-look behouden blijft.
+5. **`menuItem`-validatie**: geen strikte Sanity-rule voor max diepte 2; editors worden geacht conform briefing te blijven.
+
+### Aanbevolen vervolg
+
+- **Sessie B**: contact-, insights-, product-templates die de foundation gebruiken (o.a. per-pagina JSON-LD).
+- **Sessie C**: sector-templates logistiek, agro, chemie.
+- **Klant**: Cookiebot-account, CBID in Studio, `cookieConsent.cookiebotEnabled = true`; GTM/GA4 invullen in `analyticsAndTracking`.
+
+### Open issues / TODO
+
+- `formRecipientEmail` in schema/seed — nog niet overal in formulier-componenten aangesloten (SectorCtaForm e.d.).
+- Echte **privacy/cookie/BRC**-URL’s en **VAT** in `organizationSchema` invullen.
+- FR/EN **product/sector/insight**-documenten en nav koppelen zodra copy er is.
+- `NEXT_PUBLIC_SITE_URL` op Vercel op productiedomein zetten wanneer van toepassing.
