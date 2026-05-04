@@ -1,9 +1,7 @@
-import Link from "next/link";
-import { MinimalPage } from "@/components/templates/MinimalPage";
+import { ListingTemplate } from "@/components/listing/ListingTemplate";
 import type { Locale } from "@/lib/i18n/config";
-import { buildLocalizedPath } from "@/lib/i18n/paths";
 import { client } from "@/lib/sanity/client";
-import { sectorOverviewPageQuery, sectorsForLocaleQuery } from "@/lib/sanity/queries";
+import { sectorOverviewQuery, sectorsListingQuery } from "@/lib/sanity/queries";
 import { getSeoDefaults } from "@/lib/sanity/seoDefaults";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
@@ -15,7 +13,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const loc = locale as Locale;
   const [doc, defaults] = await Promise.all([
-    client.fetch(sectorOverviewPageQuery, { locale }),
+    client.fetch(sectorOverviewQuery, { locale }),
     getSeoDefaults(loc),
   ]);
   return buildPageMetadata({
@@ -32,31 +30,24 @@ export default async function SectorsOverviewPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [doc, sectors] = await Promise.all([
-    client.fetch(sectorOverviewPageQuery, { locale }),
-    client.fetch(sectorsForLocaleQuery, { locale }),
+  const loc = locale as Locale;
+  const [overview, sectors] = await Promise.all([
+    client.fetch(sectorOverviewQuery, { locale }),
+    client.fetch(sectorsListingQuery, { locale }),
   ]);
 
+  if (!overview) {
+    console.warn(`[sectoren/overview] Missing sectorOverviewPage for locale=${locale}`);
+  }
+
   return (
-    <MinimalPage title={doc?.title ?? "Sectoren"}>
-      {doc?.intro ? <p className="mb-8 text-[#5a5f72]">{doc.intro}</p> : null}
-      <ul className="space-y-3">
-        {(sectors ?? []).map((s: { title: string; slug: string | null }) =>
-          s.slug ? (
-            <li key={s.slug}>
-              <Link
-                href={buildLocalizedPath(locale as Locale, [
-                  { type: "key", key: "sectors" },
-                  { type: "slug", value: s.slug },
-                ])}
-                className="text-[var(--navy)] underline underline-offset-4"
-              >
-                {s.title}
-              </Link>
-            </li>
-          ) : null,
-        )}
-      </ul>
-    </MinimalPage>
+    <ListingTemplate
+      locale={loc}
+      overview={overview}
+      items={sectors ?? []}
+      variant="sectors"
+      pathKey="sectors"
+      itemCountAttr="data-sol-count"
+    />
   );
 }
