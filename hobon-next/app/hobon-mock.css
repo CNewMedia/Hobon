@@ -751,8 +751,12 @@ footer{background:var(--white);padding:76px 52px 44px;border-top:2px solid var(-
 .listing-grid--sectors{grid-template-columns:repeat(3,1fr);}
 .listing-grid--sectors[data-sol-count="4"]{grid-template-columns:repeat(2,1fr);max-width:900px;margin:0 auto;}
 .listing-grid--products{grid-template-columns:repeat(3,1fr);}
+.listing-grid--sectors,
+.listing-grid--products{align-items:stretch;}
 .listing-grid--sectors .sc,
 .listing-grid--products .pc{width:100%;min-width:0;flex:none;border-left:none;}
+.listing-sc-card{height:100%;}
+.listing-pc-card{min-height:100%;}
 .listing-grid--sectors .sc:first-child{border-left:none;}
 .listing-sc-ph{min-height:160px;height:160px;border-radius:0;}
 .listing-sc-ph .p-hero-placeholder-grid{opacity:.12;}
