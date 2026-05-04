@@ -80,6 +80,31 @@ export const sectorsForLocaleQuery = `*[_type == "sector" && language == $locale
   listingPills
 }`;
 
+/** Overzichtspagina /sectoren — geen listingImageUrl gebruikt in UI (placeholder). */
+export const sectorsListingQuery = `*[_type == "sector" && language == $locale] | order(sortOrder asc, title asc) {
+  _id,
+  title,
+  "slug": slug.current,
+  navLabel,
+  sortOrder,
+  listingEyebrow,
+  listingDescription,
+  listingPills
+}`;
+
+export const sectorOverviewQuery = `*[_type == "sectorOverviewPage" && language == $locale][0]{
+  ...,
+  seo,
+  heroEyebrow,
+  heroTitle,
+  heroIntro,
+  ctaBandTitle,
+  ctaBandBody,
+  ctaBandPrimary,
+  title,
+  intro
+}`;
+
 export const sectorBySlugQuery = `*[_type == "sector" && language == $locale && slug.current == $slug][0]{
   ...,
   seo,
@@ -147,6 +172,31 @@ export const contactPageQuery = `*[_type == "contactPage" && language == $locale
 
 export const productOverviewPageQuery = `*[_type == "productOverviewPage" && language == $locale][0]`;
 export const sectorOverviewPageQuery = `*[_type == "sectorOverviewPage" && language == $locale][0]`;
+
+export const productOverviewQuery = `*[_type == "productOverviewPage" && language == $locale][0]{
+  ...,
+  seo,
+  heroEyebrow,
+  heroTitle,
+  heroIntro,
+  ctaBandTitle,
+  ctaBandBody,
+  ctaBandPrimary,
+  title,
+  intro
+}`;
+
+/** Overzichtspagina /producten — alleen producten met showInOverview true. */
+export const productsListingQuery = `*[_type == "product" && language == $locale && (!defined(showInOverview) || showInOverview == true)] | order(title asc) {
+  _id,
+  title,
+  "slug": slug.current,
+  listingEyebrow,
+  listingDescription,
+  heroEyebrow,
+  heroHeadline,
+  seo
+}`;
 export const insightsOverviewPageQuery = `*[_type == "insightsOverviewPage" && language == $locale][0]{
   ...,
   seo,
