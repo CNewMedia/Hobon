@@ -52,8 +52,12 @@ function imageSrc(iwa: ImageWithAlt, width: number): string | null {
 function FooterAnchor({ link, locale }: { link: FooterLink; locale: Locale }) {
   const label = link.label ?? "";
   if (link.linkType === "external" && link.externalUrl) {
+    const url = link.externalUrl.trim();
+    if (url.startsWith("/")) {
+      return <Link href={url}>{label}</Link>;
+    }
     return (
-      <a href={link.externalUrl} target="_blank" rel="noopener noreferrer">
+      <a href={url} target="_blank" rel="noopener noreferrer">
         {label}
       </a>
     );
