@@ -144,12 +144,9 @@
 
 ## Sessie 2 — Producten + Navigatie + Homepage
 
-### Fix 2a: 5 producten content
+### Fix 2a: 5 producten content (Sessie 2 — vervangen door Sessie 3)
 
-- **Probleem**: NL-productpagina’s toonden `[TODO]` (schema: `title`, `lead`, `body` rich text, `seo`).
-- **Fix**: Script **`scripts/seed-products-content.ts`** patcht `product-nl-blaasfolies`, `…-zakken`, `…-vellen`, `…-stretch-hood`, `…-pattyn` met Copy Brief-secties in **Portable Text** (`h2`/`h3`, bullets, CTA-link). **“Lamineren”** komt niet voor in waarom-Hobon-teksten.
-- **Frontend**: `app/[locale]/producten/[slug]/page.tsx` — `lead` met **`whitespace-pre-line`** zodat kop + subline uit twee alinea’s leesbaar blijven.
-- **Run**: `npm run seed:products` (token in `.env.local`).
+- **Oorspronkelijk**: Script **`seed-products-content.ts`** vulde Portable Text (`body`/`lead`). Dat script is **verwijderd**; gestructureerde copy staat nu in **`scripts/migrate-products-to-rich-schema.ts`** + schema **`additionalNotes`** i.p.v. `body`.
 
 ### Fix 2b: Header-navigatie (NL)
 
@@ -177,3 +174,34 @@
 - FR/EN navigatie- en productcontent (vertaalbureau / AI-translate)
 - Definitieve privacy/cookie-juridische teksten (placeholders staan)
 - Body-copy voor homepage-niches **Boterfolie** en **Kratzakken** in Studio (Frederik)
+
+---
+
+## Sessie 3 — Productpagina rebuild
+
+### Fix 3a: Schema-uitbreiding
+
+- **Schema** (`sanity/schemas/documents/product.ts`): velden **heroEyebrow**, **heroHeadline**, **heroIntro**, **heroPrimaryCta** / **heroSecondaryCta** (`cta`), **heroImage** (`imageWithAlt`), **specifications[]** (title/body/icon), **applications[]**, **whyHobonTitle** / **whyHobonBody**, **relatedSectors[]** (refs naar `sector`), **ctaBandTitle1** / **ctaBandBody** / **ctaBandPrimary**, **seo** ongewijzigd. Legacy **`body`** / **`lead`** vervangen door **`additionalNotes`** (rich text, optioneel).
+- **Studio-groepen**: Hero, Content, Cross-references, CTA-band, SEO, Extra notities.
+
+### Fix 3b: ProductTemplate
+
+- **`components/product/ProductTemplate.tsx`**: layout parallel aan sector (donkere hero met placeholder zonder foto, specificaties-raster `#specs`, toepassingen `#applications`, donkere “Waarom Hobon”, **Veel gebruikt in** via **`relatedSectors`→**, CTA-band + **`SectorCtaForm`**). Zonder hero-headline/eyebrow: **legacy**-fallback (titel + `additionalNotes` / oude `body`).
+- **CSS** (`app/hobon-mock.css`): `.p-hero-*`, `.p-specs*`, `.p-apps*`, `.p-why*`, uitbreiding **`.other-sectors.p-related`**.
+
+### Fix 3c: Migratie + queries + product-route
+
+- **`scripts/migrate-products-to-rich-schema.ts`**: hardcoded copy voor **5** NL-producten; **`npm run migrate:products`**; **`unset(['body','lead'])`**, **`additionalNotes: []`**.
+- **`lib/sanity/queries.ts`**: **`productBySlugQuery`** expandeert **`relatedSectors[]->`** + **`heroImage`**.
+- **`app/[locale]/producten/[slug]/page.tsx`**: rendert **`ProductTemplate`**.
+- **`scripts/seed.ts`**: producten zonder `lead`/`body`; na volledige seed **`migrate:products`** draaien voor de 5 hoofdproducten.
+
+### Fix 3d: Cross-links
+
+- **Gerelateerde sectoren** per product in migrate-script; sectie **Veel gebruikt in** alleen bij gevulde refs.
+
+### Niet gedaan in deze sessie
+
+- Hero-foto’s per product (placeholder tot fotoshoot)
+- FR/EN productcontent
+- Overzicht **`/nl/producten`** herontwerp (apart ticket)

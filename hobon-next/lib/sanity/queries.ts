@@ -174,7 +174,19 @@ export const insightSlugsForLocaleQuery = `*[_type == "insightArticle" && langua
   "slug": slug.current
 }`;
 
-export const productBySlugQuery = `*[_type == "product" && language == $locale && slug.current == $slug][0]`;
+export const productBySlugQuery = `*[_type == "product" && language == $locale && slug.current == $slug][0]{
+  ...,
+  seo,
+  heroImage,
+  relatedSectors[]->{
+    _id,
+    title,
+    "slug": slug.current,
+    navLabel,
+    listingDescription,
+    listingImageUrl
+  }
+}`;
 
 export const productsForLocaleQuery = `*[_type == "product" && language == $locale] | order(title asc) {
   title,
