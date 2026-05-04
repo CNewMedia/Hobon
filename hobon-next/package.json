@@ -10,6 +10,9 @@
     "seed": "tsx scripts/seed.ts",
     "seed:sectors": "node --env-file=.env.local --import tsx scripts/seed-sectors-content.ts",
     "migrate:products": "node --env-file=.env.local --import tsx scripts/migrate-products-to-rich-schema.ts",
+    "seed:listing-sectors": "node --env-file=.env.local --import tsx scripts/migrate-sector-listing.ts",
+    "seed:listing-products": "node --env-file=.env.local --import tsx scripts/migrate-product-listing.ts",
+    "seed:overview-singletons": "node --env-file=.env.local --import tsx scripts/seed-overview-singletons.ts",
     "seed:header-nl": "node --env-file=.env.local --import tsx scripts/seed-header-navigation-nl.ts",
     "seed:footer-nl": "node --env-file=.env.local --import tsx scripts/seed-footer-navigation-nl.ts",
     "seed:home-nl": "node --env-file=.env.local --import tsx scripts/seed-home-niches-nl.ts"

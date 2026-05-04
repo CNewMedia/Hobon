@@ -254,6 +254,7 @@ async function main() {
         "seo.metaTitle": p.metaTitle,
         "seo.metaDescription": p.metaDescription,
         additionalNotes: [],
+        showInOverview: true,
       })
       .unset(["body", "lead"])
       .commit({ visibility: "async" });

@@ -906,13 +906,22 @@ async function main() {
     },
   });
 
+  const fred = "[Frederik nalezen aparte file]";
+  const nlOverviewCta = { label: "Bespreek uw verpakkingsvraag", href: "/nl/contact" };
+
   tx.createOrReplace({
     _id: "productOverviewPage-nl",
     _type: "productOverviewPage",
     language: "nl",
     title: "Producten",
-    seo: { metaTitle: "Producten | Hobon", metaDescription: "[TODO: copy invullen]" },
     intro: "[TODO: Copy Brief sectie 06 — productoverzicht intro]",
+    heroEyebrow: fred,
+    heroTitle: fred,
+    heroIntro: fred,
+    ctaBandTitle: fred,
+    ctaBandBody: fred,
+    ctaBandPrimary: nlOverviewCta,
+    seo: { metaTitle: "Producten | Hobon", metaDescription: "[TODO: copy invullen]" },
   });
 
   tx.createOrReplace({
@@ -920,8 +929,14 @@ async function main() {
     _type: "productOverviewPage",
     language: "fr",
     title: "[FR: vertaling nodig]",
-    seo: { metaTitle: "[FR]" },
     intro: "[FR: vertaling nodig]",
+    heroEyebrow: fred,
+    heroTitle: fred,
+    heroIntro: fred,
+    ctaBandTitle: fred,
+    ctaBandBody: fred,
+    ctaBandPrimary: { label: fred, href: "/fr/contact" },
+    seo: { metaTitle: "[FR]" },
   });
 
   tx.createOrReplace({
@@ -929,8 +944,14 @@ async function main() {
     _type: "productOverviewPage",
     language: "en",
     title: "[EN: translation needed]",
-    seo: { metaTitle: "[EN]" },
     intro: "[EN: translation needed]",
+    heroEyebrow: fred,
+    heroTitle: fred,
+    heroIntro: fred,
+    ctaBandTitle: fred,
+    ctaBandBody: fred,
+    ctaBandPrimary: { label: fred, href: "/en/contact" },
+    seo: { metaTitle: "[EN]" },
   });
 
   tx.createOrReplace({
@@ -938,8 +959,14 @@ async function main() {
     _type: "sectorOverviewPage",
     language: "nl",
     title: "Sectoren",
-    seo: { metaTitle: "Sectoren | Hobon", metaDescription: "[TODO: copy invullen]" },
     intro: "[TODO: Copy Brief sectie 07 — sectorenoverzicht intro]",
+    heroEyebrow: fred,
+    heroTitle: fred,
+    heroIntro: fred,
+    ctaBandTitle: fred,
+    ctaBandBody: fred,
+    ctaBandPrimary: nlOverviewCta,
+    seo: { metaTitle: "Sectoren | Hobon", metaDescription: "[TODO: copy invullen]" },
   });
 
   tx.createOrReplace({
@@ -947,8 +974,14 @@ async function main() {
     _type: "sectorOverviewPage",
     language: "fr",
     title: "[FR: vertaling nodig]",
-    seo: { metaTitle: "[FR]" },
     intro: "[FR: vertaling nodig]",
+    heroEyebrow: fred,
+    heroTitle: fred,
+    heroIntro: fred,
+    ctaBandTitle: fred,
+    ctaBandBody: fred,
+    ctaBandPrimary: { label: fred, href: "/fr/contact" },
+    seo: { metaTitle: "[FR]" },
   });
 
   tx.createOrReplace({
@@ -956,8 +989,14 @@ async function main() {
     _type: "sectorOverviewPage",
     language: "en",
     title: "[EN: translation needed]",
-    seo: { metaTitle: "[EN]" },
     intro: "[EN: translation needed]",
+    heroEyebrow: fred,
+    heroTitle: fred,
+    heroIntro: fred,
+    ctaBandTitle: fred,
+    ctaBandBody: fred,
+    ctaBandPrimary: { label: fred, href: "/en/contact" },
+    seo: { metaTitle: "[EN]" },
   });
 
   tx.createOrReplace({
@@ -1447,6 +1486,8 @@ async function main() {
     { slug: "kratzakken", title: "Kratzakken" },
   ];
 
+  const nicheSlugs = new Set(["dolav-zakken", "boterfolie", "kratzakken"]);
+
   for (const p of productsNl) {
     tx.createOrReplace({
       _id: `product-nl-${p.slug}`,
@@ -1455,6 +1496,7 @@ async function main() {
       title: p.title,
       slug: { _type: "slug", current: p.slug },
       additionalNotes: [],
+      showInOverview: !nicheSlugs.has(p.slug),
       seo: { metaTitle: `${p.title} | Hobon`, metaDescription: "[TODO]" },
     });
   }
