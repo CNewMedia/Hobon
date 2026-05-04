@@ -204,4 +204,25 @@
 
 - Hero-foto’s per product (placeholder tot fotoshoot)
 - FR/EN productcontent
-- Overzicht **`/nl/producten`** herontwerp (apart ticket)
+
+---
+
+## Sessie 4 — Overzichtspagina’s (HOB-28)
+
+### Wat is gedaan
+
+- **Schema**: `product` — **`listingEyebrow`**, **`listingDescription`**, **`showInOverview`** (default `true`, Studio-groep “Overzichtspagina”); `sector` — waarschuwing max. lengte op bestaande **`listingDescription`**. **`sectorOverviewPage`** / **`productOverviewPage`** — **hero** (`heroEyebrow`, `heroTitle`, `heroIntro`) + **CTA-band** (`ctaBandTitle`, `ctaBandBody`, `ctaBandPrimary`); legacy **`title`** / **`intro`** als fallback.
+- **Scripts**: `npm run seed:listing-sectors` (`migrate-sector-listing.ts`), `npm run seed:listing-products` (`migrate-product-listing.ts`), `npm run seed:overview-singletons` (`seed-overview-singletons.ts`). **`migrate:products`** zet ook **`showInOverview: true`** op de vijf hoofdproducten. **`seed.ts`**: overview-velden + niches **`showInOverview: false`**.
+- **Queries**: `sectorsListingQuery`, `productsListingQuery` (filter `!defined(showInOverview) || showInOverview == true`), `sectorOverviewQuery`, `productOverviewQuery`.
+- **UI**: **`components/listing/ListingTemplate.tsx`** — hero (`s-hero` + zelfde **`p-hero-placeholder`** als productdetail), sector-/productkaarten (klassen **`sc`** / **`pc`**), CTA-band + formulier. **`/sectoren`** en **`/producten`** gebruiken de template. **Sectoren-kaarten**: geen gebruik van **`listingImageUrl`** (alleen donkere placeholder).
+- **`showInOverview`**: `false` voor **dolav-zakken**, **boterfolie**, **kratzakken** — hoofdlijst toont **5** producten zonder slug-lijst in GROQ.
+
+### Frederik / vervolg
+
+- **Overview copy** (NL hero + CTA-body + FR/EN): nu **`[Frederik nalezen aparte file]`** waar niet anders afgesproken; NL CTA-knop **“Bespreek uw verpakkingsvraag”** → `/nl/contact` (goedgekeurd).
+- **Sector `listingImageUrl` (Unsplash)** op sector-documenten: **niet meer gebruikt** op de overzichtspagina; data is **dode legacy** — **opruimen bij fotoshoot-/asset-migratie** (home sector-rail gebruikt die URL’s nog tot die refactor).
+
+### Niet in deze sessie
+
+- Stap 7: visuele check + screenshots + push (wacht op akkoord).
+- **`vercel --prod`** (na akkoord).
