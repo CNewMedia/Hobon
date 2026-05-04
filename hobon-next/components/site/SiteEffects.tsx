@@ -1,8 +1,11 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 export function SiteEffects() {
+  const pathname = usePathname();
+
   useEffect(() => {
     document.body.classList.add("js-ready");
 
@@ -34,15 +37,23 @@ export function SiteEffects() {
       raf = requestAnimationFrame(loop);
     }
 
+    let hoverEls: NodeListOf<HTMLElement> | null = null;
+    function onCursorHoverEnter() {
+      cur?.classList.add("hover");
+    }
+    function onCursorHoverLeave() {
+      cur?.classList.remove("hover");
+    }
+
     if (cur && dot) {
       document.addEventListener("mousemove", onMove);
       raf = requestAnimationFrame(loop);
-      const hoverEls = document.querySelectorAll(
+      hoverEls = document.querySelectorAll<HTMLElement>(
         "a, button, .sc, .step, .pc, .ps, .num, .sol, .case, .os-item",
       );
       hoverEls.forEach((el) => {
-        el.addEventListener("mouseenter", () => cur.classList.add("hover"));
-        el.addEventListener("mouseleave", () => cur.classList.remove("hover"));
+        el.addEventListener("mouseenter", onCursorHoverEnter);
+        el.addEventListener("mouseleave", onCursorHoverLeave);
       });
     }
 
@@ -97,7 +108,7 @@ export function SiteEffects() {
     );
     document.querySelectorAll(".count[data-target]").forEach((el) => numIO.observe(el));
 
-    const rail = document.querySelector(".s-rail");
+    const rail = document.querySelector<HTMLElement>(".s-rail");
     let down = false;
     let sx = 0;
     let sl = 0;
@@ -105,8 +116,8 @@ export function SiteEffects() {
       if (!rail) return;
       const ev = e as MouseEvent;
       down = true;
-      sx = ev.pageX - (rail as HTMLElement).offsetLeft;
-      sl = (rail as HTMLElement).scrollLeft;
+      sx = ev.pageX - rail.offsetLeft;
+      sl = rail.scrollLeft;
       rail.classList.add("grab");
     }
     function onRailUp() {
@@ -116,31 +127,27 @@ export function SiteEffects() {
     function onRailMove(e: Event) {
       if (!down || !rail) return;
       const ev = e as MouseEvent;
-      rail.scrollLeft = sl - (ev.pageX - (rail as HTMLElement).offsetLeft - sx);
+      rail.scrollLeft = sl - (ev.pageX - rail.offsetLeft - sx);
     }
+    function onRailTouchStart(e: Event) {
+      if (!rail) return;
+      const te = e as TouchEvent;
+      sx = te.touches[0].pageX - rail.offsetLeft;
+      sl = rail.scrollLeft;
+    }
+    function onRailTouchMove(e: Event) {
+      if (!rail) return;
+      const te = e as TouchEvent;
+      rail.scrollLeft = sl - (te.touches[0].pageX - rail.offsetLeft - sx);
+    }
+    const railTouchOpts: AddEventListenerOptions = { passive: true };
     if (rail) {
       rail.addEventListener("mousedown", onRailDown);
       rail.addEventListener("mouseleave", onRailUp);
       rail.addEventListener("mouseup", onRailUp);
       rail.addEventListener("mousemove", onRailMove);
-      rail.addEventListener(
-        "touchstart",
-        (e) => {
-          const te = e as TouchEvent;
-          sx = te.touches[0].pageX - (rail as HTMLElement).offsetLeft;
-          sl = (rail as HTMLElement).scrollLeft;
-        },
-        { passive: true },
-      );
-      rail.addEventListener(
-        "touchmove",
-        (e) => {
-          if (!rail) return;
-          const te = e as TouchEvent;
-          rail.scrollLeft = sl - (te.touches[0].pageX - (rail as HTMLElement).offsetLeft - sx);
-        },
-        { passive: true },
-      );
+      rail.addEventListener("touchstart", onRailTouchStart, railTouchOpts);
+      rail.addEventListener("touchmove", onRailTouchMove, railTouchOpts);
     }
 
     const secs = document.querySelectorAll("section[id]");
@@ -171,16 +178,21 @@ export function SiteEffects() {
       mobnav.setAttribute("aria-hidden", String(!isOpen));
       document.body.style.overflow = isOpen ? "hidden" : "";
     }
+    function closeMobNav() {
+      if (!hambtn || !mobnav) return;
+      mobnav.classList.remove("open");
+      hambtn.classList.remove("open");
+      hambtn.setAttribute("aria-expanded", "false");
+      mobnav.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    let mobNavLinks: NodeListOf<HTMLAnchorElement> | null = null;
     if (hambtn && mobnav) {
       hambtn.addEventListener("click", toggleMenu);
-      mobnav.querySelectorAll("a").forEach((a) => {
-        a.addEventListener("click", () => {
-          mobnav.classList.remove("open");
-          hambtn.classList.remove("open");
-          hambtn.setAttribute("aria-expanded", "false");
-          mobnav.setAttribute("aria-hidden", "true");
-          document.body.style.overflow = "";
-        });
+      mobNavLinks = mobnav.querySelectorAll("a");
+      mobNavLinks.forEach((a) => {
+        a.addEventListener("click", closeMobNav);
       });
     }
 
@@ -189,20 +201,33 @@ export function SiteEffects() {
       cancelAnimationFrame(raf);
       document.removeEventListener("mousemove", onMove);
       if (hero && glow) hero.removeEventListener("mousemove", onHeroMove);
+      if (hoverEls) {
+        hoverEls.forEach((el) => {
+          el.removeEventListener("mouseenter", onCursorHoverEnter);
+          el.removeEventListener("mouseleave", onCursorHoverLeave);
+        });
+      }
       if (rail) {
         rail.removeEventListener("mousedown", onRailDown);
         rail.removeEventListener("mouseup", onRailUp);
         rail.removeEventListener("mouseleave", onRailUp);
         rail.removeEventListener("mousemove", onRailMove);
+        rail.removeEventListener("touchstart", onRailTouchStart, railTouchOpts);
+        rail.removeEventListener("touchmove", onRailTouchMove, railTouchOpts);
       }
       numIO.disconnect();
       io.disconnect();
       navIO.disconnect();
-      if (hambtn && mobnav) {
+      if (hambtn) {
         hambtn.removeEventListener("click", toggleMenu);
       }
+      if (mobNavLinks) {
+        mobNavLinks.forEach((a) => {
+          a.removeEventListener("click", closeMobNav);
+        });
+      }
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <>
