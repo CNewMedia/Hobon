@@ -126,3 +126,19 @@
 - **Bestanden**: `app/hobon-mock.css` (`.rv`, `.rvl`, `.rvr`, `.rvd` — duplicaat scroll-reveal-blok verwijderd zodat één bron de waarheid is), `components/site/SiteEffects.tsx` (`document.body.classList.add/remove("js-ready")` rond de effect lifecycle).
 - **Faal-pad**: Als JS niet laadt, crasht vóór `js-ready`, of de observer faalt → content blijft zichtbaar. **Werking gaat boven animaties.**
 - **Opmerking**: `classList.remove("js-ready")` in de effect-cleanup kan in React Strict Mode (dev) kort togglen; productie-build zonder dubbele unmount is normaal.
+
+### Fix 1a: Sectoren-content geseed
+
+- **Probleem**: Logistiek / Chemie / Agro toonden `[TODO]`-placeholders i.p.v. echte copy.
+- **Fix**: Script **`scripts/seed-sectors-content.ts`** patcht alleen **`sector-nl-logistiek`**, **`sector-nl-chemie`**, **`sector-nl-agro`** (NL) via `client.patch().set()` — **Voeding** en **FR/EN**-sectoren ongemoeid gelaten.
+- **Run**: `npm run seed:sectors` (`.env.local` met `SANITY_API_WRITE_TOKEN`). Optioneel: `npm run seed:sectors -- --inspect` dump’t het Voeding-document voor veldnaam-controle.
+- **Schema-mapping t.o.v. PM-terminologie**: `heroPrimaryCta` / `heroSecondaryCta` (niet `heroCtaPrimary`); problem-band gebruikt **`description`** (niet `body`); FAQ’s in **`deepFaqs`** met **`title`** + **`body`**; CTA-band heeft geen aparte primary-button — alleen **`ctaBandTitle1`**, **`ctaBandTitle2`**, **`ctaBandBody`** + het vaste formulier in de template. Secundaire CTA-link naar oplossingen: **`#oplossingen`** (sectie-`id` in `SectorTemplate`), niet `#solutions`.
+- **Extra i.h.k.v. zichtbare pagina**: `listingDescription`, `tapeItems`, korte **deep-** en **compliance-**teksten (geen `[TODO]` meer op die blokken) + **4 solutionCards** met beeld-URL’s; geen wijziging aan header/footer/producten/home-niche.
+
+**Niet gedaan in deze sessie (volgende):**
+
+- 5 producten content
+- Footer-navigatie (4 sectoren + 5 producten)
+- Header-navigatie (dropdowns)
+- Homepage niche-blok (DOLAV, Boterfolie, Kratzakken)
+- FR/EN-vertalingen (aparte AI-translate sessie)
