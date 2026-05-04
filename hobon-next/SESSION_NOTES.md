@@ -118,3 +118,11 @@
 - **URL-rename (single source of truth)**: alleen **`next.config.ts` → `redirects()`**: `/nl/sectoren/voeding` en `/nl/sectoren/voeding/` → `/nl/sectoren/voedingsindustrie`. Next zet `permanent: true` om naar **HTTP 308** (niet 301). De Voeding-redirect is uit **`middleware.ts`** gehaald zodat permanente renames op één plek staan.
 - **Vercel**: alias volgt de laatste production deploy; na wijzigingen aan redirects opnieuw deployen (`vercel --prod` of Git-integratie). Stond de deploy achter op Sanity-slug `voedingsindustrie` zonder redirect → **404** op het oude pad.
 - **Na pull**: `node --env-file=.env.local --import tsx scripts/seed.ts` zodat Studio en resolveInternalHref de nieuwe slug gebruiken.
+
+### Fix 3: IntersectionObserver-zichtbaarheidsbug
+
+- **Probleem**: Op productie kregen `.rv`-elementen de `.in`-class niet, waardoor secties verborgen bleven (`opacity: 0`).
+- **Fix**: Defensieve CSS-fallback. **Default = zichtbaar.** Animaties alleen actief wanneer `body.js-ready` is gezet door **SiteEffects** én de gebruiker **geen** `prefers-reduced-motion: reduce` heeft.
+- **Bestanden**: `app/hobon-mock.css` (`.rv`, `.rvl`, `.rvr`, `.rvd` — duplicaat scroll-reveal-blok verwijderd zodat één bron de waarheid is), `components/site/SiteEffects.tsx` (`document.body.classList.add/remove("js-ready")` rond de effect lifecycle).
+- **Faal-pad**: Als JS niet laadt, crasht vóór `js-ready`, of de observer faalt → content blijft zichtbaar. **Werking gaat boven animaties.**
+- **Opmerking**: `classList.remove("js-ready")` in de effect-cleanup kan in React Strict Mode (dev) kort togglen; productie-build zonder dubbele unmount is normaal.

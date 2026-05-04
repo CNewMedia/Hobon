@@ -4,6 +4,8 @@ import { useEffect } from "react";
 
 export function SiteEffects() {
   useEffect(() => {
+    document.body.classList.add("js-ready");
+
     const cur = document.getElementById("cur");
     const dot = document.getElementById("cur-dot");
     let mx = 0;
@@ -183,6 +185,7 @@ export function SiteEffects() {
     }
 
     return () => {
+      document.body.classList.remove("js-ready");
       cancelAnimationFrame(raf);
       document.removeEventListener("mousemove", onMove);
       if (hero && glow) hero.removeEventListener("mousemove", onHeroMove);
