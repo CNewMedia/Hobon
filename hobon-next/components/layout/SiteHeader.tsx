@@ -144,7 +144,15 @@ export function SiteHeader({
     <>
       <header className="hdr" id="hdr">
         <Link href={home} className="hdr-logo" aria-label={logoAlt}>
-          <Image src={logoSrc} alt={logoAlt} width={160} height={44} className="h-11 w-auto max-h-11" priority />
+          <Image
+            src={logoSrc}
+            alt={logoAlt}
+            width={160}
+            height={44}
+            className="h-11 w-auto max-h-11"
+            style={{ width: "auto" }}
+            priority
+          />
         </Link>
         <nav className="hdr-nav">
           <MenuRows items={items} locale={locale} mobile={false} />

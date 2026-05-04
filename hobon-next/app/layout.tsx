@@ -32,6 +32,7 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
+      data-scroll-behavior="smooth"
       className={`${geist.variable} ${dmSans.variable} h-full antialiased`}
       suppressHydrationWarning
     >

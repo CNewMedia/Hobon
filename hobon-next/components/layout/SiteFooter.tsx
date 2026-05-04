@@ -97,7 +97,14 @@ export function SiteFooter({
     <footer>
       <div className="ft">
         <div>
-          <Image src={logoSrc} alt={logoAlt} width={160} height={44} className="ft-logo h-auto max-h-11 w-auto" />
+          <Image
+            src={logoSrc}
+            alt={logoAlt}
+            width={160}
+            height={44}
+            className="ft-logo h-auto max-h-11 w-auto"
+            style={{ height: "auto" }}
+          />
           {slogan ? <p className="ft-tagline">{slogan}</p> : null}
           {(phone || email || loc0) && (
             <div className="mt-6 space-y-2 text-sm text-[#5a5f72]">
@@ -147,7 +154,7 @@ export function SiteFooter({
         {showBrc ? (
           <div className="ft-brc">
             {brcImg ? (
-              <Image src={brcImg} alt={brcAlt} width={56} height={56} className="h-14 w-auto" />
+              <Image src={brcImg} alt={brcAlt} width={56} height={56} className="h-14 w-auto" style={{ width: "auto" }} />
             ) : (
               <>
                 <div className="ft-brc-box">
