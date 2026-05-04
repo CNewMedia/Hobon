@@ -6,6 +6,7 @@ export const product = defineType({
   type: "document",
   groups: [
     { name: "hero", title: "Hero", default: true },
+    { name: "listing", title: "Overzichtspagina" },
     { name: "content", title: "Content" },
     { name: "related", title: "Cross-references" },
     { name: "cta", title: "CTA-band" },
@@ -56,6 +57,30 @@ export const product = defineType({
       type: "imageWithAlt",
       description: "Optioneel — zonder beeld toont de site een donkere placeholder",
       group: "hero",
+    }),
+    defineField({
+      name: "listingEyebrow",
+      title: "Overzicht — label",
+      type: "string",
+      description: "Korte regel boven de titel op /producten (bijv. “Product · …”)",
+      group: "listing",
+    }),
+    defineField({
+      name: "listingDescription",
+      title: "Overzicht — teaser",
+      type: "text",
+      rows: 3,
+      description: "1–2 zinnen, scanbaar op de producten-overzichtspagina",
+      group: "listing",
+      validation: (Rule) => Rule.max(220).warning("Houd de teaser kort (±160 tekens)"),
+    }),
+    defineField({
+      name: "showInOverview",
+      title: "Tonen op overzichtspagina",
+      type: "boolean",
+      initialValue: true,
+      description: "Uit voor nicheproducten die niet in de hoofdlijst op /producten horen",
+      group: "listing",
     }),
     defineField({
       name: "specifications",

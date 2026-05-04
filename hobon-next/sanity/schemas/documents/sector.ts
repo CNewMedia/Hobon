@@ -26,7 +26,13 @@ export const sector = defineType({
       type: "string",
       initialValue: "Sector",
     }),
-    defineField({ name: "listingDescription", title: "Home kaart — beschrijving", type: "text", rows: 4 }),
+    defineField({
+      name: "listingDescription",
+      title: "Home kaart — beschrijving",
+      type: "text",
+      rows: 4,
+      validation: (Rule) => Rule.max(220).warning("Houd de teaser kort (±160 tekens)"),
+    }),
     defineField({ name: "listingImageUrl", title: "Home kaart — beeld (URL)", type: "url" }),
     defineField({
       name: "listingPills",
