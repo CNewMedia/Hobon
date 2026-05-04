@@ -40,7 +40,7 @@ Vul `SANITY_API_WRITE_TOKEN` in `.env.local`, daarna:
 npm run seed
 ```
 
-Dit schrijft NL-content (o.a. homepage, sectoren waaronder `voeding`, producten, insights) en placeholder-documenten voor FR/EN. Bestaande documenten met dezelfde `_id` worden overschreven.
+Dit schrijft NL-content (o.a. homepage, sectoren waaronder `voedingsindustrie` (NL food-sector), producten, insights) en placeholder-documenten voor FR/EN. Bestaande documenten met dezelfde `_id` worden overschreven.
 
 ## Talen
 

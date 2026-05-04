@@ -107,6 +107,16 @@
 ### Aanbevolen vervolg
 
 - **Sessie 3b**: drie overige sectoren + productoverzicht + producttemplates (zie gebruikersbrief).
+
+---
+
+## Sessie 3b-1 — Sector-URL’s en content (lopend)
+
+### Deel 1.1 — Voeding → voedingsindustrie
+
+- **Sanity**: NL food-sector behoudt `_id` `sector-nl-voeding`; **`slug.current`** is **`voedingsindustrie`** (canonieke URL `/nl/sectoren/voedingsindustrie`). Zelfde GROQ-inhoud als voorheen “Voeding”.
+- **301 redirect**: `middleware.ts` stuurt het pad **`/nl/sectoren/voeding`** (na interne strip van trailing slash in de check) door naar **`/nl/sectoren/voedingsindustrie`** met **301**. Een request op **`/nl/sectoren/voeding/`** krijgt in Next eerst een **308** naar de slash-loze variant, daarna de **301** naar `voedingsindustrie` (twee hops; crawlbaar en eindigt op dezelfde canonical).
+- **Na pull**: `node --env-file=.env.local --import tsx scripts/seed.ts` zodat Studio en resolveInternalHref de nieuwe slug gebruiken.
 - Echte **privacy/cookie/BRC**-URL’s en **VAT** in `organizationSchema` invullen.
 - FR/EN **product/sector/insight**-documenten en nav koppelen zodra copy er is.
 - `NEXT_PUBLIC_SITE_URL` op Vercel op productiedomein zetten wanneer van toepassing.

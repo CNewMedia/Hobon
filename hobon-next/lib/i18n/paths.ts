@@ -5,7 +5,7 @@ export type PathPart =
   | { type: "key"; key: SegmentKey }
   | { type: "slug"; value: string };
 
-/** Builds a path like `/nl/sectoren/voeding`. Empty parts → `/nl/` */
+/** Builds a path like `/nl/sectoren/voedingsindustrie`. Empty parts → `/nl/` */
 export function buildLocalizedPath(locale: Locale, parts: PathPart[] = []): string {
   if (!parts.length) return `/${locale}/`;
   const loc = locale as Locale;

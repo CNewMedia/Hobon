@@ -996,7 +996,7 @@ async function main() {
       _id: "sector-nl-voeding",
       sortOrder: 1,
       navLabel: "Voeding",
-      slug: { _type: "slug", current: "voeding" },
+      slug: { _type: "slug", current: "voedingsindustrie" },
       title: "Voeding & levensmiddelen",
       listingEyebrow: "Sector 01",
       listingDescription:
