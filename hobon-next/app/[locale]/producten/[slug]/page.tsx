@@ -40,7 +40,9 @@ export default async function ProductDetailPage({
 
   return (
     <MinimalPage title={doc.title ?? "Product"}>
-      {doc.lead ? <p className="mb-6 text-lg text-[#5a5f72]">{doc.lead}</p> : null}
+      {doc.lead ? (
+        <p className="mb-6 whitespace-pre-line text-lg leading-relaxed text-[#5a5f72]">{doc.lead}</p>
+      ) : null}
       <SimpleRichText value={doc.body} />
     </MinimalPage>
   );
