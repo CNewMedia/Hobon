@@ -1,16 +1,11 @@
+// URL-renames worden beheerd via next.config.ts redirects().
+// Middleware is voor dynamische routing-logica, niet voor permanente URL-renames.
+
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const pathNoTrailing = pathname.replace(/\/+$/, "") || "/";
-
-  /** Legacy NL sector URL → canonical slug (Deel 1.1). Exact paths only (niet `voedingsindustrie`). */
-  if (pathNoTrailing === "/nl/sectoren/voeding") {
-    const u = request.nextUrl.clone();
-    u.pathname = "/nl/sectoren/voedingsindustrie";
-    return NextResponse.redirect(u, 301);
-  }
 
   if (pathname === "/") {
     return NextResponse.redirect(new URL("/nl/", request.url));

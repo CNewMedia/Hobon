@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  /** Runs at the routing layer; belt-and-braces naast `middleware.ts` (301 daar, hier Next-default permanent = 308). */
+  /** Permanente URL-renames (Next gebruikt `permanent: true` → HTTP 308). */
   async redirects() {
     return [
       {

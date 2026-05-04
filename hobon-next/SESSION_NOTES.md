@@ -115,7 +115,6 @@
 ### Deel 1.1 — Voeding → voedingsindustrie
 
 - **Sanity**: NL food-sector behoudt `_id` `sector-nl-voeding`; **`slug.current`** is **`voedingsindustrie`** (canonieke URL `/nl/sectoren/voedingsindustrie`). Zelfde GROQ-inhoud als voorheen “Voeding”.
-- **301 redirect**: `middleware.ts` stuurt **`/nl/sectoren/voeding`** door naar **`/nl/sectoren/voedingsindustrie`** met **301** (querystring behouden via `nextUrl.clone()`).
-- **`next.config.ts` → `redirects()`**: dezelfde paden (`/voeding` en `/voeding/`) ook als permanent redirect; Next zet `permanent: true` om naar **308** (niet 301). Dient als extra laag als middleware in een oude bundle ontbrak.
-- **Vercel**: `hobon-next.vercel.app` toont alleen redirects na een **nieuwe production deploy**. Project “Updated” stond ooit **~12h achter** op de git-commit met redirect → gebruikers zagen **404** (pagina laadt `voeding`, Sanity heeft `voedingsindustrie`). Oplossing: push + wachten op CI, of **`vercel --prod`** vanuit `hobon-next/`.
+- **URL-rename (single source of truth)**: alleen **`next.config.ts` → `redirects()`**: `/nl/sectoren/voeding` en `/nl/sectoren/voeding/` → `/nl/sectoren/voedingsindustrie`. Next zet `permanent: true` om naar **HTTP 308** (niet 301). De Voeding-redirect is uit **`middleware.ts`** gehaald zodat permanente renames op één plek staan.
+- **Vercel**: alias volgt de laatste production deploy; na wijzigingen aan redirects opnieuw deployen (`vercel --prod` of Git-integratie). Stond de deploy achter op Sanity-slug `voedingsindustrie` zonder redirect → **404** op het oude pad.
 - **Na pull**: `node --env-file=.env.local --import tsx scripts/seed.ts` zodat Studio en resolveInternalHref de nieuwe slug gebruiken.
