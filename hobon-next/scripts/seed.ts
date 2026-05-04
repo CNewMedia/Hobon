@@ -1437,14 +1437,14 @@ async function main() {
   }
 
   const productsNl = [
-    { slug: "blaasfolies", title: "Blaasfolies", lead: "[TODO: Copy Brief sectie 06 — producttemplate]" },
-    { slug: "zakken", title: "Zakken", lead: "[TODO: Copy Brief sectie 06 — producttemplate]" },
-    { slug: "vellen", title: "Vellen", lead: "[TODO: Copy Brief sectie 06 — producttemplate]" },
-    { slug: "stretch-hood", title: "Stretch-hood", lead: "[TODO: Copy Brief sectie 06 — producttemplate]" },
-    { slug: "pattyn", title: "Pattyn", lead: "[TODO: Copy Brief sectie 06 — producttemplate]" },
-    { slug: "dolav-zakken", title: "Dolav-zakken", lead: "[TODO: Copy Brief sectie 06 — producttemplate]" },
-    { slug: "boterfolie", title: "Boterfolie", lead: "[TODO: Copy Brief sectie 06 — producttemplate]" },
-    { slug: "kratzakken", title: "Kratzakken", lead: "[TODO: Copy Brief sectie 06 — producttemplate]" },
+    { slug: "blaasfolies", title: "Blaasfolies (HDPE/LDPE)" },
+    { slug: "zakken", title: "Zakken (LDPE/HDPE)" },
+    { slug: "vellen", title: "Vellen (LDPE/HDPE)" },
+    { slug: "stretch-hood", title: "Stretch hood" },
+    { slug: "pattyn", title: "PATTYN" },
+    { slug: "dolav-zakken", title: "Dolav-zakken" },
+    { slug: "boterfolie", title: "Boterfolie" },
+    { slug: "kratzakken", title: "Kratzakken" },
   ];
 
   for (const p of productsNl) {
@@ -1454,8 +1454,7 @@ async function main() {
       language: "nl",
       title: p.title,
       slug: { _type: "slug", current: p.slug },
-      lead: p.lead,
-      body: block("[TODO: productdetail body — Copy Brief sectie 06]"),
+      additionalNotes: [],
       seo: { metaTitle: `${p.title} | Hobon`, metaDescription: "[TODO]" },
     });
   }
