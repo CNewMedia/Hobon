@@ -115,8 +115,7 @@
 ### Deel 1.1 — Voeding → voedingsindustrie
 
 - **Sanity**: NL food-sector behoudt `_id` `sector-nl-voeding`; **`slug.current`** is **`voedingsindustrie`** (canonieke URL `/nl/sectoren/voedingsindustrie`). Zelfde GROQ-inhoud als voorheen “Voeding”.
-- **301 redirect**: `middleware.ts` stuurt het pad **`/nl/sectoren/voeding`** (na interne strip van trailing slash in de check) door naar **`/nl/sectoren/voedingsindustrie`** met **301**. Een request op **`/nl/sectoren/voeding/`** krijgt in Next eerst een **308** naar de slash-loze variant, daarna de **301** naar `voedingsindustrie` (twee hops; crawlbaar en eindigt op dezelfde canonical).
+- **301 redirect**: `middleware.ts` stuurt **`/nl/sectoren/voeding`** door naar **`/nl/sectoren/voedingsindustrie`** met **301** (querystring behouden via `nextUrl.clone()`).
+- **`next.config.ts` → `redirects()`**: dezelfde paden (`/voeding` en `/voeding/`) ook als permanent redirect; Next zet `permanent: true` om naar **308** (niet 301). Dient als extra laag als middleware in een oude bundle ontbrak.
+- **Vercel**: `hobon-next.vercel.app` toont alleen redirects na een **nieuwe production deploy**. Project “Updated” stond ooit **~12h achter** op de git-commit met redirect → gebruikers zagen **404** (pagina laadt `voeding`, Sanity heeft `voedingsindustrie`). Oplossing: push + wachten op CI, of **`vercel --prod`** vanuit `hobon-next/`.
 - **Na pull**: `node --env-file=.env.local --import tsx scripts/seed.ts` zodat Studio en resolveInternalHref de nieuwe slug gebruiken.
-- Echte **privacy/cookie/BRC**-URL’s en **VAT** in `organizationSchema` invullen.
-- FR/EN **product/sector/insight**-documenten en nav koppelen zodra copy er is.
-- `NEXT_PUBLIC_SITE_URL` op Vercel op productiedomein zetten wanneer van toepassing.

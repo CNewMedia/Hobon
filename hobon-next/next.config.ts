@@ -4,6 +4,21 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  /** Runs at the routing layer; belt-and-braces naast `middleware.ts` (301 daar, hier Next-default permanent = 308). */
+  async redirects() {
+    return [
+      {
+        source: "/nl/sectoren/voeding",
+        destination: "/nl/sectoren/voedingsindustrie",
+        permanent: true,
+      },
+      {
+        source: "/nl/sectoren/voeding/",
+        destination: "/nl/sectoren/voedingsindustrie",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "cdn.sanity.io", pathname: "/**" },
