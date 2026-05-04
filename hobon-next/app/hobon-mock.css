@@ -577,7 +577,13 @@ footer{background:var(--white);padding:76px 52px 44px;border-top:2px solid var(-
 .solutions-hdr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px;}
 .solutions-h2{font-family:var(--f-head);font-size:clamp(38px,4.2vw,58px);font-weight:700;line-height:.97;letter-spacing:-.02em;color:var(--navy);}
 .solutions-h2 span{color:var(--mist);font-weight:300;font-size:.72em;display:block;margin-top:4px;}
+/* Solutions grid — default 3 cols (Voeding 6 = 3×2). Desktop-only overrides for 1 / 2 / 4 cards (data-sol-count) zodat tablet/mobiel bestaande @media .sol-grid blijft gelden. */
 .sol-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--rule-lt);}
+@media(min-width:1025px){
+  .sol-grid[data-sol-count="1"]{grid-template-columns:1fr;}
+  .sol-grid[data-sol-count="2"]{grid-template-columns:repeat(2,1fr);}
+  .sol-grid[data-sol-count="4"]{grid-template-columns:repeat(2,1fr);}
+}
 .sol{background:var(--white);padding:40px 36px;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:background .3s;}
 .sol::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease);}
 .sol:hover{background:var(--chalk);}

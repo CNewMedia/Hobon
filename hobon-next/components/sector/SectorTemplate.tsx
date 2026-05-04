@@ -270,7 +270,10 @@ export function SectorTemplate({
             <ArrowBtnIcon size={13} />
           </Link>
         </div>
-        <div className="sol-grid">
+        <div
+          className="sol-grid"
+          data-sol-count={(sector.solutionCards ?? []).length}
+        >
           {(sector.solutionCards ?? []).map((sol, i) => (
             <div key={sol.title} className={`sol rv ${i ? `d${i % 4}` : ""}`}>
               <div className="sol-photo">

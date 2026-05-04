@@ -142,3 +142,8 @@
 - Header-navigatie (dropdowns)
 - Homepage niche-blok (DOLAV, Boterfolie, Kratzakken)
 - FR/EN-vertalingen (aparte AI-translate sessie)
+
+### Fix 1b: Solutions-grid voor variabel aantal kaarten
+
+- **Probleem**: Vaste `repeat(3, 1fr)` gaf bij **4** oplossingen een leeg rastercel op desktop (Logistiek / Chemie / Agro).
+- **Fix**: `SectorTemplate` zet **`data-sol-count`** op `.sol-grid`. In **`hobon-mock.css`**: default blijft **3 kolommen** (Voeding ×6 ongewijzigd); alleen **1**, **2** en **4** kaarten krijgen op **desktop (`min-width: 1025px`)** expliciet **1** of **2** kolommen — zo overschrijven die regels de bestaande tablet/mobiel-`@media .sol-grid` niet (specificiteit/order).
