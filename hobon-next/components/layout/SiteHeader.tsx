@@ -77,9 +77,18 @@ function MenuRows({
 function MenuLink({ item, locale, mobile }: { item: MenuItem; locale: Locale; mobile: boolean }) {
   const label = item.label ?? "";
   if (item.linkType === "external" && item.externalUrl) {
+    const url = item.externalUrl.trim();
+    if (url.startsWith("/")) {
+      return (
+        <Link href={url} className={mobile ? "mob-nav-dd-link" : undefined}>
+          {label}
+          {mobile ? <ArrowNavIcon /> : null}
+        </Link>
+      );
+    }
     return (
       <a
-        href={item.externalUrl}
+        href={url}
         target="_blank"
         rel="noopener noreferrer"
         className={mobile ? "mob-nav-dd-link" : undefined}

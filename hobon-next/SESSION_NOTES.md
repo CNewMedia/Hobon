@@ -135,15 +135,45 @@
 - **Schema-mapping t.o.v. PM-terminologie**: `heroPrimaryCta` / `heroSecondaryCta` (niet `heroCtaPrimary`); problem-band gebruikt **`description`** (niet `body`); FAQ’s in **`deepFaqs`** met **`title`** + **`body`**; CTA-band heeft geen aparte primary-button — alleen **`ctaBandTitle1`**, **`ctaBandTitle2`**, **`ctaBandBody`** + het vaste formulier in de template. Secundaire CTA-link naar oplossingen: **`#oplossingen`** (sectie-`id` in `SectorTemplate`), niet `#solutions`.
 - **Extra i.h.k.v. zichtbare pagina**: `listingDescription`, `tapeItems`, korte **deep-** en **compliance-**teksten (geen `[TODO]` meer op die blokken) + **4 solutionCards** met beeld-URL’s; geen wijziging aan header/footer/producten/home-niche.
 
-**Niet gedaan in deze sessie (volgende):**
-
-- 5 producten content
-- Footer-navigatie (4 sectoren + 5 producten)
-- Header-navigatie (dropdowns)
-- Homepage niche-blok (DOLAV, Boterfolie, Kratzakken)
-- FR/EN-vertalingen (aparte AI-translate sessie)
-
 ### Fix 1b: Solutions-grid voor variabel aantal kaarten
 
 - **Probleem**: Vaste `repeat(3, 1fr)` gaf bij **4** oplossingen een leeg rastercel op desktop (Logistiek / Chemie / Agro).
 - **Fix**: `SectorTemplate` zet **`data-sol-count`** op `.sol-grid`. In **`hobon-mock.css`**: default blijft **3 kolommen** (Voeding ×6 ongewijzigd); alleen **1**, **2** en **4** kaarten krijgen op **desktop (`min-width: 1025px`)** expliciet **1** of **2** kolommen — zo overschrijven die regels de bestaande tablet/mobiel-`@media .sol-grid` niet (specificiteit/order).
+
+---
+
+## Sessie 2 — Producten + Navigatie + Homepage
+
+### Fix 2a: 5 producten content
+
+- **Probleem**: NL-productpagina’s toonden `[TODO]` (schema: `title`, `lead`, `body` rich text, `seo`).
+- **Fix**: Script **`scripts/seed-products-content.ts`** patcht `product-nl-blaasfolies`, `…-zakken`, `…-vellen`, `…-stretch-hood`, `…-pattyn` met Copy Brief-secties in **Portable Text** (`h2`/`h3`, bullets, CTA-link). **“Lamineren”** komt niet voor in waarom-Hobon-teksten.
+- **Frontend**: `app/[locale]/producten/[slug]/page.tsx` — `lead` met **`whitespace-pre-line`** zodat kop + subline uit twee alinea’s leesbaar blijven.
+- **Run**: `npm run seed:products` (token in `.env.local`).
+
+### Fix 2b: Header-navigatie (NL)
+
+- **Fix**: Script **`scripts/seed-header-navigation-nl.ts`** patcht **`headerNavigation-nl`**: Producten-dropdown (**5** items, labels **Stretch hood**, **PATTYN**), Sectoren-dropdown (**4** items, label **Chemie & industrie**), CTA **Bespreek uw vraag** → `/nl/contact`.
+- **Run**: `npm run seed:header-nl`.
+
+### Fix 2c: Footer-navigatie (NL)
+
+- **Fix**: Script **`scripts/seed-footer-navigation-nl.ts`** patcht **`footerNavigation-nl`**: productkolom (+ Stretch hood, PATTYN), sectorenkolom (+ Chemie & industrie, Agro-industrie), slogan met em dash, bottom links **Privacy** → `/nl/privacy`, **Cookies** → `/nl/cookies` (BRC blijft externe URL).
+- **Code**: **`SiteFooter`**: externe URL’s die met **`/`** beginnen renderen als **Next `<Link>`** (zelfde tab, geen `target=_blank`).
+- **Pagina’s**: placeholders **`/[locale]/privacy`** en **`/[locale]/cookies`** (NL/FR/EN stub — definitieve juridische copy volgt).
+- **Run**: `npm run seed:footer-nl`.
+
+### Fix 2d: Homepage niches
+
+- **Schema-wijziging**: **nee** — `homePage.productCards` was al een array zonder maximum.
+- **Fix**: Script **`scripts/seed-home-niches-nl.ts`** patcht **`homePage-nl`**: **5** niches in volgorde **DOLAV-zakken** (featured), **Patijnrollen**, **Stretchfolie**, **Boterfolie**, **Kratzakken**; **Boterfolie** en **Kratzakken** hebben **lege `description`** (geen `[TODO]`). **processSteps** (Productie): *lamineren* vervangen door extrusie → … → **verwerking tot zakken en vellen**.
+- **Frontend**: **`HomeTemplate`** — `data-pc-count` op `.prod-grid`; lege beschrijving rendert geen lege `<p>`.
+- **`scripts/seed.ts`**: zelfde home-niche- en processStep-copy voor toekomstige volledige re-seeds; NL-footer/header defaults gelijkgetrokken.
+- **`SiteHeader`**: relatieve externe menulinks (`/`…) via **`<Link>`** i.p.v. nieuw tabblad.
+- **Run**: `npm run seed:home-nl`.
+
+**Niet gedaan in deze sessie**
+
+- FR/EN navigatie- en productcontent (vertaalbureau / AI-translate)
+- Definitieve privacy/cookie-juridische teksten (placeholders staan)
+- Body-copy voor homepage-niches **Boterfolie** en **Kratzakken** in Studio (Frederik)

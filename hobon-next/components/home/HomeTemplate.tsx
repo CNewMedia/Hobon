@@ -280,12 +280,12 @@ export function HomeTemplate({
             </h2>
           </div>
         </div>
-        <div className="prod-grid">
+        <div className="prod-grid" data-pc-count={(data.productCards ?? []).length}>
           {(data.productCards ?? []).map((pc) => (
             <div key={pc.title} className={`pc rv ${pc.featured ? "featured" : "d1"}`}>
               {pc.tag ? <span className="pc-tag">{pc.tag}</span> : null}
               <h3 className="pc-title">{pc.title}</h3>
-              <p className="pc-desc">{pc.description}</p>
+              {pc.description?.trim() ? <p className="pc-desc">{pc.description}</p> : null}
               {pc.specs?.length ? (
                 <div className="pc-specs">
                   {pc.specs.map((sp) => (

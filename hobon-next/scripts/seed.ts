@@ -131,15 +131,15 @@ async function main() {
           menuItem("Blaasfolies", "internal", { refId: "product-nl-blaasfolies" }),
           menuItem("Zakken", "internal", { refId: "product-nl-zakken" }),
           menuItem("Vellen", "internal", { refId: "product-nl-vellen" }),
-          menuItem("Stretch-hood", "internal", { refId: "product-nl-stretch-hood" }),
-          menuItem("Pattyn", "internal", { refId: "product-nl-pattyn" }),
+          menuItem("Stretch hood", "internal", { refId: "product-nl-stretch-hood" }),
+          menuItem("PATTYN", "internal", { refId: "product-nl-pattyn" }),
         ]),
       }),
       menuItem("Sectoren", "dropdown", {
         sub: menuBlock([
           menuItem("Voeding", "internal", { refId: "sector-nl-voeding" }),
           menuItem("Logistiek", "internal", { refId: "sector-nl-logistiek" }),
-          menuItem("Chemie-industrie", "internal", { refId: "sector-nl-chemie" }),
+          menuItem("Chemie & industrie", "internal", { refId: "sector-nl-chemie" }),
           menuItem("Agro-industrie", "internal", { refId: "sector-nl-agro" }),
         ]),
       }),
@@ -246,18 +246,22 @@ async function main() {
     _id: "footerNavigation-nl",
     _type: "footerNavigation",
     language: "nl",
-    slogan: "Hobon - uw technische partner voor verpakkingsfolie op maat.",
+    slogan: "Hobon — uw technische partner voor verpakkingsfolie op maat.",
     columns: [
       footerColumn("Producten", [
         footerLink("Productoverzicht", "internal", { refId: "productOverviewPage-nl" }),
         footerLink("Blaasfolies", "internal", { refId: "product-nl-blaasfolies" }),
         footerLink("Zakken", "internal", { refId: "product-nl-zakken" }),
         footerLink("Vellen", "internal", { refId: "product-nl-vellen" }),
+        footerLink("Stretch hood", "internal", { refId: "product-nl-stretch-hood" }),
+        footerLink("PATTYN", "internal", { refId: "product-nl-pattyn" }),
       ]),
       footerColumn("Sectoren", [
         footerLink("Alle sectoren", "internal", { refId: "sectorOverviewPage-nl" }),
         footerLink("Voeding", "internal", { refId: "sector-nl-voeding" }),
         footerLink("Logistiek", "internal", { refId: "sector-nl-logistiek" }),
+        footerLink("Chemie & industrie", "internal", { refId: "sector-nl-chemie" }),
+        footerLink("Agro-industrie", "internal", { refId: "sector-nl-agro" }),
       ]),
       footerColumn("Bedrijf", [
         footerLink("Over Hobon", "internal", { refId: "aboutPage-nl" }),
@@ -266,8 +270,8 @@ async function main() {
       ]),
     ],
     bottomLinks: [
-      footerLink("Privacy Policy", "external", { url: "https://www.hobon.be/privacy-policy" }),
-      footerLink("Cookiebeleid", "external", { url: "https://www.hobon.be/cookies" }),
+      footerLink("Privacy Policy", "external", { url: "/nl/privacy" }),
+      footerLink("Cookiebeleid", "external", { url: "/nl/cookies" }),
       footerLink("BRC-certificaat", "external", {
         url: "https://www.brcgs.com/",
       }),
@@ -480,7 +484,7 @@ async function main() {
         step: "Productie",
         title: "Productie in eigen beheer",
         description:
-          "Extrusie, voorbehandeling, inkleuren, lamineren en flexodruk tot 6 kleuren — alles inhouse in Lievegem. Kwaliteitscontrole in elk stadium.",
+          "Extrusie, voorbehandeling, inkleuren, bedrukken en verwerking tot zakken en vellen — alles inhouse in Lievegem. Kwaliteitscontrole in elk stadium.",
       },
       {
         step: "Resultaat",
@@ -495,9 +499,9 @@ async function main() {
     productCards: [
       {
         tag: "Niche · hoge expertise vereist",
-        title: "Dolafzakken op maat",
+        title: "DOLAV-zakken",
         description:
-          "Één van de weinige Belgische producenten met diepgaande expertise in dolafzakken. Stuifbestendigheid, lassterkte en weerstand tegen mechanische belasting bepalen de materiaalkeuze — een verkeerde samenstelling leidt tot breuk of productverlies op de lijn.",
+          "Één van de weinige Belgische producenten met diepgaande expertise in DOLAV-zakken. Stuifbestendigheid, lassterkte en weerstand tegen mechanische belasting bepalen de materiaalkeuze — een verkeerde samenstelling leidt tot breuk of productverlies op de lijn.",
         featured: true,
         specs: [
           { key: "Materiaal", value: "LDPE / HDPE" },
@@ -509,27 +513,25 @@ async function main() {
       },
       {
         tag: "Geautomatiseerde lijnen",
-        title: "Automatenfolie & FFS-folie",
+        title: "Patijnrollen",
         description:
-          "Vlakke of geplooide PE-folies voor volledig geautomatiseerde verpakkingslijnen. Constante kwaliteit op hoge lijnsnelheid.",
-      },
-      {
-        tag: "Nieuw in assortiment",
-        title: "Patijnrollen & patijnbuis",
-        description:
-          "Recentelijk toegevoegd aan het Hobon-assortiment. Geschikt voor voedings- en industriële toepassingen op geautomatiseerde lijnen.",
+          "Patijnbuis en rollen voor geautomatiseerde inpaklijnen. Geschikt voor voedings- en industriële toepassingen met aandacht voor consistente kwaliteit op hoge lijnsnelheid.",
       },
       {
         tag: "Palletverpakking",
-        title: "Krimphoezen (LDPE)",
+        title: "Stretchfolie",
         description:
-          "Bescherm uw pallets met krimphoezen voor optimale stabiliteit en vochtbestendigheid. Los of afscheurbaar van de rol.",
+          "Hobon bouwt het stretchfolieaanbod verder uit — van machinale stretchfolie tot handwikkelfolie, in diverse samenstellingen voor palletstabiliteit en bescherming.",
       },
       {
-        tag: "Groeiproduct",
-        title: "Stretchfolie & stretchgoederen",
-        description:
-          "Hobon bouwt het stretchfolieaanbod verder uit — van machinale stretchfolie tot handwikkelfolie, in diverse samenstellingen.",
+        tag: "Paperlook / food",
+        title: "Boterfolie",
+        description: "",
+      },
+      {
+        tag: "Niche",
+        title: "Kratzakken",
+        description: "",
       },
     ],
     sectorsTag: "Sectoren",

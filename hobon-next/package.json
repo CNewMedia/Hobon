@@ -8,7 +8,11 @@
     "start": "next start",
     "lint": "eslint",
     "seed": "tsx scripts/seed.ts",
-    "seed:sectors": "node --env-file=.env.local --import tsx scripts/seed-sectors-content.ts"
+    "seed:sectors": "node --env-file=.env.local --import tsx scripts/seed-sectors-content.ts",
+    "seed:products": "node --env-file=.env.local --import tsx scripts/seed-products-content.ts",
+    "seed:header-nl": "node --env-file=.env.local --import tsx scripts/seed-header-navigation-nl.ts",
+    "seed:footer-nl": "node --env-file=.env.local --import tsx scripts/seed-footer-navigation-nl.ts",
+    "seed:home-nl": "node --env-file=.env.local --import tsx scripts/seed-home-niches-nl.ts"
   },
   "dependencies": {
     "@portabletext/react": "^6.0.3",
