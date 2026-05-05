@@ -18,7 +18,8 @@
     "seed:home-nl": "node --env-file=.env.local --import tsx scripts/seed-home-niches-nl.ts",
     "translate:sectors": "node --env-file=.env.local --import tsx scripts/translate-sectors.ts",
     "translate:products": "node --env-file=.env.local --import tsx scripts/translate-products.ts",
-    "translate:overview": "node --env-file=.env.local --import tsx scripts/translate-overview-singletons.ts"
+    "translate:overview": "node --env-file=.env.local --import tsx scripts/translate-overview-singletons.ts",
+    "translate:navigation": "node --env-file=.env.local --import tsx scripts/translate-navigation.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.93.0",
