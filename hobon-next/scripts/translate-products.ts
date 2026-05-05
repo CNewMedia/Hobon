@@ -6,6 +6,7 @@ import {
   suggestSlug,
   translatePayload,
 } from "./lib/translate-with-claude";
+import { getLocalizedRef } from "../lib/sanity/locale-mapping";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "14bi8ppf";
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production";
@@ -105,6 +106,10 @@ async function translateProductDoc(doc: ProductDoc, toLocale: "fr" | "en") {
           href: mapLocaleHref(doc.ctaBandPrimary.href ?? "", toLocale),
         }
       : doc.ctaBandPrimary,
+    relatedSectors: doc.relatedSectors?.map((ref: any) => ({
+      ...ref,
+      _ref: typeof ref?._ref === "string" ? getLocalizedRef(ref._ref, toLocale) : ref?._ref,
+    })),
     seo: doc.seo
       ? {
           ...doc.seo,
