@@ -162,6 +162,7 @@ async function translateNavigationForLocale(toLocale: "fr" | "en") {
   const headerDoc = {
     ...headerNl,
     _id: `headerNavigation-${toLocale}`,
+    _type: "headerNavigation",
     language: toLocale,
     menuItems: await translateMenuItems(headerNl.menuItems, toLocale, maps),
     ctaButton: headerNl.ctaButton
@@ -187,6 +188,7 @@ async function translateNavigationForLocale(toLocale: "fr" | "en") {
   const footerDoc = {
     ...footerNl,
     _id: `footerNavigation-${toLocale}`,
+    _type: "footerNavigation",
     language: toLocale,
     slogan: await t(footerNl.slogan, toLocale),
     columns: footerColumns,

@@ -58,6 +58,7 @@ async function translateOverview(doc: OverviewDoc, toLocale: "fr" | "en") {
   return {
     ...doc,
     _id: doc._id.replace("-nl", `-${toLocale}`),
+    _type: doc._type,
     language: toLocale,
     ...(doc.slug
       ? { slug: { ...doc.slug, current: normalizeSlug(suggested || slugBase) || slugBase } }

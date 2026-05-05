@@ -103,6 +103,7 @@ async function translateSectorDoc(doc: SectorDoc, toLocale: "fr" | "en") {
   return {
     ...doc,
     _id: doc._id.replace("-nl-", `-${toLocale}-`),
+    _type: doc._type,
     language: toLocale,
     slug: { ...doc.slug, current: normalizeSlug(suggested || slugBase) || slugBase },
     title: translatedPayload.title,
