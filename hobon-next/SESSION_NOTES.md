@@ -226,3 +226,36 @@
 
 - Stap 7: visuele check + screenshots + push (wacht op akkoord).
 - **`vercel --prod`** (na akkoord).
+
+---
+
+## Sessie 5 — AI-vertalingen FR/EN (HOB-29)
+
+### Wat is gedaan
+
+- **Claude vertaal-pipeline** toegevoegd met `@anthropic-ai/sdk`:
+  - `scripts/lib/translate-with-claude.ts`
+  - `scripts/translate-sectors.ts`
+  - `scripts/translate-products.ts`
+  - `scripts/translate-overview-singletons.ts`
+- **NPM scripts**: `translate:sectors`, `translate:products`, `translate:overview`.
+- **Regels in pipeline**:
+  - Prefix `[AI-translated] ` op alle vertaalde stringwaarden.
+  - Lege strings blijven leeg.
+  - Marker `[Frederik nalezen aparte file]` blijft ongewijzigd.
+  - FR/EN slugs worden voorgesteld via Claude + lokaal genormaliseerd.
+  - URL's in CTA's worden locale-aware omgezet (`/nl/...` -> `/fr/...` of `/en/...`).
+- **Test-mode** (`--test`) gebouwd en gedraaid voor 1 sector + 1 product (+ overview).
+- **Echte run uitgevoerd**:
+  - 4 sectoren vertaald naar FR + EN
+  - 8 producten vertaald naar FR + EN
+  - 2 overview-singletons vertaald naar FR + EN
+- **Verificatie lokaal**:
+  - `/fr/secteurs/industrie-alimentaire` -> 200 + marker zichtbaar
+  - `/en/sectors/food-industry` -> 200 + marker zichtbaar
+  - `/fr/produits/pattyn` -> 200 + marker zichtbaar
+  - `/en/products/pattyn` -> 200 + marker zichtbaar
+
+### Opmerking
+
+- Tijdens de eerste run trad een Anthropic netwerkmelding (`ENOTFOUND`) op en één onjuiste slug-output bij `product-fr-pattyn`; opgelost met robuustere slug-extractie en her-run van `translate:products`.

@@ -202,8 +202,18 @@ export async function suggestSlug({
     .map((c) => c.text)
     .join(" ")
     .trim();
+  const firstLine = raw.split("\n")[0]?.trim() ?? "";
+  const fencedStripped = firstLine.replace(/[`"'“”‘’]/g, " ").trim();
+  let candidate = normalizeSlug(fencedStripped);
 
-  return normalizeSlug(raw);
+  if (!candidate || candidate.length > 80) {
+    const shortToken = fencedStripped.split(/\s+/).find((w) => /^[a-z0-9-]+$/i.test(w));
+    candidate = normalizeSlug(shortToken ?? "");
+  }
+  if (!candidate || candidate.length > 80) {
+    candidate = normalizeSlug(sourceText);
+  }
+  return candidate.slice(0, 80).replace(/-+$/g, "");
 }
 
 export function normalizeSlug(input: string): string {
