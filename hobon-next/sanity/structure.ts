@@ -76,6 +76,7 @@ export const structure: StructureResolver = (S) =>
               i18nSingleton(S, "headerNavigation", "headerNavigation", "Header Navigation"),
               i18nSingleton(S, "footerNavigation", "footerNavigation", "Footer Navigation"),
               i18nSingleton(S, "seoDefaults", "seoDefaults", "SEO Defaults"),
+              i18nSingleton(S, "uiLabels", "uiLabels", "UI Labels"),
             ]),
         ),
       S.divider(),

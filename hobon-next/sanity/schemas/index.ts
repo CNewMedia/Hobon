@@ -32,6 +32,7 @@ import { footerNavigation } from "./documents/footerNavigation";
 import { analyticsAndTracking } from "./documents/analyticsAndTracking";
 import { cookieConsent } from "./documents/cookieConsent";
 import { seoDefaults } from "./documents/seoDefaults";
+import { uiLabels } from "./documents/uiLabels";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   seo,
@@ -67,4 +68,5 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   headerNavigation,
   footerNavigation,
   seoDefaults,
+  uiLabels,
 ];
