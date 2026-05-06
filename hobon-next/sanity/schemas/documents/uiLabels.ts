@@ -50,6 +50,8 @@ export const uiLabels = defineType({
 
     defineField({ name: "uiOpenMenu", type: "string", group: "ui" }),
     defineField({ name: "uiBrcLevelLabel", type: "string", group: "ui" }),
+    defineField({ name: "uiContactMailSubject", type: "string", group: "ui" }),
+    defineField({ name: "uiContactMapPlaceholder", type: "string", group: "ui" }),
 
     defineField({ name: "formFieldNameLabel", type: "string", group: "form" }),
     defineField({ name: "formFieldCompanyLabel", type: "string", group: "form" }),
