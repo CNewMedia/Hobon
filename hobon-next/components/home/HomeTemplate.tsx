@@ -1,9 +1,12 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element -- mock parity / remote CDN images */
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { buildLocalizedPath } from "@/lib/i18n/paths";
 import { urlFor } from "@/lib/sanity/image";
 import { ArrowBtnIcon } from "@/components/layout/icons";
+import { useUILabels } from "@/components/providers/UILabelsProvider";
 
 type Cta = { label?: string | null; href?: string | null } | null;
 
@@ -85,6 +88,7 @@ export function HomeTemplate({
   data: HomeData;
   sectors: SectorCard[];
 }) {
+  const labels = useUILabels();
   const contactHref = buildLocalizedPath(locale, [{ type: "key", key: "contact" }]);
   const sectorsBase = buildLocalizedPath(locale, [{ type: "key", key: "sectors" }]);
 
@@ -153,7 +157,7 @@ export function HomeTemplate({
         </div>
 
         <div className="hero-scroll" aria-hidden="true">
-          <span className="hero-scroll-txt">Scroll</span>
+          <span className="hero-scroll-txt">{labels.homeScroll}</span>
           <div className="scroll-bar">
             <div className="scroll-fill" />
           </div>
@@ -346,7 +350,7 @@ export function HomeTemplate({
                   </div>
                   <div className="sc-body">
                     <div className="sc-bg-n">{n}</div>
-                    <span className="sc-tag">{sc.listingEyebrow ?? "Sector"}</span>
+                    <span className="sc-tag">{sc.listingEyebrow ?? labels.homeSectorFallback}</span>
                     <h3 className="sc-title">{sc.title}</h3>
                     <p className="sc-desc">{sc.listingDescription}</p>
                     <div className="sc-tags">
@@ -377,7 +381,7 @@ export function HomeTemplate({
               />
             </svg>
           </div>
-          <span>Versleep om meer sectoren te bekijken</span>
+          <span>{labels.homeDragSectors}</span>
         </div>
       </section>
 

@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { Fragment } from "react";
@@ -7,6 +9,7 @@ import { urlFor } from "@/lib/sanity/image";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { SectorCtaForm } from "./SectorCtaForm";
 import { SectorFaqs, type FaqItem } from "./SectorFaqs";
+import { useUILabels } from "@/components/providers/UILabelsProvider";
 
 export type SectorNav = { slug: string | null; navLabel?: string | null; title: string };
 
@@ -83,6 +86,7 @@ export function SectorTemplate({
   navSectors: SectorNav[];
   currentSlug: string;
 }) {
+  const labels = useUILabels();
   const contactHref = buildLocalizedPath(locale, [{ type: "key", key: "contact" }]);
 
   const mainImg =
@@ -155,18 +159,18 @@ export function SectorTemplate({
               </div>
               <div className="cert-badge-info">
                 <span className="cert-badge-title">BRC Packaging Level AA</span>
-                <span className="cert-badge-sub">Hoogste certificeringsniveau</span>
+                <span className="cert-badge-sub">{labels.sectorHighestCertLevel}</span>
               </div>
             </div>
             <div className="cert-sep" />
             <div className="cert-stat">
               <div className="cert-stat-val">40+</div>
-              <div className="cert-stat-lbl">Jaar food-expertise</div>
+              <div className="cert-stat-lbl">{labels.sectorYearsExpertise}</div>
             </div>
             <div className="cert-sep" />
             <div className="cert-stat">
               <div className="cert-stat-val">Virgin</div>
-              <div className="cert-stat-lbl">Materialen voor voeding</div>
+              <div className="cert-stat-lbl">{labels.sectorMaterialsForFood}</div>
             </div>
           </div>
         </div>
@@ -191,7 +195,7 @@ export function SectorTemplate({
             ))}
           </div>
           <div className="s-hero-scroll">
-            <span className="s-hero-scroll-txt">Scroll</span>
+            <span className="s-hero-scroll-txt">{labels.sectorScroll}</span>
             <div className="s-hero-scroll-bar">
               <div className="s-hero-scroll-fill" />
             </div>
@@ -291,7 +295,7 @@ export function SectorTemplate({
                 ))}
               </div>
               <Link href={sol.cta?.href ?? contactHref} className="sol-cta">
-                {sol.cta?.label ?? "Meer info"}
+                {sol.cta?.label ?? labels.listingReadMore}
                 <ArrowBtnIcon size={11} />
               </Link>
             </div>
@@ -349,7 +353,7 @@ export function SectorTemplate({
           <div>
             <div className="sec-tag rvr">
               <div className="sec-tag-line" />
-              <span className="sec-tag-txt">Veelgestelde uitdagingen</span>
+              <span className="sec-tag-txt">{labels.sectorCommonChallenges}</span>
             </div>
             <SectorFaqs items={sector.deepFaqs ?? []} />
           </div>
@@ -364,7 +368,7 @@ export function SectorTemplate({
         <div className="comp-r rvr">
           <div className="sec-tag" style={{ marginBottom: 28 }}>
             <div className="sec-tag-line" />
-            <span className="sec-tag-txt">Compliance garanties</span>
+            <span className="sec-tag-txt">{labels.sectorComplianceGuarantees}</span>
           </div>
           <div className="comp-items">
             {(sector.complianceItems ?? []).map((c) => (
@@ -384,10 +388,10 @@ export function SectorTemplate({
         <div className="cases-hdr">
           <div className="sec-tag rv">
             <div className="sec-tag-line" />
-            <span className="sec-tag-txt">Toepassingen in de praktijk</span>
+            <span className="sec-tag-txt">{labels.sectorApplicationsInPractice}</span>
           </div>
           <h2 className="cases-h2 rv d1">
-            Typische uitdagingen<span>die wij oplossen</span>
+            {labels.sectorTypicalChallenges}
           </h2>
         </div>
         <div className="cases-grid">
@@ -421,9 +425,9 @@ export function SectorTemplate({
       <section className="other-sectors">
         <div className="sec-tag rv">
           <div className="sec-tag-line" />
-          <span className="sec-tag-txt">Andere sectoren</span>
+          <span className="sec-tag-txt">{labels.sectorOtherSectors}</span>
         </div>
-        <h2 className="os-h2 rv d1">Ook actief in</h2>
+        <h2 className="os-h2 rv d1">{labels.sectorAlsoActiveIn}</h2>
         <div className="os-grid rv d2">
           {navSectors
             .filter((s) => s.slug && s.slug !== currentSlug)

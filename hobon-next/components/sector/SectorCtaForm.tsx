@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { ArrowBtnIcon } from "@/components/layout/icons";
+import { useUILabels } from "@/components/providers/UILabelsProvider";
 
 export function SectorCtaForm() {
+  const labels = useUILabels();
   const [sent, setSent] = useState(false);
 
   if (sent) {
@@ -13,9 +15,8 @@ export function SectorCtaForm() {
         className="flex min-h-[320px] flex-col items-center justify-center gap-3 rounded-md border border-[var(--rule-lt)] bg-[var(--chalk)] p-8 text-center"
       >
         <p className="font-[family-name:var(--f-head)] text-lg font-semibold text-[var(--navy)]">
-          Bedankt — we nemen contact op.
+          {labels.formSuccessMessage}
         </p>
-        <p className="text-sm text-[var(--mist)]">[TODO: copy invullen — bevestiging na formulier]</p>
       </div>
     );
   }
@@ -32,13 +33,13 @@ export function SectorCtaForm() {
       <div className="cf-row">
         <div className="cf-field">
           <label className="cf-lbl" htmlFor="cfn">
-            Naam *
+            {labels.formFieldNameLabel}
           </label>
           <input className="cf-in" id="cfn" type="text" placeholder="Jan Janssen" required />
         </div>
         <div className="cf-field">
           <label className="cf-lbl" htmlFor="cfb">
-            Bedrijf *
+            {labels.formFieldCompanyLabel}
           </label>
           <input className="cf-in" id="cfb" type="text" placeholder="Uw bedrijfsnaam" required />
         </div>
@@ -46,48 +47,46 @@ export function SectorCtaForm() {
       <div className="cf-row">
         <div className="cf-field">
           <label className="cf-lbl" htmlFor="cfe">
-            E-mail *
+            {labels.formFieldEmailLabel}
           </label>
           <input className="cf-in" id="cfe" type="email" placeholder="jan@bedrijf.be" required />
         </div>
         <div className="cf-field">
           <label className="cf-lbl" htmlFor="cft">
-            Ik zoek...
+            {labels.formIntentLabel}
           </label>
           <select className="cf-sel" id="cft" defaultValue="">
             <option value="" disabled>
-              Kies een optie
+              {labels.formIntentPlaceholder}
             </option>
-            <option>Technisch advies food-folie</option>
-            <option>BRC-gecertificeerd alternatief</option>
-            <option>Oplossing voor lijnbreuk</option>
-            <option>Recyclaat-oplossing food</option>
-            <option>Offerte aanvragen</option>
-            <option>Andere vraag</option>
+            {labels.formIntentOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
           </select>
         </div>
       </div>
       <div className="cf-row">
         <div className="cf-field full">
           <label className="cf-lbl" htmlFor="cfm">
-            Uw uitdaging of machine
+            {labels.formFieldChallengeLabel}
           </label>
           <textarea
             className="cf-ta"
             id="cfm"
-            placeholder="Beschrijf uw machine, lijnsnelheid, product of probleem. Hoe meer detail, hoe sneller en gerichter ons advies."
+            placeholder={labels.formChallengePlaceholder}
           />
         </div>
       </div>
       <div className="cf-bottom">
         <button className="cf-btn" type="submit">
-          <span>Vraag versturen</span>
+          <span>{labels.formSubmitLabel}</span>
           <ArrowBtnIcon size={14} />
         </button>
       </div>
       <div className="cf-privacy">
-        Uw gegevens worden uitsluitend gebruikt voor de behandeling van uw aanvraag.{" "}
-        <a href="#">Privacybeleid</a>.
+        {labels.formDisclaimerText} <a href="#">{labels.formPrivacyLinkLabel}</a>.
       </div>
     </form>
   );

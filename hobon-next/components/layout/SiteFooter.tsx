@@ -1,8 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { urlFor } from "@/lib/sanity/image";
 import { resolveInternalHref, type InternalLinkTarget } from "@/lib/sanity/resolveInternalHref";
+import { useUILabels } from "@/components/providers/UILabelsProvider";
 
 type ImageWithAlt = { image?: unknown; alt?: string | null } | null;
 
@@ -78,6 +81,7 @@ export function SiteFooter({
   siteSettings: SiteSettings;
   fallbackLogoSrc: string;
 }) {
+  const labels = useUILabels();
   const logoSrc = imageSrc(siteSettings?.logo ?? null, 320) ?? fallbackLogoSrc;
   const logoAlt =
     siteSettings?.logo?.alt?.trim() || siteSettings?.companyName?.trim() || "Hobon";
@@ -87,7 +91,7 @@ export function SiteFooter({
   const copyright = footerNav?.copyright ?? "";
   const showBrc = footerNav?.showBrcBadge !== false;
   const brcImg = imageSrc(siteSettings?.brcBadge ?? null, 120);
-  const brcAlt = siteSettings?.brcBadge?.alt?.trim() ?? "BRC Packaging Level AA";
+  const brcAlt = siteSettings?.brcBadge?.alt?.trim() ?? labels.uiBrcLevelLabel;
 
   const phone = siteSettings?.primaryPhone;
   const email = siteSettings?.primaryEmail;
@@ -164,7 +168,7 @@ export function SiteFooter({
                     AA
                   </span>
                 </div>
-                <span className="ft-brc-txt">BRC Packaging Level AA</span>
+                <span className="ft-brc-txt">{labels.uiBrcLevelLabel}</span>
               </>
             )}
           </div>

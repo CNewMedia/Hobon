@@ -1,6 +1,9 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
 import { ContactForm, type ContactFormLabels } from "@/components/contact/ContactForm";
 import { SimpleRichText } from "@/components/portable/SimpleRichText";
+import { useUILabels } from "@/components/providers/UILabelsProvider";
 
 export type ContactPageDoc = {
   hero?: { headline?: string | null; subline?: string | null } | null;
@@ -33,8 +36,9 @@ export function ContactTemplate({
   contactPage: ContactPageDoc | null;
   siteSettings: SiteSettingsContact | null;
 }) {
+  const labels = useUILabels();
   const recipient = (siteSettings?.formRecipientEmail ?? "info@hobon.be").trim();
-  const fallbackMailto = `mailto:${recipient}?subject=${encodeURIComponent("Verpakkingsvraag via hobon.be")}`;
+  const fallbackMailto = `mailto:${recipient}?subject=${encodeURIComponent(labels.uiContactMailSubject)}`;
   const hero = contactPage?.hero;
   const locations = siteSettings?.locations ?? [];
 
@@ -44,7 +48,7 @@ export function ContactTemplate({
         <div className="c-hero-l">
           <div className="c-eyebrow">
             <div className="c-eyebrow-line" aria-hidden />
-            <span className="c-eyebrow-txt">Contact</span>
+            <span className="c-eyebrow-txt">{labels.listingContact}</span>
           </div>
           {hero?.headline ? (
             <h1 className="c-h1">
@@ -52,7 +56,7 @@ export function ContactTemplate({
               {hero.subline ? <span className="muted">{hero.subline}</span> : null}
             </h1>
           ) : (
-            <h1 className="c-h1">Contact</h1>
+            <h1 className="c-h1">{labels.listingContact}</h1>
           )}
           {contactPage?.intro ? <p className="c-intro">{contactPage.intro}</p> : null}
 
@@ -60,7 +64,7 @@ export function ContactTemplate({
             recipientEmail={recipient}
             formFields={contactPage?.formFields ?? {}}
             formTitle={contactPage?.formTitle ?? ""}
-            formSubmitLabel={contactPage?.formSubmitLabel ?? "Verstuur"}
+            formSubmitLabel={contactPage?.formSubmitLabel ?? labels.formSubmitLabel}
             fallbackMailtoHref={fallbackMailto}
           />
 
@@ -87,7 +91,7 @@ export function ContactTemplate({
               return (
                 <div key={loc._key ?? loc.name} className="c-loc">
                   <div className="c-loc-map" aria-hidden>
-                    <span className="c-loc-map-ph">Kaart — later</span>
+                    <span className="c-loc-map-ph">{labels.uiContactMapPlaceholder}</span>
                   </div>
                   <div className="c-loc-body">
                     {loc.name ? <div className="c-loc-name">{loc.name}</div> : null}

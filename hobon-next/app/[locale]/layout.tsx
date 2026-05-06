@@ -4,6 +4,7 @@ import { GtmNoScript, SiteAnalytics } from "@/components/tracking/SiteAnalytics"
 import { SiteEffects } from "@/components/site/SiteEffects";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { UILabelsProvider } from "@/components/providers/UILabelsProvider";
 import type { Locale } from "@/lib/i18n/config";
 import { isLocale } from "@/lib/i18n/config";
 import { SITE_ORIGIN } from "@/lib/siteUrl";
@@ -18,7 +19,9 @@ import {
   footerNavigationQuery,
   headerNavigationQuery,
   siteSettingsQuery,
+  uiLabelsQuery,
 } from "@/lib/sanity/queries";
+import { mergeUILabels } from "@/types/uiLabels";
 import { notFound } from "next/navigation";
 
 export function generateStaticParams() {
@@ -54,14 +57,16 @@ export default async function LocaleLayout({
   const h = await headers();
   const pathnameBare = normalizePath(pathnameWithoutLocale(h.get("x-pathname") ?? "/"));
 
-  const [settings, headerNav, footerNav, seoDefaults, cookieConsent, tracking] = await Promise.all([
+  const [settings, headerNav, footerNav, seoDefaults, cookieConsent, tracking, rawUILabels] = await Promise.all([
     client.fetch(siteSettingsQuery),
     client.fetch(headerNavigationQuery, { locale }),
     client.fetch(footerNavigationQuery, { locale }),
     getSeoDefaults(locale),
     client.fetch(cookieConsentQuery),
     client.fetch(analyticsAndTrackingQuery),
+    client.fetch(uiLabelsQuery, { locale }),
   ]);
+  const uiLabels = mergeUILabels(rawUILabels);
 
   const fallbackLogoSrc = "/assets/images/logo.jpg";
   const logoSrc =
@@ -113,19 +118,21 @@ export default async function LocaleLayout({
       />
       <GtmNoScript tracking={tracking} enabled={consentReady} />
       <SiteEffects />
-      <SiteHeader
-        locale={locale}
-        headerNav={headerNav}
-        siteSettings={settings}
-        fallbackLogoSrc={fallbackLogoSrc}
-      />
-      <main className="flex-1">{children}</main>
-      <SiteFooter
-        locale={locale}
-        footerNav={footerNav}
-        siteSettings={settings}
-        fallbackLogoSrc={fallbackLogoSrc}
-      />
+      <UILabelsProvider value={uiLabels}>
+        <SiteHeader
+          locale={locale}
+          headerNav={headerNav}
+          siteSettings={settings}
+          fallbackLogoSrc={fallbackLogoSrc}
+        />
+        <main className="flex-1">{children}</main>
+        <SiteFooter
+          locale={locale}
+          footerNav={footerNav}
+          siteSettings={settings}
+          fallbackLogoSrc={fallbackLogoSrc}
+        />
+      </UILabelsProvider>
     </>
   );
 }

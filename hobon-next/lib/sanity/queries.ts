@@ -50,6 +50,7 @@ export const seoDefaultsQuery = `*[_type == "seoDefaults" && language == $locale
 export const cookieConsentQuery = `*[_type == "cookieConsent" && _id == "cookieConsent"][0]`;
 
 export const analyticsAndTrackingQuery = `*[_type == "analyticsAndTracking" && _id == "analyticsAndTracking"][0]`;
+export const uiLabelsQuery = `*[_type == "uiLabels" && language == $locale][0]`;
 
 export const homePageQuery = `*[_type == "homePage" && language == $locale][0]{
   ...,

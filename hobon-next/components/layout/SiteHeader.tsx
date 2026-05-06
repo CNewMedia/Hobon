@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
@@ -5,6 +7,7 @@ import { urlFor } from "@/lib/sanity/image";
 import { resolveInternalHref, type InternalLinkTarget } from "@/lib/sanity/resolveInternalHref";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { ArrowNavIcon } from "./icons";
+import { useUILabels } from "@/components/providers/UILabelsProvider";
 
 type ImageWithAlt = { image?: unknown; alt?: string | null } | null;
 
@@ -119,6 +122,7 @@ export function SiteHeader({
   siteSettings: SiteSettings;
   fallbackLogoSrc: string;
 }) {
+  const labels = useUILabels();
   const logoFromNav = imageSrc(headerNav?.logo ?? null, 320);
   const logoFromSettings = imageSrc(siteSettings?.logo ?? null, 320);
   const logoSrc = logoFromNav ?? logoFromSettings ?? fallbackLogoSrc;
@@ -175,7 +179,7 @@ export function SiteHeader({
           className="hdr-hamburger"
           id="hambtn"
           type="button"
-          aria-label="Menu openen"
+          aria-label={labels.uiOpenMenu}
           aria-expanded="false"
         >
           <span />

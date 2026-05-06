@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
@@ -6,6 +8,7 @@ import { urlFor } from "@/lib/sanity/image";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { SectorCtaForm } from "@/components/sector/SectorCtaForm";
 import { SimpleRichText } from "@/components/portable/SimpleRichText";
+import { useUILabels } from "@/components/providers/UILabelsProvider";
 
 export type RelatedSector = {
   _id?: string;
@@ -50,6 +53,7 @@ export function ProductTemplate({
   locale: Locale;
   product: ProductDoc;
 }) {
+  const labels = useUILabels();
   const contactHref = buildLocalizedPath(locale, [{ type: "key", key: "contact" }]);
   const productsHref = buildLocalizedPath(locale, [{ type: "key", key: "products" }]);
 
@@ -85,7 +89,7 @@ export function ProductTemplate({
         <div className="s-hero-l">
           <div className="p-hero-breadcrumb">
             <Link href={productsHref} className="p-hero-back">
-              Alle producten
+              {labels.productAllProducts}
             </Link>
           </div>
 
@@ -119,7 +123,7 @@ export function ProductTemplate({
               </div>
               <div className="cert-badge-info">
                 <span className="cert-badge-title">BRC Packaging Level AA</span>
-                <span className="cert-badge-sub">Hoogste certificeringsniveau</span>
+                <span className="cert-badge-sub">{labels.productHighestCertLevel}</span>
               </div>
             </div>
           </div>
@@ -150,9 +154,9 @@ export function ProductTemplate({
         <div className="p-specs-inner">
           <div className="sec-tag rv">
             <div className="sec-tag-line" />
-            <span className="sec-tag-txt">Technisch</span>
+            <span className="sec-tag-txt">{labels.productTechnical}</span>
           </div>
-          <h2 className="p-specs-h2 rv d1">Specificaties</h2>
+          <h2 className="p-specs-h2 rv d1">{labels.productSpecifications}</h2>
           <div className="p-spec-grid">
             {(product.specifications ?? []).map((row, i) => (
               <div key={row.title ?? i} className={`p-spec-card rv ${i ? `d${i % 4}` : ""}`}>
@@ -169,9 +173,9 @@ export function ProductTemplate({
         <div className="p-apps-inner">
           <div className="sec-tag rv">
             <div className="sec-tag-line" />
-            <span className="sec-tag-txt">Toepassingen</span>
+            <span className="sec-tag-txt">{labels.productApplications}</span>
           </div>
-          <h2 className="p-apps-h2 rv d1">Waar gebruikt u het voor?</h2>
+          <h2 className="p-apps-h2 rv d1">{labels.productApplicationsQuestion}</h2>
           <div className="p-app-tags rv d2">
             {(product.applications ?? []).map((tag) => (
               <span key={tag} className="p-app-tag">
@@ -187,10 +191,10 @@ export function ProductTemplate({
           <div className="sec-tag rv" style={{ marginBottom: 18 }}>
             <div className="sec-tag-line" />
             <span className="sec-tag-txt" style={{ color: "rgba(245,163,0,.85)" }}>
-              Expertise
+              {labels.productExpertise}
             </span>
           </div>
-          <h2 className="p-why-h2 rv d1">{product.whyHobonTitle ?? "Waarom Hobon"}</h2>
+          <h2 className="p-why-h2 rv d1">{product.whyHobonTitle ?? labels.productExpertise}</h2>
           {product.whyHobonBody ? (
             <p className="p-why-body rv d2 whitespace-pre-line">{product.whyHobonBody}</p>
           ) : null}
@@ -201,9 +205,9 @@ export function ProductTemplate({
         <section className="other-sectors p-related">
           <div className="sec-tag rv">
             <div className="sec-tag-line" />
-            <span className="sec-tag-txt">Sectoren</span>
+            <span className="sec-tag-txt">{labels.productSectors}</span>
           </div>
-          <h2 className="os-h2 rv d1">Veel gebruikt in</h2>
+          <h2 className="os-h2 rv d1">{labels.productCommonlyUsedIn}</h2>
           <div className="os-grid p-related-grid rv d2">
             {(product.relatedSectors ?? []).map((s) => {
               if (!s.slug) return null;
@@ -243,7 +247,7 @@ export function ProductTemplate({
             <div className="sec-tag rv" style={{ marginBottom: 18 }}>
               <div className="sec-tag-line" />
               <span className="sec-tag-txt" style={{ color: "rgba(245,163,0,.7)" }}>
-                Contact
+                {labels.productContact}
               </span>
             </div>
             <h2 className="cta-h2 rv d1">{product.ctaBandTitle1}</h2>
@@ -268,10 +272,10 @@ export function ProductTemplate({
           <div className="mx-auto max-w-3xl">
             <div className="sec-tag">
               <div className="sec-tag-line" />
-              <span className="sec-tag-txt">Extra</span>
+              <span className="sec-tag-txt">{labels.productExtra}</span>
             </div>
             <h2 className="mt-4 font-[family-name:var(--f-head)] text-xl font-semibold text-[var(--navy)]">
-              Notities
+              {labels.productNotes}
             </h2>
             <div className="mt-4">
               <SimpleRichText value={product.additionalNotes} />

@@ -1,9 +1,12 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { buildLocalizedPath, type PathPart } from "@/lib/i18n/paths";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { SectorCtaForm } from "@/components/sector/SectorCtaForm";
+import { useUILabels } from "@/components/providers/UILabelsProvider";
 
 export type OverviewPageDoc = {
   heroEyebrow?: string | null;
@@ -55,6 +58,7 @@ export function ListingTemplate({
   pathKey: ListingKey;
   itemCountAttr: "data-sol-count" | "data-pc-count";
 }) {
+  const labels = useUILabels();
   const segment: PathPart = { type: "key", key: pathKey };
 
   const h1 = (overview?.heroTitle ?? overview?.title)?.trim() || "";
@@ -130,7 +134,7 @@ export function ListingTemplate({
                     </div>
                     <div className="sc-body">
                       <div className="sc-bg-n">{n}</div>
-                      <span className="sc-tag">{sc.listingEyebrow ?? "Sector"}</span>
+                      <span className="sc-tag">{sc.listingEyebrow ?? labels.listingSectorFallback}</span>
                       <h3 className="sc-title">{sc.title}</h3>
                       <p className="sc-desc">{sc.listingDescription ?? ""}</p>
                       <div className="sc-tags">
@@ -154,14 +158,14 @@ export function ListingTemplate({
                   pc.listingDescription?.trim() ||
                   pc.seo?.metaDescription?.trim() ||
                   "";
-                const tag = pc.listingEyebrow?.trim() || pc.heroEyebrow?.trim() || "Product";
+                const tag = pc.listingEyebrow?.trim() || pc.heroEyebrow?.trim() || labels.listingProductFallback;
                 return (
                   <Link key={pc._id} href={href} className="pc rv listing-pc-card">
                     <span className="pc-tag">{tag}</span>
                     <h3 className="pc-title">{pc.title}</h3>
                     {desc ? <p className="pc-desc">{desc}</p> : null}
                     <span className="pc-cta">
-                      Lees meer
+                      {labels.listingReadMore}
                       <ArrowBtnIcon size={11} />
                     </span>
                   </Link>
@@ -177,7 +181,7 @@ export function ListingTemplate({
               <div className="sec-tag rv" style={{ marginBottom: 18 }}>
                 <div className="sec-tag-line" />
                 <span className="sec-tag-txt" style={{ color: "rgba(245,163,0,.7)" }}>
-                  Contact
+                  {labels.listingContact}
                 </span>
               </div>
               {overview.ctaBandTitle ? <h2 className="cta-h2 rv d1">{overview.ctaBandTitle}</h2> : null}
