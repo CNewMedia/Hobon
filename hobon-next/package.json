@@ -17,6 +17,7 @@
     "seed:footer-nl": "node --env-file=.env.local --import tsx scripts/seed-footer-navigation-nl.ts",
     "seed:home-nl": "node --env-file=.env.local --import tsx scripts/seed-home-niches-nl.ts",
     "seed:ui-labels": "node --env-file=.env.local --import tsx scripts/seed-ui-labels.ts",
+    "patch:ui-labels-about-key-facts": "node --env-file=.env.local --import tsx scripts/patch-ui-labels-about-key-facts.ts",
     "translate:sectors": "node --env-file=.env.local --import tsx scripts/translate-sectors.ts",
     "translate:products": "node --env-file=.env.local --import tsx scripts/translate-products.ts",
     "translate:overview": "node --env-file=.env.local --import tsx scripts/translate-overview-singletons.ts",

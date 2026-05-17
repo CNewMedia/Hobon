@@ -1,6 +1,6 @@
 import { SectorTemplate } from "@/components/sector/SectorTemplate";
 import type { Locale } from "@/lib/i18n/config";
-import { client } from "@/lib/sanity/client";
+import { fetchSanity } from "@/lib/sanity/fetchSanity";
 import { sectorBySlugQuery, sectorNavQuery } from "@/lib/sanity/queries";
 import { getSeoDefaults } from "@/lib/sanity/seoDefaults";
 import { buildPageMetadata } from "@/lib/seo/metadata";
@@ -14,7 +14,7 @@ export async function generateMetadata({
   const { locale, slug } = await params;
   const loc = locale as Locale;
   const [doc, defaults] = await Promise.all([
-    client.fetch(sectorBySlugQuery, { locale, slug }),
+    fetchSanity(sectorBySlugQuery, { locale, slug }),
     getSeoDefaults(loc),
   ]);
   return buildPageMetadata({
@@ -35,8 +35,8 @@ export default async function SectorDetailPage({
 }) {
   const { locale, slug } = await params;
   const [sector, navSectors] = await Promise.all([
-    client.fetch(sectorBySlugQuery, { locale, slug }),
-    client.fetch(sectorNavQuery, { locale }),
+    fetchSanity(sectorBySlugQuery, { locale, slug }),
+    fetchSanity(sectorNavQuery, { locale }),
   ]);
 
   if (!sector) notFound();

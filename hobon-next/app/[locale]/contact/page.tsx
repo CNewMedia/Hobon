@@ -1,6 +1,6 @@
 import { ContactTemplate } from "@/components/contact/ContactTemplate";
 import type { Locale } from "@/lib/i18n/config";
-import { client } from "@/lib/sanity/client";
+import { fetchSanity } from "@/lib/sanity/fetchSanity";
 import { contactPageQuery, siteSettingsQuery } from "@/lib/sanity/queries";
 import { getSeoDefaults } from "@/lib/sanity/seoDefaults";
 import { buildPageMetadata } from "@/lib/seo/metadata";
@@ -13,7 +13,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const loc = locale as Locale;
   const [doc, defaults] = await Promise.all([
-    client.fetch(contactPageQuery, { locale }),
+    fetchSanity(contactPageQuery, { locale }),
     getSeoDefaults(loc),
   ]);
   return buildPageMetadata({
@@ -31,8 +31,8 @@ export default async function ContactPageRoute({
 }) {
   const { locale } = await params;
   const [contactPage, siteSettings] = await Promise.all([
-    client.fetch(contactPageQuery, { locale }),
-    client.fetch(siteSettingsQuery),
+    fetchSanity(contactPageQuery, { locale }),
+    fetchSanity(siteSettingsQuery),
   ]);
 
   return <ContactTemplate contactPage={contactPage} siteSettings={siteSettings} />;

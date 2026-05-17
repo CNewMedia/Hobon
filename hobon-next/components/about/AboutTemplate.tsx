@@ -1,8 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { resolveInternalHref } from "@/lib/sanity/resolveInternalHref";
 import { SimpleRichText } from "@/components/portable/SimpleRichText";
 import { ArrowBtnIcon } from "@/components/layout/icons";
+import { useUILabels } from "@/components/providers/UILabelsProvider";
 
 export type AboutPageDoc = {
   hero?: { headline?: string | null; subline?: string | null } | null;
@@ -17,6 +20,7 @@ export type AboutPageDoc = {
 };
 
 export function AboutTemplate({ locale, aboutPage }: { locale: Locale; aboutPage: AboutPageDoc | null }) {
+  const labels = useUILabels();
   const hero = aboutPage?.hero;
   const ctaHref = resolveInternalHref(locale, aboutPage?.cta?.buttonLink ?? null);
 
@@ -36,7 +40,7 @@ export function AboutTemplate({ locale, aboutPage }: { locale: Locale; aboutPage
 
       {(aboutPage?.keyFacts?.length ?? 0) > 0 ? (
         <section className="abt-kf">
-          <h2 className="abt-kf-h2">Kerncijfers</h2>
+          <h2 className="abt-kf-h2">{labels.aboutKeyFactsTitle}</h2>
           <div className="abt-kf-grid">
             {(aboutPage?.keyFacts ?? []).map((kf, i) => (
               <div key={`${kf.label ?? i}`} className="abt-kf-card">

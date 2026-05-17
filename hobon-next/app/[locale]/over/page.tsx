@@ -1,6 +1,6 @@
 import { AboutTemplate } from "@/components/about/AboutTemplate";
 import type { Locale } from "@/lib/i18n/config";
-import { client } from "@/lib/sanity/client";
+import { fetchSanity } from "@/lib/sanity/fetchSanity";
 import { aboutPageQuery } from "@/lib/sanity/queries";
 import { getSeoDefaults } from "@/lib/sanity/seoDefaults";
 import { buildPageMetadata } from "@/lib/seo/metadata";
@@ -13,7 +13,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const loc = locale as Locale;
   const [doc, defaults] = await Promise.all([
-    client.fetch(aboutPageQuery, { locale }),
+    fetchSanity(aboutPageQuery, { locale }),
     getSeoDefaults(loc),
   ]);
   return buildPageMetadata({
@@ -30,6 +30,6 @@ export default async function AboutPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const doc = await client.fetch(aboutPageQuery, { locale });
+  const doc = await fetchSanity(aboutPageQuery, { locale });
   return <AboutTemplate locale={locale as Locale} aboutPage={doc} />;
 }

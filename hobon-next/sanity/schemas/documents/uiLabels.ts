@@ -9,6 +9,7 @@ export const uiLabels = defineType({
     { name: "sector", title: "Sector" },
     { name: "listing", title: "Listing" },
     { name: "home", title: "Home" },
+    { name: "about", title: "About" },
     { name: "ui", title: "UI" },
     { name: "form", title: "Form" },
   ],
@@ -47,6 +48,8 @@ export const uiLabels = defineType({
     defineField({ name: "homeScroll", type: "string", group: "home" }),
     defineField({ name: "homeSectorFallback", type: "string", group: "home" }),
     defineField({ name: "homeDragSectors", type: "string", group: "home" }),
+
+    defineField({ name: "aboutKeyFactsTitle", title: "Kerncijfers (sectietitel)", type: "string", group: "about" }),
 
     defineField({ name: "uiOpenMenu", type: "string", group: "ui" }),
     defineField({ name: "uiBrcLevelLabel", type: "string", group: "ui" }),

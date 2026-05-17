@@ -1,6 +1,6 @@
 import { InsightsOverviewTemplate } from "@/components/insights/InsightsOverviewTemplate";
 import type { Locale } from "@/lib/i18n/config";
-import { client } from "@/lib/sanity/client";
+import { fetchSanity } from "@/lib/sanity/fetchSanity";
 import {
   insightCategoriesQuery,
   insightsForLocaleQuery,
@@ -17,7 +17,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const loc = locale as Locale;
   const [doc, defaults] = await Promise.all([
-    client.fetch(insightsOverviewPageQuery, { locale }),
+    fetchSanity(insightsOverviewPageQuery, { locale }),
     getSeoDefaults(loc),
   ]);
   return buildPageMetadata({
@@ -36,9 +36,9 @@ export default async function InsightsOverviewPage({
   const { locale } = await params;
   const loc = locale as Locale;
   const [page, articles, categories] = await Promise.all([
-    client.fetch(insightsOverviewPageQuery, { locale: loc }),
-    client.fetch(insightsForLocaleQuery, { locale: loc }),
-    client.fetch(insightCategoriesQuery, { locale: loc }),
+    fetchSanity(insightsOverviewPageQuery, { locale: loc }),
+    fetchSanity(insightsForLocaleQuery, { locale: loc }),
+    fetchSanity(insightCategoriesQuery, { locale: loc }),
   ]);
 
   return (

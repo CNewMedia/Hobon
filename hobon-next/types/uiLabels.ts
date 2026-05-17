@@ -37,6 +37,8 @@ export type UILabels = {
   homeSectorFallback: string;
   homeDragSectors: string;
 
+  aboutKeyFactsTitle: string;
+
   uiOpenMenu: string;
   uiBrcLevelLabel: string;
   uiContactMailSubject: string;
@@ -89,6 +91,8 @@ export const defaultUILabels: UILabels = {
   homeScroll: "Scroll",
   homeSectorFallback: "Sector",
   homeDragSectors: "Versleep om meer sectoren te bekijken",
+
+  aboutKeyFactsTitle: "Kerncijfers",
 
   uiOpenMenu: "Menu openen",
   uiBrcLevelLabel: "BRC Packaging Level AA",

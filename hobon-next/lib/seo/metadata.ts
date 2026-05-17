@@ -5,6 +5,7 @@ import { SITE_ORIGIN } from "@/lib/siteUrl";
 import { buildLocalizedPath, type PathPart } from "@/lib/i18n/paths";
 import { urlFor } from "@/lib/sanity/image";
 import type { SeoDefaults } from "@/lib/sanity/seoDefaults";
+import { stripAIMarker } from "@/lib/text/strip-ai-marker";
 
 export type SeoInput = {
   metaTitle?: string | null;
@@ -40,14 +41,14 @@ export async function buildPageMetadata(input: {
 }): Promise<Metadata> {
   const suffix = input.defaults?.defaultMetaTitleSuffix;
   const baseTitle =
-    input.seo?.metaTitle?.trim() ||
-    input.defaults?.defaultMetaTitle?.trim() ||
+    stripAIMarker(input.seo?.metaTitle?.trim()) ||
+    stripAIMarker(input.defaults?.defaultMetaTitle?.trim()) ||
     "Hobon";
   const title = normalizeTitleWithSuffix(baseTitle, suffix);
 
   const description =
-    input.seo?.metaDescription?.trim() ||
-    input.defaults?.defaultMetaDescription?.trim() ||
+    stripAIMarker(input.seo?.metaDescription?.trim()) ||
+    stripAIMarker(input.defaults?.defaultMetaDescription?.trim()) ||
     "";
 
   const path = buildLocalizedPath(input.locale, input.pathParts);

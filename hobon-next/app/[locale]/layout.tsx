@@ -9,7 +9,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { isLocale } from "@/lib/i18n/config";
 import { SITE_ORIGIN } from "@/lib/siteUrl";
 import { organizationJsonLd } from "@/lib/seo/structuredData";
-import { client } from "@/lib/sanity/client";
+import { fetchSanity } from "@/lib/sanity/fetchSanity";
 import { urlFor } from "@/lib/sanity/image";
 import { pathnameWithoutLocale } from "@/lib/sanity/resolveInternalHref";
 import { getSeoDefaults } from "@/lib/sanity/seoDefaults";
@@ -58,13 +58,13 @@ export default async function LocaleLayout({
   const pathnameBare = normalizePath(pathnameWithoutLocale(h.get("x-pathname") ?? "/"));
 
   const [settings, headerNav, footerNav, seoDefaults, cookieConsent, tracking, rawUILabels] = await Promise.all([
-    client.fetch(siteSettingsQuery),
-    client.fetch(headerNavigationQuery, { locale }),
-    client.fetch(footerNavigationQuery, { locale }),
+    fetchSanity(siteSettingsQuery),
+    fetchSanity(headerNavigationQuery, { locale }),
+    fetchSanity(footerNavigationQuery, { locale }),
     getSeoDefaults(locale),
-    client.fetch(cookieConsentQuery),
-    client.fetch(analyticsAndTrackingQuery),
-    client.fetch(uiLabelsQuery, { locale }),
+    fetchSanity(cookieConsentQuery),
+    fetchSanity(analyticsAndTrackingQuery),
+    fetchSanity(uiLabelsQuery, { locale }),
   ]);
   const uiLabels = mergeUILabels(rawUILabels);
 

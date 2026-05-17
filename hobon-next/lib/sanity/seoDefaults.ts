@@ -1,6 +1,6 @@
 import { cache } from "react";
 import type { Locale } from "@/lib/i18n/config";
-import { client } from "@/lib/sanity/client";
+import { fetchSanity } from "@/lib/sanity/fetchSanity";
 import { seoDefaultsQuery } from "@/lib/sanity/queries";
 
 export type SeoDefaults = {
@@ -18,5 +18,5 @@ export type SeoDefaults = {
 } | null;
 
 export const getSeoDefaults = cache(async (locale: Locale): Promise<SeoDefaults> => {
-  return client.fetch(seoDefaultsQuery, { locale });
+  return fetchSanity(seoDefaultsQuery, { locale });
 });
