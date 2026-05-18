@@ -2,10 +2,13 @@ import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { resolveInternalHref } from "@/lib/sanity/resolveInternalHref";
 import { SimpleRichText } from "@/components/portable/SimpleRichText";
+import { HeroMediaPanel } from "@/components/hero/HeroMedia";
+import type { HeroMediaData } from "@/components/hero/heroMediaTypes";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 
 export type SustainabilityPageDoc = {
   hero?: { headline?: string | null; subline?: string | null } | null;
+  heroMedia?: HeroMediaData;
   standpoint?: { headline?: string | null; body?: unknown } | null;
   practicePoints?: { title?: string | null; body?: unknown }[] | null;
   cta?: {
@@ -31,6 +34,8 @@ export function SustainabilityTemplate({
         {hero?.headline ? <h1 className="sus-hero-h1">{hero.headline}</h1> : <h1 className="sus-hero-h1">Duurzaamheid</h1>}
         {hero?.subline ? <p className="sus-hero-sub">{hero.subline}</p> : null}
       </section>
+
+      <HeroMediaPanel media={sustainabilityPage?.heroMedia} className="page-hero-media s-hero-r listing-overview-hero-r" />
 
       {sustainabilityPage?.standpoint?.headline || sustainabilityPage?.standpoint?.body ? (
         <section className="sus-stand">

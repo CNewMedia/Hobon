@@ -762,6 +762,17 @@ footer{background:var(--white);padding:76px 52px 44px;border-top:2px solid var(-
 .listing-sc-ph{min-height:160px;height:160px;border-radius:0;}
 .listing-sc-ph .p-hero-placeholder-grid{opacity:.12;}
 .listing-pc-card{text-decoration:none;color:inherit;align-items:flex-start;}
+.listing-pc-card--with-img{display:flex;flex-direction:column;padding:0;overflow:hidden;}
+.listing-pc-card--with-img .listing-pc-img{position:relative;min-height:160px;height:160px;flex-shrink:0;}
+.listing-pc-card--with-img .listing-pc-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.listing-pc-card--with-img .pc-tag,
+.listing-pc-card--with-img .pc-title,
+.listing-pc-card--with-img .pc-desc,
+.listing-pc-card--with-img .pc-cta{margin-left:22px;margin-right:22px;}
+.listing-pc-card--with-img .pc-tag{margin-top:18px;}
+.page-hero-media{position:relative;width:100%;max-width:min(100%,720px);margin:0 auto 48px;}
+.page-hero-media .s-hero-r-main{position:relative;min-height:clamp(220px,32vh,420px);}
+.c-hero-media-panel{margin-bottom:24px;max-width:100%;}
 @media (max-width:1024px){
   .listing-grid--sectors,
   .listing-grid--products{grid-template-columns:repeat(2,1fr);}

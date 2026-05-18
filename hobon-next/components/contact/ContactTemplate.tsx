@@ -2,11 +2,14 @@
 
 /* eslint-disable @next/next/no-img-element */
 import { ContactForm, type ContactFormLabels } from "@/components/contact/ContactForm";
+import { HeroMediaPanel } from "@/components/hero/HeroMedia";
+import type { HeroMediaData } from "@/components/hero/heroMediaTypes";
 import { SimpleRichText } from "@/components/portable/SimpleRichText";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
 
 export type ContactPageDoc = {
   hero?: { headline?: string | null; subline?: string | null } | null;
+  heroMedia?: HeroMediaData;
   intro?: string | null;
   formTitle?: string | null;
   formSubmitLabel?: string | null;
@@ -82,6 +85,10 @@ export function ContactTemplate({
         </div>
 
         <div className="c-hero-r">
+          <HeroMediaPanel
+            media={contactPage?.heroMedia}
+            className="page-hero-media s-hero-r listing-overview-hero-r c-hero-media-panel"
+          />
           <div className="c-hero-r-dots" aria-hidden />
           <div className="c-locs">
             {locations.map((loc) => {

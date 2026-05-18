@@ -4,11 +4,14 @@ import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { resolveInternalHref } from "@/lib/sanity/resolveInternalHref";
 import { SimpleRichText } from "@/components/portable/SimpleRichText";
+import { HeroMediaPanel } from "@/components/hero/HeroMedia";
+import type { HeroMediaData } from "@/components/hero/heroMediaTypes";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
 
 export type AboutPageDoc = {
   hero?: { headline?: string | null; subline?: string | null } | null;
+  heroMedia?: HeroMediaData;
   storyBlocks?: { headline?: string | null; body?: unknown }[] | null;
   keyFacts?: { number?: string | null; label?: string | null; description?: string | null }[] | null;
   approach?: { headline?: string | null; body?: unknown } | null;
@@ -30,6 +33,8 @@ export function AboutTemplate({ locale, aboutPage }: { locale: Locale; aboutPage
         {hero?.headline ? <h1 className="abt-hero-h1">{hero.headline}</h1> : <h1 className="abt-hero-h1">Over Hobon</h1>}
         {hero?.subline ? <p className="abt-hero-sub">{hero.subline}</p> : null}
       </section>
+
+      <HeroMediaPanel media={aboutPage?.heroMedia} className="page-hero-media s-hero-r listing-overview-hero-r" />
 
       {(aboutPage?.storyBlocks ?? []).map((block, i) => (
         <section key={`${block.headline ?? "s"}-${i}`} className="abt-story">

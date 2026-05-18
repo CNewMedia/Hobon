@@ -4,6 +4,10 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { buildLocalizedPath, type PathPart } from "@/lib/i18n/paths";
+import { HeroMediaPanel } from "@/components/hero/HeroMedia";
+import type { HeroMediaData } from "@/components/hero/heroMediaTypes";
+import { hasHeroMedia } from "@/components/hero/heroMediaTypes";
+import { productListingCardSrc, sectorListingCardSrc } from "@/components/hero/listingCardImage";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { SectorCtaForm } from "@/components/sector/SectorCtaForm";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
@@ -14,6 +18,7 @@ export type OverviewPageDoc = {
   heroIntro?: string | null;
   title?: string | null;
   intro?: string | null;
+  heroMedia?: HeroMediaData;
   ctaBandTitle?: string | null;
   ctaBandBody?: string | null;
   ctaBandPrimary?: { label?: string | null; href?: string | null } | null;
@@ -28,6 +33,8 @@ export type SectorListingItem = {
   listingEyebrow?: string | null;
   listingDescription?: string | null;
   listingPills?: string[] | null;
+  heroMainImage?: { image?: unknown; alt?: string | null } | null;
+  heroMainImageUrl?: string | null;
 };
 
 export type ProductListingItem = {
@@ -38,10 +45,25 @@ export type ProductListingItem = {
   listingDescription?: string | null;
   heroEyebrow?: string | null;
   heroHeadline?: string | null;
+  heroImage?: { image?: unknown; alt?: string | null } | null;
   seo?: { metaDescription?: string | null } | null;
 };
 
 type ListingKey = "sectors" | "products";
+
+const HERO_OVERLAY_STYLE = {
+  background:
+    "linear-gradient(to right, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.0) 100%)",
+} as const;
+
+function ListingCardPlaceholder() {
+  return (
+    <div className="p-hero-placeholder listing-sc-ph" aria-hidden="true">
+      <div className="p-hero-placeholder-grid" />
+      <span className="p-hero-placeholder-label">Hobon</span>
+    </div>
+  );
+}
 
 export function ListingTemplate({
   locale,
@@ -64,8 +86,9 @@ export function ListingTemplate({
   const h1 = (overview?.heroTitle ?? overview?.title)?.trim() || "";
   const intro = (overview?.heroIntro ?? overview?.intro)?.trim() || "";
   const eyebrow = overview?.heroEyebrow?.trim() || "";
+  const overviewHeroMedia = overview?.heroMedia;
 
-  const hasHero = Boolean(h1 || intro || eyebrow);
+  const hasHero = Boolean(h1 || intro || eyebrow || hasHeroMedia(overviewHeroMedia));
   const hasCtaBand = Boolean(
     overview?.ctaBandTitle?.trim() ||
       overview?.ctaBandBody?.trim() ||
@@ -92,21 +115,19 @@ export function ListingTemplate({
             {intro ? <p className="s-hero-intro whitespace-pre-line">{intro}</p> : null}
           </div>
 
-          <div className="s-hero-r listing-overview-hero-r">
-            <div className="s-hero-r-main">
-              <div className="p-hero-placeholder listing-overview-ph" aria-hidden="true">
-                <div className="p-hero-placeholder-grid" />
-                <span className="p-hero-placeholder-label">Hobon</span>
+          {hasHeroMedia(overviewHeroMedia) ? (
+            <HeroMediaPanel media={overviewHeroMedia} />
+          ) : (
+            <div className="s-hero-r listing-overview-hero-r">
+              <div className="s-hero-r-main">
+                <div className="p-hero-placeholder listing-overview-ph" aria-hidden="true">
+                  <div className="p-hero-placeholder-grid" />
+                  <span className="p-hero-placeholder-label">Hobon</span>
+                </div>
               </div>
+              <div className="s-hero-r-overlay" style={HERO_OVERLAY_STYLE} />
             </div>
-            <div
-              className="s-hero-r-overlay"
-              style={{
-                background:
-                  "linear-gradient(to right, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.0) 100%)",
-              }}
-            />
-          </div>
+          )}
         </section>
       ) : null}
 
@@ -124,13 +145,18 @@ export function ListingTemplate({
                 if (!sc.slug) return null;
                 const href = buildLocalizedPath(locale, [segment, { type: "slug", value: sc.slug }]);
                 const n = String(sc.sortOrder ?? idx + 1).padStart(2, "0");
+                const img = sectorListingCardSrc(sc.heroMainImage, sc.heroMainImageUrl);
                 return (
                   <Link key={sc._id} href={href} className="sc listing-sc-card">
                     <div className="sc-img">
-                      <div className="p-hero-placeholder listing-sc-ph" aria-hidden="true">
-                        <div className="p-hero-placeholder-grid" />
-                        <span className="p-hero-placeholder-label">Hobon</span>
-                      </div>
+                      {img ? (
+                        <>
+                          <img src={img} alt={sc.heroMainImage?.alt ?? sc.title ?? ""} />
+                          <div className="sc-img-overlay" />
+                        </>
+                      ) : (
+                        <ListingCardPlaceholder />
+                      )}
                     </div>
                     <div className="sc-body">
                       <div className="sc-bg-n">{n}</div>
@@ -159,8 +185,15 @@ export function ListingTemplate({
                   pc.seo?.metaDescription?.trim() ||
                   "";
                 const tag = pc.listingEyebrow?.trim() || pc.heroEyebrow?.trim() || labels.listingProductFallback;
+                const img = productListingCardSrc(pc.heroImage);
                 return (
-                  <Link key={pc._id} href={href} className="pc rv listing-pc-card">
+                  <Link key={pc._id} href={href} className="pc rv listing-pc-card listing-pc-card--with-img">
+                    {img ? (
+                      <div className="sc-img listing-pc-img">
+                        <img src={img} alt={pc.heroImage?.alt ?? pc.title ?? ""} />
+                        <div className="sc-img-overlay" />
+                      </div>
+                    ) : null}
                     <span className="pc-tag">{tag}</span>
                     <h3 className="pc-title">{pc.title}</h3>
                     {desc ? <p className="pc-desc">{desc}</p> : null}

@@ -5,6 +5,8 @@ import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { buildLocalizedPath } from "@/lib/i18n/paths";
 import { urlFor } from "@/lib/sanity/image";
+import { HeroMedia } from "@/components/hero/HeroMedia";
+import type { HeroMediaData } from "@/components/hero/heroMediaTypes";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
 
@@ -29,6 +31,7 @@ export type HomeData = {
   heroSub?: string | null;
   heroPrimaryCta?: Cta;
   heroSecondaryCta?: Cta;
+  heroMedia?: HeroMediaData;
   brcTitle?: string | null;
   brcSub?: string | null;
   tapeItems?: string[] | null;
@@ -143,15 +146,7 @@ export function HomeTemplate({
 
         <div className="s-hero-r">
           <div className="s-hero-r-main">
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              poster="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&q=80&auto=format&fit=crop"
-            >
-              <source src="/assets/video/Hobon-intro-web.mp4" type="video/mp4" />
-            </video>
+            <HeroMedia media={data.heroMedia} />
           </div>
           <div className="s-hero-r-overlay" />
         </div>
