@@ -22,7 +22,9 @@
     "translate:products": "node --env-file=.env.local --import tsx scripts/translate-products.ts",
     "translate:overview": "node --env-file=.env.local --import tsx scripts/translate-overview-singletons.ts",
     "translate:navigation": "node --env-file=.env.local --import tsx scripts/translate-navigation.ts",
-    "translate:ui-labels": "node --env-file=.env.local --import tsx scripts/translate-ui-labels.ts"
+    "translate:ui-labels": "node --env-file=.env.local --import tsx scripts/translate-ui-labels.ts",
+    "translate:placeholders": "node --env-file=.env.local --import tsx scripts/translate-placeholders.ts",
+    "translate:placeholders:dry-run": "node --env-file=.env.local --import tsx scripts/translate-placeholders.ts --dry-run"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.93.0",
