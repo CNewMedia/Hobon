@@ -10,6 +10,7 @@ import { footerLink } from "./objects/footerLink";
 import { footerColumn } from "./objects/footerColumn";
 import { pageScriptOverride } from "./objects/pageScriptOverride";
 import { pageHero } from "./objects/pageHero";
+import { heroMedia } from "./objects/heroMedia";
 import { contactFormLabels } from "./objects/contactFormLabels";
 import { pageCta } from "./objects/pageCta";
 import { headlineBodyBlock } from "./objects/headlineBodyBlock";
@@ -46,6 +47,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   footerColumn,
   pageScriptOverride,
   pageHero,
+  heroMedia,
   contactFormLabels,
   pageCta,
   headlineBodyBlock,

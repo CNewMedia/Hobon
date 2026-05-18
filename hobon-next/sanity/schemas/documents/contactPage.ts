@@ -8,6 +8,11 @@ export const contactPage = defineType({
     defineField({ name: "language", type: "string", readOnly: true, hidden: true }),
     defineField({ name: "seo", type: "seo" }),
     defineField({ name: "hero", title: "Hero", type: "pageHero" }),
+    defineField({
+      name: "heroMedia",
+      title: "Hero media (foto of video)",
+      type: "heroMedia",
+    }),
     defineField({ name: "intro", title: "Intro", type: "text", rows: 4 }),
     defineField({ name: "formTitle", title: "Form title", type: "string" }),
     defineField({ name: "formSubmitLabel", title: "Submit button label", type: "string" }),

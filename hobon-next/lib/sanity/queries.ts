@@ -1,3 +1,5 @@
+import { heroMediaProjection } from "./heroMediaProjection";
+
 export const siteSettingsQuery = `*[_type == "siteSettings"][0]{
   ...,
   logo,
@@ -55,6 +57,7 @@ export const uiLabelsQuery = `*[_type == "uiLabels" && language == $locale][0]`;
 export const homePageQuery = `*[_type == "homePage" && language == $locale][0]{
   ...,
   seo,
+  ${heroMediaProjection},
   heroPrimaryCta,
   heroSecondaryCta,
   aboutImage,
@@ -81,7 +84,7 @@ export const sectorsForLocaleQuery = `*[_type == "sector" && language == $locale
   listingPills
 }`;
 
-/** Overzichtspagina /sectoren — geen listingImageUrl gebruikt in UI (placeholder). */
+/** Overzichtspagina /sectoren — kaartbeeld via heroMainImage (fallback heroMainImageUrl). */
 export const sectorsListingQuery = `*[_type == "sector" && language == $locale] | order(sortOrder asc, title asc) {
   _id,
   title,
@@ -90,12 +93,15 @@ export const sectorsListingQuery = `*[_type == "sector" && language == $locale] 
   sortOrder,
   listingEyebrow,
   listingDescription,
-  listingPills
+  listingPills,
+  heroMainImage,
+  heroMainImageUrl
 }`;
 
 export const sectorOverviewQuery = `*[_type == "sectorOverviewPage" && language == $locale][0]{
   ...,
   seo,
+  ${heroMediaProjection},
   heroEyebrow,
   heroTitle,
   heroIntro,
@@ -136,6 +142,7 @@ export const aboutPageQuery = `*[_type == "aboutPage" && language == $locale][0]
   ...,
   seo,
   hero,
+  ${heroMediaProjection},
   storyBlocks[]{headline, body},
   keyFacts[]{number, label, description},
   approach{headline, body},
@@ -150,6 +157,7 @@ export const sustainabilityPageQuery = `*[_type == "sustainabilityPage" && langu
   ...,
   seo,
   hero,
+  ${heroMediaProjection},
   standpoint{headline, body},
   practicePoints[]{title, body},
   cta{
@@ -163,6 +171,7 @@ export const contactPageQuery = `*[_type == "contactPage" && language == $locale
   ...,
   seo,
   hero,
+  ${heroMediaProjection},
   intro,
   formTitle,
   formSubmitLabel,
@@ -177,6 +186,7 @@ export const sectorOverviewPageQuery = `*[_type == "sectorOverviewPage" && langu
 export const productOverviewQuery = `*[_type == "productOverviewPage" && language == $locale][0]{
   ...,
   seo,
+  ${heroMediaProjection},
   heroEyebrow,
   heroTitle,
   heroIntro,
@@ -196,6 +206,7 @@ export const productsListingQuery = `*[_type == "product" && language == $locale
   listingDescription,
   heroEyebrow,
   heroHeadline,
+  heroImage,
   seo
 }`;
 export const insightsOverviewPageQuery = `*[_type == "insightsOverviewPage" && language == $locale][0]{

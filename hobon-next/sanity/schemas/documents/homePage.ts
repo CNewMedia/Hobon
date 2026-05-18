@@ -19,6 +19,11 @@ export const homePage = defineType({
     defineField({ name: "heroSub", type: "text", rows: 5 }),
     defineField({ name: "heroPrimaryCta", type: "cta" }),
     defineField({ name: "heroSecondaryCta", type: "cta" }),
+    defineField({
+      name: "heroMedia",
+      title: "Hero media (foto of video)",
+      type: "heroMedia",
+    }),
     defineField({ name: "brcTitle", type: "string" }),
     defineField({ name: "brcSub", type: "string" }),
     defineField({ name: "tapeItems", type: "array", of: [{ type: "string" }] }),

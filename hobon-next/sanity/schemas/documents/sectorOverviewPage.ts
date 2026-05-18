@@ -33,6 +33,12 @@ export const sectorOverviewPage = defineType({
       group: "hero",
     }),
     defineField({
+      name: "heroMedia",
+      title: "Hero media (foto of video)",
+      type: "heroMedia",
+      group: "hero",
+    }),
+    defineField({
       name: "ctaBandTitle",
       title: "CTA-band — titel",
       type: "string",

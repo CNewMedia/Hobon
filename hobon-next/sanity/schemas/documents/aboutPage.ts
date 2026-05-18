@@ -9,6 +9,11 @@ export const aboutPage = defineType({
     defineField({ name: "seo", type: "seo" }),
     defineField({ name: "hero", title: "Hero", type: "pageHero" }),
     defineField({
+      name: "heroMedia",
+      title: "Hero media (foto of video)",
+      type: "heroMedia",
+    }),
+    defineField({
       name: "storyBlocks",
       title: "Bedrijfsverhaal",
       type: "array",

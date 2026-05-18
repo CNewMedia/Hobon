@@ -8,6 +8,11 @@ export const sustainabilityPage = defineType({
     defineField({ name: "language", type: "string", readOnly: true, hidden: true }),
     defineField({ name: "seo", type: "seo" }),
     defineField({ name: "hero", title: "Hero", type: "pageHero" }),
+    defineField({
+      name: "heroMedia",
+      title: "Hero media (foto of video)",
+      type: "heroMedia",
+    }),
     defineField({ name: "standpoint", title: "Standpunt", type: "headlineBodyBlock" }),
     defineField({
       name: "practicePoints",
