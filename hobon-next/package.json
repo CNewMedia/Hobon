@@ -14,6 +14,7 @@
     "seed:listing-products": "node --env-file=.env.local --import tsx scripts/migrate-product-listing.ts",
     "migrate:home-hero-media": "node --env-file=.env.local --import tsx scripts/migrate-home-hero-media.ts",
     "seed:overview-singletons": "node --env-file=.env.local --import tsx scripts/seed-overview-singletons.ts",
+    "patch:overview-copy": "node --env-file=.env.local --import tsx scripts/patch-overview-copy.ts",
     "seed:header-nl": "node --env-file=.env.local --import tsx scripts/seed-header-navigation-nl.ts",
     "seed:footer-nl": "node --env-file=.env.local --import tsx scripts/seed-footer-navigation-nl.ts",
     "seed:home-nl": "node --env-file=.env.local --import tsx scripts/seed-home-niches-nl.ts",

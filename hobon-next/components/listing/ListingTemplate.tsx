@@ -219,7 +219,10 @@ export function ListingTemplate({
               </div>
               {overview.ctaBandTitle ? <h2 className="cta-h2 rv d1">{overview.ctaBandTitle}</h2> : null}
               {overview.ctaBandBody ? (
-                <p className="cta-body rv d2 whitespace-pre-line">{overview.ctaBandBody}</p>
+                <p
+                  className="cta-body rv d2"
+                  dangerouslySetInnerHTML={{ __html: overview.ctaBandBody }}
+                />
               ) : null}
               {overview.ctaBandPrimary?.href ? (
                 <div className="rv d3" style={{ marginTop: 24 }}>
