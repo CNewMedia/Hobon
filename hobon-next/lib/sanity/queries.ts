@@ -175,7 +175,6 @@ export const contactPageQuery = `*[_type == "contactPage" && language == $locale
   intro,
   formTitle,
   formSubmitLabel,
-  formThankYouMessage,
   formFields,
   additionalInfo
 }`;

@@ -6,7 +6,7 @@ import { HeroMediaPanel } from "@/components/hero/HeroMedia";
 import type { HeroMediaData } from "@/components/hero/heroMediaTypes";
 import { SimpleRichText } from "@/components/portable/SimpleRichText";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export type ContactPageDoc = {
   hero?: { headline?: string | null; subline?: string | null } | null;
@@ -14,7 +14,6 @@ export type ContactPageDoc = {
   intro?: string | null;
   formTitle?: string | null;
   formSubmitLabel?: string | null;
-  formThankYouMessage?: string | null;
   formFields?: ContactFormLabels | null;
   additionalInfo?: unknown;
 };
@@ -47,6 +46,13 @@ export function ContactTemplate({
   const [submitted, setSubmitted] = useState(false);
   const hero = contactPage?.hero;
   const locations = siteSettings?.locations ?? [];
+
+  useEffect(() => {
+    const resetSubmitted = () => setSubmitted(false);
+    resetSubmitted();
+    window.addEventListener("pageshow", resetSubmitted);
+    return () => window.removeEventListener("pageshow", resetSubmitted);
+  }, []);
 
   return (
     <div className="c-page">

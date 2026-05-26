@@ -34,12 +34,6 @@ export default async function ContactPageRoute({
     fetchSanity(contactPageQuery, { locale }),
     fetchSanity(siteSettingsQuery),
   ]);
-  const initialContactPage = contactPage
-    ? {
-        ...contactPage,
-        formThankYouMessage: null,
-      }
-    : null;
 
-  return <ContactTemplate contactPage={initialContactPage} siteSettings={siteSettings} />;
+  return <ContactTemplate contactPage={contactPage} siteSettings={siteSettings} />;
 }

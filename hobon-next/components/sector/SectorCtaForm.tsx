@@ -1,12 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
 
 export function SectorCtaForm() {
   const labels = useUILabels();
   const [sent, setSent] = useState(false);
+
+  useEffect(() => {
+    const resetSent = () => setSent(false);
+    resetSent();
+    window.addEventListener("pageshow", resetSent);
+    return () => window.removeEventListener("pageshow", resetSent);
+  }, []);
 
   if (sent) {
     return (
