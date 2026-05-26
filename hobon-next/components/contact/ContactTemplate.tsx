@@ -33,6 +33,9 @@ export type SiteSettingsContact = {
   }[] | null;
 };
 
+const MOCK_SUCCESS_MESSAGE =
+  "Bedankt voor uw bericht. Een van onze specialisten neemt binnen 1 werkdag contact met u op.";
+
 export function ContactTemplate({
   contactPage,
   siteSettings,
@@ -70,9 +73,9 @@ export function ContactTemplate({
             onSubmitted={() => setSubmitted(true)}
           />
 
-          {submitted && contactPage?.formThankYouMessage ? (
+          {submitted ? (
             <p className="c-additional text-sm text-[#5a5f72]" role="note">
-              {contactPage.formThankYouMessage}
+              {MOCK_SUCCESS_MESSAGE}
             </p>
           ) : null}
 
