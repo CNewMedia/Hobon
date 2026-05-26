@@ -42,8 +42,6 @@ export function ContactTemplate({
 }) {
   const labels = useUILabels();
   const [submitted, setSubmitted] = useState(false);
-  const recipient = (siteSettings?.formRecipientEmail ?? "info@hobon.be").trim();
-  const fallbackMailto = `mailto:${recipient}?subject=${encodeURIComponent(labels.uiContactMailSubject)}`;
   const hero = contactPage?.hero;
   const locations = siteSettings?.locations ?? [];
 
@@ -66,11 +64,9 @@ export function ContactTemplate({
           {contactPage?.intro ? <p className="c-intro">{contactPage.intro}</p> : null}
 
           <ContactForm
-            recipientEmail={recipient}
             formFields={contactPage?.formFields ?? {}}
             formTitle={contactPage?.formTitle ?? ""}
             formSubmitLabel={contactPage?.formSubmitLabel ?? labels.formSubmitLabel}
-            fallbackMailtoHref={fallbackMailto}
             onSubmitted={() => setSubmitted(true)}
           />
 

@@ -21,69 +21,29 @@ const SECTOR_OPTIONS = [
   "Andere",
 ] as const;
 
-function buildMailtoBody(labels: ContactFormLabels, fd: FormData) {
-  const firstname = String(fd.get("firstname") ?? "").trim();
-  const lastname = String(fd.get("lastname") ?? "").trim();
-  const company = String(fd.get("company") ?? "").trim();
-  const email = String(fd.get("email") ?? "").trim();
-  const phone = String(fd.get("phone") ?? "").trim();
-  const sector = String(fd.get("sector") ?? "").trim();
-  const message = String(fd.get("message") ?? "").trim();
-  const L = (k: keyof ContactFormLabels, fallback: string) => labels[k] ?? fallback;
-  return [
-    `${L("firstname", "Voornaam")}: ${firstname}`,
-    `${L("lastname", "Naam")}: ${lastname}`,
-    `${L("company", "Bedrijf")}: ${company}`,
-    `${L("email", "E-mail")}: ${email}`,
-    `${L("phone", "Telefoon")}: ${phone}`,
-    `${L("sector", "Sector")}: ${sector}`,
-    "",
-    `${L("message", "Bericht")}:`,
-    message,
-  ].join("\n");
-}
-
 export function ContactForm({
-  recipientEmail,
   formFields,
   formTitle,
   formSubmitLabel,
-  fallbackMailtoHref,
   onSubmitted,
 }: {
-  recipientEmail: string;
   formFields: ContactFormLabels;
   formTitle: string;
   formSubmitLabel: string;
-  /** Minimal mailto when JS is disabled */
-  fallbackMailtoHref: string;
   onSubmitted?: () => void;
 }) {
   const labels = useMemo(() => formFields ?? {}, [formFields]);
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const firstname = String(fd.get("firstname") ?? "").trim();
-    const lastname = String(fd.get("lastname") ?? "").trim();
-    const subject = `Verpakkingsvraag van ${firstname} ${lastname}`.trim();
-    const body = buildMailtoBody(labels, fd);
-    const mailto = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     e.currentTarget.reset();
     onSubmitted?.();
-    window.location.href = mailto;
   }
 
   const L = (k: keyof ContactFormLabels, fallback: string) => labels[k] ?? fallback;
 
   return (
-    <form
-      className="c-form"
-      action={fallbackMailtoHref}
-      method="get"
-      encType="text/plain"
-      onSubmit={onSubmit}
-    >
+    <form className="c-form" onSubmit={onSubmit}>
       {formTitle ? <h2 className="c-form-title">{formTitle}</h2> : null}
       <div className="c-row">
         <div className="c-field">
@@ -147,8 +107,8 @@ export function ContactForm({
       <div className="c-form-bottom">
         <div className="c-privacy-wrap">
           <p className="c-privacy">
-            Door te verzenden opent u uw e-mailprogramma met een vooraf ingevulde e-mail. U kunt het bericht nog
-            aanpassen voor u verzendt.
+            Door te verzenden bevestigen we uw aanvraag meteen op deze pagina. Een echte koppeling met het
+            aanvraagsysteem volgt later.
           </p>
         </div>
         <button type="submit" className="c-submit">
