@@ -49,6 +49,7 @@ export function ContactForm({
   formTitle,
   formSubmitLabel,
   fallbackMailtoHref,
+  onSubmitted,
 }: {
   recipientEmail: string;
   formFields: ContactFormLabels;
@@ -56,6 +57,7 @@ export function ContactForm({
   formSubmitLabel: string;
   /** Minimal mailto when JS is disabled */
   fallbackMailtoHref: string;
+  onSubmitted?: () => void;
 }) {
   const labels = useMemo(() => formFields ?? {}, [formFields]);
 
@@ -67,6 +69,8 @@ export function ContactForm({
     const subject = `Verpakkingsvraag van ${firstname} ${lastname}`.trim();
     const body = buildMailtoBody(labels, fd);
     const mailto = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    e.currentTarget.reset();
+    onSubmitted?.();
     window.location.href = mailto;
   }
 

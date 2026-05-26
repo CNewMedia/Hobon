@@ -6,6 +6,7 @@ import { HeroMediaPanel } from "@/components/hero/HeroMedia";
 import type { HeroMediaData } from "@/components/hero/heroMediaTypes";
 import { SimpleRichText } from "@/components/portable/SimpleRichText";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
+import { useState } from "react";
 
 export type ContactPageDoc = {
   hero?: { headline?: string | null; subline?: string | null } | null;
@@ -40,6 +41,7 @@ export function ContactTemplate({
   siteSettings: SiteSettingsContact | null;
 }) {
   const labels = useUILabels();
+  const [submitted, setSubmitted] = useState(false);
   const recipient = (siteSettings?.formRecipientEmail ?? "info@hobon.be").trim();
   const fallbackMailto = `mailto:${recipient}?subject=${encodeURIComponent(labels.uiContactMailSubject)}`;
   const hero = contactPage?.hero;
@@ -69,9 +71,10 @@ export function ContactTemplate({
             formTitle={contactPage?.formTitle ?? ""}
             formSubmitLabel={contactPage?.formSubmitLabel ?? labels.formSubmitLabel}
             fallbackMailtoHref={fallbackMailto}
+            onSubmitted={() => setSubmitted(true)}
           />
 
-          {contactPage?.formThankYouMessage ? (
+          {submitted && contactPage?.formThankYouMessage ? (
             <p className="c-additional text-sm text-[#5a5f72]" role="note">
               {contactPage.formThankYouMessage}
             </p>

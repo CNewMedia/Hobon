@@ -17,7 +17,7 @@ export function SectorFaqs({ items }: { items: FaqItem[] }) {
       {items.map((item, i) => {
         const isOpen = open === i;
         return (
-          <div key={`${item.num}-${item.title}`} className={`di rv ${i ? `d${i}` : ""} ${isOpen ? "open" : ""}`}>
+          <div key={`${item.num}-${item.title}`} className={`di ${isOpen ? "open" : ""}`}>
             <button
               type="button"
               className="di-hd"

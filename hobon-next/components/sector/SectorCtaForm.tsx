@@ -27,6 +27,7 @@ export function SectorCtaForm() {
       className="cf"
       onSubmit={(e) => {
         e.preventDefault();
+        e.currentTarget.reset();
         setSent(true);
       }}
     >
