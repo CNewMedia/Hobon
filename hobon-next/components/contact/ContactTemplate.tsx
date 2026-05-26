@@ -35,6 +35,17 @@ export type SiteSettingsContact = {
 const MOCK_SUCCESS_MESSAGE =
   "Bedankt voor uw bericht. Een van onze specialisten neemt binnen 1 werkdag contact met u op.";
 
+function getLocationMapImage(name?: string | null, index?: number) {
+  const normalized = name?.toLowerCase() ?? "";
+  if (normalized.includes("vhp") || normalized.includes("roeselare") || index === 1) {
+    return { src: "/assets/images/vhp_map.jpg", alt: "Kaart van VHP Roeselare" };
+  }
+  if (normalized.includes("hobon") || normalized.includes("lievegem") || index === 0) {
+    return { src: "/assets/images/hobon_map.jpg", alt: "Kaart van Hobon Lievegem" };
+  }
+  return null;
+}
+
 export function ContactTemplate({
   contactPage,
   siteSettings,
@@ -72,18 +83,22 @@ export function ContactTemplate({
           )}
           {contactPage?.intro ? <p className="c-intro">{contactPage.intro}</p> : null}
 
-          <ContactForm
-            formFields={contactPage?.formFields ?? {}}
-            formTitle={contactPage?.formTitle ?? ""}
-            formSubmitLabel={contactPage?.formSubmitLabel ?? labels.formSubmitLabel}
-            onSubmitted={() => setSubmitted(true)}
-          />
-
           {submitted ? (
-            <p className="c-additional text-sm text-[#5a5f72]" role="note">
-              {MOCK_SUCCESS_MESSAGE}
-            </p>
-          ) : null}
+            <div className="c-success" role="status" aria-live="polite">
+              <div className="c-success-kicker">Aanvraag ontvangen</div>
+              <p className="c-success-text">{MOCK_SUCCESS_MESSAGE}</p>
+              <button type="button" className="c-success-link" onClick={() => setSubmitted(false)}>
+                Stel een nieuwe vraag
+              </button>
+            </div>
+          ) : (
+            <ContactForm
+              formFields={contactPage?.formFields ?? {}}
+              formTitle={contactPage?.formTitle ?? ""}
+              formSubmitLabel={contactPage?.formSubmitLabel ?? labels.formSubmitLabel}
+              onSubmitted={() => setSubmitted(true)}
+            />
+          )}
 
           {contactPage?.additionalInfo ? (
             <div className="c-additional">
@@ -99,14 +114,19 @@ export function ContactTemplate({
           />
           <div className="c-hero-r-dots" aria-hidden />
           <div className="c-locs">
-            {locations.map((loc) => {
+            {locations.map((loc, index) => {
               const addr = [loc.streetAddress, [loc.postalCode, loc.city].filter(Boolean).join(" "), loc.country]
                 .filter(Boolean)
                 .join(", ");
+              const mapImage = getLocationMapImage(loc.name, index);
               return (
                 <div key={loc._key ?? loc.name} className="c-loc">
-                  <div className="c-loc-map" aria-hidden>
-                    <span className="c-loc-map-ph">{labels.uiContactMapPlaceholder}</span>
+                  <div className="c-loc-map">
+                    {mapImage ? (
+                      <img className="c-loc-map-img" src={mapImage.src} alt={mapImage.alt} loading="lazy" />
+                    ) : (
+                      <span className="c-loc-map-ph">{labels.uiContactMapPlaceholder}</span>
+                    )}
                   </div>
                   <div className="c-loc-body">
                     {loc.name ? <div className="c-loc-name">{loc.name}</div> : null}

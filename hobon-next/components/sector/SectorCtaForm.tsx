@@ -17,13 +17,12 @@ export function SectorCtaForm() {
 
   if (sent) {
     return (
-      <div
-        id="cta-success"
-        className="flex min-h-[320px] flex-col items-center justify-center gap-3 rounded-md border border-[var(--rule-lt)] bg-[var(--chalk)] p-8 text-center"
-      >
-        <p className="font-[family-name:var(--f-head)] text-lg font-semibold text-[var(--navy)]">
-          {labels.formSuccessMessage}
-        </p>
+      <div id="cta-success" className="cf-success" role="status" aria-live="polite">
+        <div className="cf-success-kicker">Aanvraag ontvangen</div>
+        <p className="cf-success-text">{labels.formSuccessMessage}</p>
+        <button type="button" className="cf-success-link" onClick={() => setSent(false)}>
+          Stel een nieuwe vraag
+        </button>
       </div>
     );
   }
