@@ -68,7 +68,7 @@ export default async function LocaleLayout({
   ]);
   const uiLabels = mergeUILabels(rawUILabels);
 
-  const fallbackLogoSrc = "/assets/images/logo.jpg";
+  const fallbackLogoSrc = "/assets/images/logo.png";
   const logoSrc =
     logoUrlFromImageWithAlt(settings?.logo ?? null) ??
     logoUrlFromImageWithAlt(headerNav?.logo ?? null) ??
