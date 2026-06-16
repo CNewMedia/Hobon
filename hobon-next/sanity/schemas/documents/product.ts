@@ -59,6 +59,14 @@ export const product = defineType({
       group: "hero",
     }),
     defineField({
+      name: "heroThumbs",
+      title: "Hero — fotostrip",
+      type: "array",
+      group: "hero",
+      of: [{ type: "heroThumb" }],
+      description: "Kleine beelden rechts in de hero (zoals sectorpagina’s). Elk item: upload + alt via imageWithAlt.",
+    }),
+    defineField({
       name: "listingEyebrow",
       title: "Overzicht — label",
       type: "string",
@@ -111,6 +119,45 @@ export const product = defineType({
       group: "content",
     }),
     defineField({
+      name: "solutionsTitle",
+      title: "Titel — varianten/kaarten",
+      type: "string",
+      group: "content",
+      description: "Kop boven de oplossingskaarten (bijv. \"Folie op maat\"). Leeg = standaardlabel uit uiLabels.",
+    }),
+    defineField({
+      name: "solutionCards",
+      title: "Varianten / oplossingskaarten",
+      type: "array",
+      group: "content",
+      of: [{ type: "solutionCard" }],
+      description:
+        "Foto-kaarten met titel en omschrijving (bijv. Krimphoezen onder Stretch hood). Geen num/tags/cta verplicht op product.",
+    }),
+    defineField({
+      name: "galleryTitle",
+      title: "Titel — fotogalerij",
+      type: "string",
+      group: "content",
+      description: "Kop boven de galerij (bijv. \"In de praktijk\"). Leeg = standaardlabel uit uiLabels. Geen klantnaam.",
+    }),
+    defineField({
+      name: "productGallery",
+      title: "Fotogalerij",
+      type: "array",
+      group: "content",
+      of: [{ type: "imageWithAlt" }],
+      description: "Productfoto’s met alt-tekst. Geen klantnaam-veld.",
+    }),
+    defineField({
+      name: "faqs",
+      title: "Veelgestelde vragen",
+      type: "array",
+      group: "content",
+      of: [{ type: "faqItem" }],
+      description: "Accordeon op de productpagina (vraag + antwoord).",
+    }),
+    defineField({
       name: "whyHobonTitle",
       title: "Waarom Hobon — titel",
       type: "string",
@@ -127,7 +174,8 @@ export const product = defineType({
     defineField({
       name: "relatedSectors",
       title: "Gerelateerde sectoren",
-      description: "Voor blok “Veel gebruikt in” op de productpagina",
+      description:
+        "References naar sector-documenten voor het “Folie voor” / “Veel gebruikt in”-grid. Geen inline sector-data.",
       type: "array",
       group: "related",
       of: [{ type: "reference", to: [{ type: "sector" }] }],

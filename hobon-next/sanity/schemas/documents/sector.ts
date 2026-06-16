@@ -70,16 +70,7 @@ export const sector = defineType({
     defineField({
       name: "heroThumbs",
       type: "array",
-      of: [
-        {
-          type: "object",
-          fields: [
-            { name: "image", title: "Beeld (upload)", type: "imageWithAlt" },
-            { name: "imageUrl", title: "Beeld (URL — legacy)", type: "url" },
-            { name: "label", type: "string" },
-          ],
-        },
-      ],
+      of: [{ type: "heroThumb" }],
     }),
     defineField({ name: "tapeItems", type: "array", of: [{ type: "string" }] }),
     defineField({
@@ -105,20 +96,7 @@ export const sector = defineType({
     defineField({
       name: "solutionCards",
       type: "array",
-      of: [
-        {
-          type: "object",
-          fields: [
-            { name: "image", title: "Beeld (upload)", type: "imageWithAlt" },
-            { name: "imageUrl", title: "Beeld (URL — legacy)", type: "url" },
-            { name: "num", type: "string" },
-            { name: "title", type: "string" },
-            { name: "description", type: "text" },
-            { name: "tags", type: "array", of: [{ type: "string" }] },
-            { name: "cta", type: "cta" },
-          ],
-        },
-      ],
+      of: [{ type: "solutionCard" }],
     }),
     defineField({
       name: "uspStrip",

@@ -3,6 +3,9 @@ import { seo } from "./objects/seo";
 import { cta } from "./objects/cta";
 import { usp } from "./objects/usp";
 import { imageWithAlt } from "./objects/imageWithAlt";
+import { heroThumb } from "./objects/heroThumb";
+import { solutionCard } from "./objects/solutionCard";
+import { faqItem } from "./objects/faqItem";
 import { richText } from "./objects/richText";
 import { location } from "./objects/location";
 import { menuItem } from "./objects/menuItem";
@@ -40,6 +43,9 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   cta,
   usp,
   imageWithAlt,
+  heroThumb,
+  solutionCard,
+  faqItem,
   richText,
   location,
   menuItem,
