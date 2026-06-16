@@ -282,7 +282,6 @@ export function SectorTemplate({
             <div key={sol.title} className={`sol rv ${i ? `d${i % 4}` : ""}`}>
               <div className="sol-photo">
                 <img src={sol.imageUrl ?? ""} alt={sol.title ?? ""} />
-                <div className="sol-photo-overlay" />
               </div>
               <span className="sol-n">{sol.num}</span>
               <h3 className="sol-title">{sol.title}</h3>

@@ -606,8 +606,6 @@ footer{background:var(--white);padding:76px 52px 44px;border-top:2px solid var(-
 .sol-photo{height:180px;margin:-40px -36px 28px;overflow:hidden;position:relative;}
 .sol-photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease),opacity .3s;}
 .sol:hover .sol-photo img{transform:scale(1.04);opacity:.9;}
-.sol-photo-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,var(--white) 100%);transition:opacity .3s;}
-.sol:hover .sol-photo-overlay{opacity:.7;}
 .sol-n{font-family:var(--f-head);font-size:11px;font-weight:600;color:rgba(245,163,0,.5);letter-spacing:.12em;margin-bottom:10px;}
 .sol-title{font-family:var(--f-head);font-size:18px;font-weight:600;color:var(--navy);margin-bottom:10px;letter-spacing:-.01em;line-height:1.2;}
 .sol-desc{font-size:13px;line-height:1.75;color:var(--mist);font-weight:300;flex:1;}
