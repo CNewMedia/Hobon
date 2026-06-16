@@ -4,11 +4,18 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { buildLocalizedPath } from "@/lib/i18n/paths";
-import { urlFor } from "@/lib/sanity/image";
+import {
+  productPlaceholderPool,
+  resolveImageSrc,
+  resolveImageWithPool,
+  sectorCardImageSrc,
+  type ImageWithAlt,
+} from "@/lib/sanity/resolveImageSrc";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { SectorCtaForm } from "@/components/sector/SectorCtaForm";
 import { SimpleRichText } from "@/components/portable/SimpleRichText";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
+import { ProductFaqs } from "./ProductFaqs";
 
 export type RelatedSector = {
   _id?: string;
@@ -16,7 +23,26 @@ export type RelatedSector = {
   slug?: string | null;
   navLabel?: string | null;
   listingDescription?: string | null;
+  listingImage?: ImageWithAlt;
   listingImageUrl?: string | null;
+  heroMainImage?: ImageWithAlt;
+  heroMainImageUrl?: string | null;
+};
+
+type HeroThumb = {
+  _key?: string;
+  image?: ImageWithAlt;
+  label?: string | null;
+};
+
+type SolutionCard = {
+  _key?: string;
+  image?: ImageWithAlt;
+  title?: string | null;
+  description?: string | null;
+  num?: string | null;
+  tags?: string[] | null;
+  cta?: { label?: string | null; href?: string | null } | null;
 };
 
 export type ProductDoc = {
@@ -27,9 +53,15 @@ export type ProductDoc = {
   heroIntro?: string | null;
   heroPrimaryCta?: { label?: string | null; href?: string | null } | null;
   heroSecondaryCta?: { label?: string | null; href?: string | null } | null;
-  heroImage?: { image?: unknown; alt?: string | null } | null;
+  heroImage?: ImageWithAlt;
+  heroThumbs?: HeroThumb[] | null;
   specifications?: { title?: string | null; body?: string | null; icon?: string | null }[] | null;
   applications?: string[] | null;
+  solutionsTitle?: string | null;
+  solutionCards?: SolutionCard[] | null;
+  galleryTitle?: string | null;
+  productGallery?: ImageWithAlt[] | null;
+  faqs?: { _key?: string; question?: string | null; answer?: string | null }[] | null;
   whyHobonTitle?: string | null;
   whyHobonBody?: string | null;
   relatedSectors?: RelatedSector[] | null;
@@ -46,6 +78,39 @@ function hasRichLayout(p: ProductDoc) {
   return Boolean(p.heroHeadline?.trim() || p.heroEyebrow?.trim());
 }
 
+function hasSpecs(p: ProductDoc) {
+  return (p.specifications ?? []).some((row) => row.title?.trim());
+}
+
+function hasApplications(p: ProductDoc) {
+  return (p.applications ?? []).some((tag) => tag?.trim());
+}
+
+function hasSolutionCards(p: ProductDoc) {
+  return (p.solutionCards ?? []).some((card) => card.title?.trim());
+}
+
+function hasFaqs(p: ProductDoc) {
+  return (p.faqs ?? []).some((item) => item.question?.trim() && item.answer?.trim());
+}
+
+function hasGallery(p: ProductDoc) {
+  return (p.productGallery ?? []).length > 0;
+}
+
+function hasWhyHobon(p: ProductDoc) {
+  return Boolean(p.whyHobonBody?.trim() || p.whyHobonTitle?.trim());
+}
+
+function HeroPlaceholder() {
+  return (
+    <div className="p-hero-placeholder" aria-hidden="true">
+      <div className="p-hero-placeholder-grid" />
+      <span className="p-hero-placeholder-label">Hobon</span>
+    </div>
+  );
+}
+
 export function ProductTemplate({
   locale,
   product,
@@ -56,23 +121,31 @@ export function ProductTemplate({
   const labels = useUILabels();
   const contactHref = buildLocalizedPath(locale, [{ type: "key", key: "contact" }]);
   const productsHref = buildLocalizedPath(locale, [{ type: "key", key: "products" }]);
+  const slug = product.slug?.current ?? null;
+  const placeholders = productPlaceholderPool(slug);
 
-  const heroImg =
-    product.heroImage?.image != null
-      ? urlFor(product.heroImage.image as Parameters<typeof urlFor>[0]).width(1000).quality(80).url()
-      : null;
+  const heroResolved = resolveImageSrc(product.heroImage, {
+    width: 1000,
+    quality: 80,
+    placeholder: placeholders[0] ?? null,
+  });
+
+  const heroThumbs = (product.heroThumbs ?? []).filter((t) => t.label?.trim() || t.image?.image);
+  const solutionCards = (product.solutionCards ?? []).filter((c) => c.title?.trim());
+  const faqItems = (product.faqs ?? []).filter((f) => f.question?.trim() && f.answer?.trim());
+  const galleryItems = product.productGallery ?? [];
+  const relatedSectors = (product.relatedSectors ?? []).filter((s) => s.slug);
+
+  const solutionsHeading = product.solutionsTitle?.trim() || labels.productSolutionsTitle;
+  const galleryHeading = product.galleryTitle?.trim() || labels.productGalleryTitle;
 
   if (!hasRichLayout(product)) {
     return (
-      <section className="bg-[var(--chalk)] px-6 py-20 md:px-[52px] md:py-28">
-        <div className="mx-auto max-w-3xl">
-          <h1 className="font-[family-name:var(--f-head)] text-[clamp(32px,4vw,48px)] font-bold leading-[0.98] tracking-[-0.02em] text-[var(--navy)]">
-            {product.title ?? "Product"}
-          </h1>
-          {product.lead ? (
-            <p className="mt-6 whitespace-pre-line text-lg leading-relaxed text-[#5a5f72]">{product.lead}</p>
-          ) : null}
-          <div className="mt-8">
+      <section className="p-legacy-fallback">
+        <div className="p-legacy-fallback-inner">
+          <h1 className="p-legacy-fallback-h1">{product.title ?? "Product"}</h1>
+          {product.lead ? <p className="p-legacy-fallback-lead">{product.lead}</p> : null}
+          <div className="p-legacy-fallback-body">
             <SimpleRichText value={product.additionalNotes ?? product.body} />
           </div>
         </div>
@@ -131,77 +204,180 @@ export function ProductTemplate({
 
         <div className="s-hero-r">
           <div className="s-hero-r-main">
-            {heroImg ? (
-              <img src={heroImg} alt={product.heroImage?.alt ?? product.title ?? ""} />
+            {heroResolved.src ? (
+              <img src={heroResolved.src} alt={heroResolved.alt || product.title || ""} />
             ) : (
-              <div className="p-hero-placeholder" aria-hidden="true">
-                <div className="p-hero-placeholder-grid" />
-                <span className="p-hero-placeholder-label">Hobon</span>
-              </div>
+              <HeroPlaceholder />
             )}
           </div>
-          <div
-            className="s-hero-r-overlay"
-            style={{
-              background:
-                "linear-gradient(to right, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.0) 100%)",
-            }}
-          />
-        </div>
-      </section>
-
-      <section className="p-specs" id="specs">
-        <div className="p-specs-inner">
-          <div className="sec-tag rv">
-            <div className="sec-tag-line" />
-            <span className="sec-tag-txt">{labels.productTechnical}</span>
-          </div>
-          <h2 className="p-specs-h2 rv d1">{labels.productSpecifications}</h2>
-          <div className="p-spec-grid">
-            {(product.specifications ?? []).map((row, i) => (
-              <div key={row.title ?? i} className={`p-spec-card rv ${i ? `d${i % 4}` : ""}`}>
-                {row.icon ? <span className="p-spec-icon">{row.icon}</span> : null}
-                <h3 className="p-spec-title">{row.title}</h3>
-                {row.body ? <p className="p-spec-body">{row.body}</p> : null}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="p-apps" id="applications">
-        <div className="p-apps-inner">
-          <div className="sec-tag rv">
-            <div className="sec-tag-line" />
-            <span className="sec-tag-txt">{labels.productApplications}</span>
-          </div>
-          <h2 className="p-apps-h2 rv d1">{labels.productApplicationsQuestion}</h2>
-          <div className="p-app-tags rv d2">
-            {(product.applications ?? []).map((tag) => (
-              <span key={tag} className="p-app-tag">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="p-why">
-        <div className="p-why-inner">
-          <div className="sec-tag rv" style={{ marginBottom: 18 }}>
-            <div className="sec-tag-line" />
-            <span className="sec-tag-txt" style={{ color: "rgba(245,163,0,.85)" }}>
-              {labels.productExpertise}
-            </span>
-          </div>
-          <h2 className="p-why-h2 rv d1">{product.whyHobonTitle ?? labels.productExpertise}</h2>
-          {product.whyHobonBody ? (
-            <p className="p-why-body rv d2 whitespace-pre-line">{product.whyHobonBody}</p>
+          <div className="s-hero-r-overlay" aria-hidden="true" />
+          {heroThumbs.length > 0 ? (
+            <div className="s-hero-thumbs">
+              {heroThumbs.map((thumb, i) => {
+                const thumbImg = resolveImageWithPool(thumb.image, slug, i + 1, 260);
+                return (
+                  <div key={thumb._key ?? thumb.label ?? i} className="s-hero-thumb">
+                    {thumbImg.src ? (
+                      <img src={thumbImg.src} alt={thumbImg.alt || thumb.label || ""} />
+                    ) : (
+                      <HeroPlaceholder />
+                    )}
+                    {thumb.label ? <span className="s-hero-thumb-lbl">{thumb.label}</span> : null}
+                  </div>
+                );
+              })}
+            </div>
           ) : null}
         </div>
       </section>
 
-      {(product.relatedSectors ?? []).length > 0 ? (
+      {hasSpecs(product) ? (
+        <section className="p-specs" id="specs">
+          <div className="p-specs-inner">
+            <div className="sec-tag rv">
+              <div className="sec-tag-line" />
+              <span className="sec-tag-txt">{labels.productTechnical}</span>
+            </div>
+            <h2 className="p-specs-h2 rv d1">{labels.productSpecifications}</h2>
+            <div className="p-spec-grid">
+              {(product.specifications ?? []).map((row, i) => {
+                if (!row.title?.trim()) return null;
+                return (
+                  <div key={row.title ?? i} className={`p-spec-card rv ${i ? `d${i % 4}` : ""}`}>
+                    {row.icon ? <span className="p-spec-icon">{row.icon}</span> : null}
+                    <h3 className="p-spec-title">{row.title}</h3>
+                    {row.body ? <p className="p-spec-body">{row.body}</p> : null}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {hasApplications(product) ? (
+        <section className="p-apps" id="applications">
+          <div className="p-apps-inner">
+            <div className="sec-tag rv">
+              <div className="sec-tag-line" />
+              <span className="sec-tag-txt">{labels.productApplications}</span>
+            </div>
+            <h2 className="p-apps-h2 rv d1">{labels.productApplicationsQuestion}</h2>
+            <div className="p-app-tags rv d2">
+              {(product.applications ?? []).map((tag) =>
+                tag?.trim() ? (
+                  <span key={tag} className="p-app-tag">
+                    {tag}
+                  </span>
+                ) : null,
+              )}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {hasSolutionCards(product) ? (
+        <section className="solutions p-solutions" id="varianten">
+          <div className="solutions-hdr p-solutions-hdr">
+            <div>
+              <div className="sec-tag rv">
+                <div className="sec-tag-line" />
+                <span className="sec-tag-txt">{labels.productSolutionsTag}</span>
+              </div>
+              <h2 className="solutions-h2 p-solutions-h2 rv d1">{solutionsHeading}</h2>
+            </div>
+          </div>
+          <div className="sol-grid" data-sol-count={solutionCards.length}>
+            {solutionCards.map((sol, i) => {
+              const cardImg = resolveImageWithPool(sol.image, slug, i, 800);
+              return (
+                <div key={sol._key ?? sol.title ?? i} className={`sol rv ${i ? `d${i % 4}` : ""}`}>
+                  <div className="sol-photo">
+                    {cardImg.src ? (
+                      <img src={cardImg.src} alt={cardImg.alt || sol.title || ""} />
+                    ) : (
+                      <HeroPlaceholder />
+                    )}
+                  </div>
+                  {sol.num ? <span className="sol-n">{sol.num}</span> : null}
+                  <h3 className="sol-title">{sol.title}</h3>
+                  {sol.description ? <p className="sol-desc">{sol.description}</p> : null}
+                  {(sol.tags ?? []).length > 0 ? (
+                    <div className="sol-specs">
+                      {(sol.tags ?? []).map((tag) => (
+                        <span key={tag} className="sol-spec">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                  {sol.cta?.href ? (
+                    <Link href={sol.cta.href} className="sol-cta">
+                      {sol.cta.label ?? labels.listingReadMore}
+                      <ArrowBtnIcon size={11} />
+                    </Link>
+                  ) : null}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      ) : null}
+
+      {hasFaqs(product) ? (
+        <section className="p-faq" id="faq">
+          <div className="p-faq-inner">
+            <div className="sec-tag rv">
+              <div className="sec-tag-line" />
+              <span className="sec-tag-txt">{labels.sectorCommonChallenges}</span>
+            </div>
+            <h2 className="p-faq-h2 rv d1">{labels.productFaqTitle}</h2>
+            <div className="rv d2">
+              <ProductFaqs items={faqItems} />
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {hasGallery(product) ? (
+        <section className="p-gallery" id="galerij">
+          <div className="p-gallery-inner">
+            <div className="sec-tag rv">
+              <div className="sec-tag-line" />
+              <span className="sec-tag-txt">{labels.productGalleryTag}</span>
+            </div>
+            <h2 className="p-gallery-h2 rv d1">{galleryHeading}</h2>
+            <div className="p-gallery-grid rv d2">
+              {galleryItems.map((item, i) => {
+                const galleryImg = resolveImageWithPool(item, slug, i, 720);
+                if (!galleryImg.src) return null;
+                return (
+                  <div key={(item as { _key?: string })._key ?? i} className="p-gallery-item">
+                    <img src={galleryImg.src} alt={galleryImg.alt} />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {hasWhyHobon(product) ? (
+        <section className="p-why">
+          <div className="p-why-inner">
+            <div className="sec-tag rv p-why-tag">
+              <div className="sec-tag-line" />
+              <span className="sec-tag-txt">{labels.productExpertise}</span>
+            </div>
+            <h2 className="p-why-h2 rv d1">{product.whyHobonTitle ?? labels.productExpertise}</h2>
+            {product.whyHobonBody ? (
+              <p className="p-why-body rv d2 whitespace-pre-line">{product.whyHobonBody}</p>
+            ) : null}
+          </div>
+        </section>
+      ) : null}
+
+      {relatedSectors.length > 0 ? (
         <section className="other-sectors p-related">
           <div className="sec-tag rv">
             <div className="sec-tag-line" />
@@ -209,19 +385,20 @@ export function ProductTemplate({
           </div>
           <h2 className="os-h2 rv d1">{labels.productCommonlyUsedIn}</h2>
           <div className="os-grid p-related-grid rv d2">
-            {(product.relatedSectors ?? []).map((s) => {
+            {relatedSectors.map((s) => {
               if (!s.slug) return null;
               const href = buildLocalizedPath(locale, [
                 { type: "key", key: "sectors" },
                 { type: "slug", value: s.slug },
               ]);
               const img =
-                s.listingImageUrl ??
-                "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=65&auto=format&fit=crop";
+                sectorCardImageSrc(s.listingImage, s.listingImageUrl, s.heroMainImage, s.heroMainImageUrl) ??
+                placeholders[0] ??
+                null;
               return (
                 <Link key={s._id ?? s.slug} href={href} className="os-item">
                   <div className="os-item-photo">
-                    <img src={img} alt="" />
+                    {img ? <img src={img} alt="" /> : <HeroPlaceholder />}
                     <div className="os-item-photo-overlay" />
                   </div>
                   <div className="os-item-body">
@@ -244,16 +421,14 @@ export function ProductTemplate({
       <section className="cta-band" id="contact">
         <div className="cta-inner">
           <div>
-            <div className="sec-tag rv" style={{ marginBottom: 18 }}>
+            <div className="sec-tag rv p-cta-tag">
               <div className="sec-tag-line" />
-              <span className="sec-tag-txt" style={{ color: "rgba(245,163,0,.7)" }}>
-                {labels.productContact}
-              </span>
+              <span className="sec-tag-txt">{labels.productContact}</span>
             </div>
             <h2 className="cta-h2 rv d1">{product.ctaBandTitle1}</h2>
             {product.ctaBandBody ? <p className="cta-body rv d2 whitespace-pre-line">{product.ctaBandBody}</p> : null}
             {product.ctaBandPrimary?.href ? (
-              <div className="rv d3" style={{ marginTop: 24 }}>
+              <div className="p-cta-primary rv d3">
                 <Link href={product.ctaBandPrimary.href} className="btn-primary">
                   <span>{product.ctaBandPrimary.label}</span>
                   <ArrowBtnIcon size={14} />
@@ -268,16 +443,14 @@ export function ProductTemplate({
       </section>
 
       {product.additionalNotes && Array.isArray(product.additionalNotes) && product.additionalNotes.length > 0 ? (
-        <section className="bg-[var(--chalk)] px-6 py-16 md:px-[52px]">
-          <div className="mx-auto max-w-3xl">
+        <section className="p-notes">
+          <div className="p-notes-inner">
             <div className="sec-tag">
               <div className="sec-tag-line" />
               <span className="sec-tag-txt">{labels.productExtra}</span>
             </div>
-            <h2 className="mt-4 font-[family-name:var(--f-head)] text-xl font-semibold text-[var(--navy)]">
-              {labels.productNotes}
-            </h2>
-            <div className="mt-4">
+            <h2 className="p-notes-h2">{labels.productNotes}</h2>
+            <div className="p-notes-body">
               <SimpleRichText value={product.additionalNotes} />
             </div>
           </div>

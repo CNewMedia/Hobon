@@ -239,13 +239,42 @@ export const productBySlugQuery = `*[_type == "product" && language == $locale &
   ...,
   seo,
   heroImage,
+  heroThumbs[]{
+    _key,
+    image,
+    label
+  },
+  solutionsTitle,
+  solutionCards[]{
+    _key,
+    image,
+    title,
+    description,
+    num,
+    tags,
+    cta
+  },
+  galleryTitle,
+  productGallery[]{
+    _key,
+    image,
+    alt
+  },
+  faqs[]{
+    _key,
+    question,
+    answer
+  },
   relatedSectors[]->{
     _id,
     title,
     "slug": slug.current,
     navLabel,
     listingDescription,
-    listingImageUrl
+    listingImage,
+    listingImageUrl,
+    heroMainImage,
+    heroMainImageUrl
   }
 }`;
 

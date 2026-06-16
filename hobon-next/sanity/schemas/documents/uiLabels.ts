@@ -28,6 +28,11 @@ export const uiLabels = defineType({
     defineField({ name: "productContact", type: "string", group: "product" }),
     defineField({ name: "productExtra", type: "string", group: "product" }),
     defineField({ name: "productNotes", type: "string", group: "product" }),
+    defineField({ name: "productSolutionsTag", type: "string", group: "product" }),
+    defineField({ name: "productSolutionsTitle", type: "string", group: "product" }),
+    defineField({ name: "productGalleryTag", type: "string", group: "product" }),
+    defineField({ name: "productGalleryTitle", type: "string", group: "product" }),
+    defineField({ name: "productFaqTitle", type: "string", group: "product" }),
 
     defineField({ name: "sectorHighestCertLevel", type: "string", group: "sector" }),
     defineField({ name: "sectorYearsExpertise", type: "string", group: "sector" }),

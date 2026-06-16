@@ -16,6 +16,11 @@ export type UILabels = {
   productContact: string;
   productExtra: string;
   productNotes: string;
+  productSolutionsTag: string;
+  productSolutionsTitle: string;
+  productGalleryTag: string;
+  productGalleryTitle: string;
+  productFaqTitle: string;
 
   sectorHighestCertLevel: string;
   sectorYearsExpertise: string;
@@ -71,6 +76,11 @@ export const defaultUILabels: UILabels = {
   productContact: "Contact",
   productExtra: "Extra",
   productNotes: "Notities",
+  productSolutionsTag: "Varianten",
+  productSolutionsTitle: "Folie op maat",
+  productGalleryTag: "Beelden",
+  productGalleryTitle: "In de praktijk",
+  productFaqTitle: "Veelgestelde vragen",
 
   sectorHighestCertLevel: "Hoogste certificeringsniveau",
   sectorYearsExpertise: "Jaar food-expertise",
