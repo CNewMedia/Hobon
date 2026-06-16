@@ -1,6 +1,7 @@
 "use client";
 
 /* eslint-disable @next/next/no-img-element */
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { buildLocalizedPath } from "@/lib/i18n/paths";
@@ -16,6 +17,8 @@ import { SectorCtaForm } from "@/components/sector/SectorCtaForm";
 import { SimpleRichText } from "@/components/portable/SimpleRichText";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
 import { ProductFaqs } from "./ProductFaqs";
+import { ProductGallery } from "./ProductGallery";
+import type { GallerySlide } from "./ProductGalleryLightbox";
 
 export type RelatedSector = {
   _id?: string;
@@ -102,6 +105,17 @@ function hasWhyHobon(p: ProductDoc) {
   return Boolean(p.whyHobonBody?.trim() || p.whyHobonTitle?.trim());
 }
 
+function buildGallerySlides(items: ImageWithAlt[], slug: string | null): GallerySlide[] {
+  const slides: GallerySlide[] = [];
+  items.forEach((item, i) => {
+    const thumb = resolveImageWithPool(item, slug, i, 720);
+    const large = resolveImageWithPool(item, slug, i, 1400);
+    if (!thumb.src) return;
+    slides.push({ src: thumb.src, alt: thumb.alt, largeSrc: large.src ?? thumb.src });
+  });
+  return slides;
+}
+
 function HeroPlaceholder() {
   return (
     <div className="p-hero-placeholder" aria-hidden="true">
@@ -123,6 +137,8 @@ export function ProductTemplate({
   const productsHref = buildLocalizedPath(locale, [{ type: "key", key: "products" }]);
   const slug = product.slug?.current ?? null;
   const placeholders = productPlaceholderPool(slug);
+  const [heroThumbIndex, setHeroThumbIndex] = useState(0);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const heroResolved = resolveImageSrc(product.heroImage, {
     width: 1000,
@@ -131,9 +147,20 @@ export function ProductTemplate({
   });
 
   const heroThumbs = (product.heroThumbs ?? []).filter((t) => t.label?.trim() || t.image?.image);
+  const gallerySlides = useMemo(
+    () => buildGallerySlides(product.productGallery ?? [], slug),
+    [product.productGallery, slug],
+  );
+
+  const activeHeroImg = useMemo(() => {
+    if (heroThumbs.length > 0) {
+      const idx = Math.min(heroThumbIndex, heroThumbs.length - 1);
+      return resolveImageWithPool(heroThumbs[idx].image, slug, idx + 1, 1000);
+    }
+    return heroResolved;
+  }, [heroThumbs, heroThumbIndex, slug, heroResolved]);
   const solutionCards = (product.solutionCards ?? []).filter((c) => c.title?.trim());
   const faqItems = (product.faqs ?? []).filter((f) => f.question?.trim() && f.answer?.trim());
-  const galleryItems = product.productGallery ?? [];
   const relatedSectors = (product.relatedSectors ?? []).filter((s) => s.slug);
 
   const solutionsHeading = product.solutionsTitle?.trim() || labels.productSolutionsTitle;
@@ -202,28 +229,51 @@ export function ProductTemplate({
           </div>
         </div>
 
-        <div className="s-hero-r">
-          <div className="s-hero-r-main">
-            {heroResolved.src ? (
-              <img src={heroResolved.src} alt={heroResolved.alt || product.title || ""} />
+        <div className={`s-hero-r ${heroThumbs.length > 0 ? "p-hero-interactive" : ""}`}>
+          <div
+            className={`s-hero-r-main ${gallerySlides.length > 0 ? "s-hero-r-main--lb" : ""}`}
+            role={gallerySlides.length > 0 ? "button" : undefined}
+            tabIndex={gallerySlides.length > 0 ? 0 : undefined}
+            onClick={() => {
+              if (gallerySlides.length > 0) {
+                setLightboxIndex(Math.min(heroThumbIndex, gallerySlides.length - 1));
+              }
+            }}
+            onKeyDown={(e) => {
+              if (!gallerySlides.length) return;
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setLightboxIndex(Math.min(heroThumbIndex, gallerySlides.length - 1));
+              }
+            }}
+          >
+            {activeHeroImg.src ? (
+              <img src={activeHeroImg.src} alt={activeHeroImg.alt || product.title || ""} />
             ) : (
               <HeroPlaceholder />
             )}
           </div>
           <div className="s-hero-r-overlay" aria-hidden="true" />
           {heroThumbs.length > 0 ? (
-            <div className="s-hero-thumbs">
+            <div className="s-hero-thumbs" id="heroThumbs">
               {heroThumbs.map((thumb, i) => {
                 const thumbImg = resolveImageWithPool(thumb.image, slug, i + 1, 260);
                 return (
-                  <div key={thumb._key ?? thumb.label ?? i} className="s-hero-thumb">
+                  <button
+                    key={thumb._key ?? thumb.label ?? i}
+                    type="button"
+                    className={`s-hero-thumb ${heroThumbIndex === i ? "active" : ""}`}
+                    data-i={i}
+                    aria-label={thumb.label ?? `Foto ${i + 1}`}
+                    onClick={() => setHeroThumbIndex(i)}
+                  >
                     {thumbImg.src ? (
                       <img src={thumbImg.src} alt={thumbImg.alt || thumb.label || ""} />
                     ) : (
                       <HeroPlaceholder />
                     )}
                     {thumb.label ? <span className="s-hero-thumb-lbl">{thumb.label}</span> : null}
-                  </div>
+                  </button>
                 );
               })}
             </div>
@@ -340,26 +390,15 @@ export function ProductTemplate({
       ) : null}
 
       {hasGallery(product) ? (
-        <section className="p-gallery" id="galerij">
-          <div className="p-gallery-inner">
-            <div className="sec-tag rv">
-              <div className="sec-tag-line" />
-              <span className="sec-tag-txt">{labels.productGalleryTag}</span>
-            </div>
-            <h2 className="p-gallery-h2 rv d1">{galleryHeading}</h2>
-            <div className="p-gallery-grid rv d2">
-              {galleryItems.map((item, i) => {
-                const galleryImg = resolveImageWithPool(item, slug, i, 720);
-                if (!galleryImg.src) return null;
-                return (
-                  <div key={(item as { _key?: string })._key ?? i} className="p-gallery-item">
-                    <img src={galleryImg.src} alt={galleryImg.alt} />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+        <ProductGallery
+          title={galleryHeading}
+          tagLabel={labels.productGalleryTag}
+          slides={gallerySlides}
+          lightboxIndex={lightboxIndex}
+          onLightboxOpen={setLightboxIndex}
+          onLightboxClose={() => setLightboxIndex(null)}
+          onLightboxNavigate={setLightboxIndex}
+        />
       ) : null}
 
       {hasWhyHobon(product) ? (
