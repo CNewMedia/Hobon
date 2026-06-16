@@ -33,7 +33,18 @@ export const sector = defineType({
       rows: 4,
       validation: (Rule) => Rule.max(220).warning("Houd de teaser kort (±160 tekens)"),
     }),
-    defineField({ name: "listingImageUrl", title: "Home kaart — beeld (URL)", type: "url" }),
+    defineField({
+      name: "listingImage",
+      title: "Kaartbeeld (upload)",
+      type: "imageWithAlt",
+      description: "Home sector-rail en /sectoren-overzicht. Voorkeur boven URL hieronder.",
+    }),
+    defineField({
+      name: "listingImageUrl",
+      title: "Kaartbeeld (URL — legacy)",
+      type: "url",
+      description: "Fallback zolang geen upload is ingesteld.",
+    }),
     defineField({
       name: "listingPills",
       title: "Home kaart — tags",
@@ -63,7 +74,8 @@ export const sector = defineType({
         {
           type: "object",
           fields: [
-            { name: "imageUrl", type: "url" },
+            { name: "image", title: "Beeld (upload)", type: "imageWithAlt" },
+            { name: "imageUrl", title: "Beeld (URL — legacy)", type: "url" },
             { name: "label", type: "string" },
           ],
         },
@@ -97,7 +109,8 @@ export const sector = defineType({
         {
           type: "object",
           fields: [
-            { name: "imageUrl", type: "url" },
+            { name: "image", title: "Beeld (upload)", type: "imageWithAlt" },
+            { name: "imageUrl", title: "Beeld (URL — legacy)", type: "url" },
             { name: "num", type: "string" },
             { name: "title", type: "string" },
             { name: "description", type: "text" },
@@ -125,7 +138,16 @@ export const sector = defineType({
     defineField({ name: "deepTitle1", type: "string" }),
     defineField({ name: "deepTitle2", type: "string" }),
     defineField({ name: "deepBody", type: "text", rows: 8 }),
-    defineField({ name: "deepPhotoUrl", type: "url" }),
+    defineField({
+      name: "deepPhoto",
+      title: "Deep dive — beeld (upload)",
+      type: "imageWithAlt",
+    }),
+    defineField({
+      name: "deepPhotoUrl",
+      title: "Deep dive — beeld (URL — legacy)",
+      type: "url",
+    }),
     defineField({ name: "deepPhotoCaptionTag", type: "string" }),
     defineField({ name: "deepPhotoCaption", type: "string" }),
     defineField({ name: "deepPrimaryCta", type: "cta" }),
@@ -172,7 +194,8 @@ export const sector = defineType({
           type: "object",
           fields: [
             { name: "featured", type: "boolean" },
-            { name: "imageUrl", type: "url" },
+            { name: "image", title: "Beeld (upload)", type: "imageWithAlt" },
+            { name: "imageUrl", title: "Beeld (URL — legacy)", type: "url" },
             { name: "sectorLabel", type: "string" },
             { name: "title", type: "string" },
             { name: "description", type: "text" },
