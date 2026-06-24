@@ -1,11 +1,16 @@
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
+import { presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
 import { documentInternationalization } from "@sanity/document-internationalization";
 import { schemaTypes } from "./sanity/schemas";
 import { structure } from "./sanity/structure";
-import { openPreviewAction } from "./sanity/actions/openPreview";
-import { isPreviewableSchemaType } from "./lib/sanity/previewTypes";
+import {
+  presentationAllowOrigins,
+  presentationLocations,
+  presentationMainDocuments,
+  presentationPreviewOrigin,
+} from "./sanity/presentation/resolve";
 
 const i18nSchemaTypes = [
   "homePage",
@@ -32,6 +37,20 @@ export default defineConfig({
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   plugins: [
     structureTool({ structure }),
+    presentationTool({
+      previewUrl: {
+        initial: presentationPreviewOrigin(),
+        previewMode: {
+          enable: "/api/draft",
+          disable: "/api/draft/disable",
+        },
+      },
+      allowOrigins: presentationAllowOrigins(),
+      resolve: {
+        mainDocuments: presentationMainDocuments,
+        locations: presentationLocations,
+      },
+    }),
     visionTool(),
     documentInternationalization({
       supportedLanguages: [
@@ -45,11 +64,5 @@ export default defineConfig({
   ],
   schema: {
     types: schemaTypes,
-  },
-  document: {
-    actions: (prev, { schemaType }) => {
-      if (!isPreviewableSchemaType(schemaType)) return prev;
-      return [...prev, openPreviewAction];
-    },
   },
 });

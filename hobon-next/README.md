@@ -21,6 +21,7 @@ Vul in `.env.local` minstens:
 - `NEXT_PUBLIC_SANITY_PROJECT_ID` — bijv. `14bi8ppf`
 - `NEXT_PUBLIC_SANITY_DATASET` — bijv. `production`
 - `SANITY_API_WRITE_TOKEN` — schrijftoken voor seed en mutaties
+- `SANITY_API_READ_TOKEN` — Viewer-token voor Presentation Tool draft preview (server-side only, nooit `NEXT_PUBLIC_`)
 - `NEXT_PUBLIC_SITE_URL` — basis-URL voor canonicals/sitemap (lokaal: `http://localhost:3000`)
 
 Start de dev-server:
@@ -47,6 +48,14 @@ Dit schrijft NL-content (o.a. homepage, sectoren waaronder `voedingsindustrie` (
 - **NL** is default; alle publieke routes gebruiken het prefix `/nl/`, `/fr/`, `/en/`.
 - FR/EN hebben vertaalbare padsegmenten (bijv. `/fr/secteurs/...`, `/en/sectors/...`) via **Next.js rewrites** naar de interne route-segmenten (`sectoren`, `over`, enz.).
 - Studio gebruikt `@sanity/document-internationalization` voor document-niveau i18n (veld `language`).
+
+## Draft preview (HOB-53 — Presentation Tool)
+
+In Studio: open **Presentation** voor split-view preview met draft content (NL/FR/EN).
+
+- Draft mode: `GET /api/draft` (Sanity preview secret) en `GET /api/draft/disable`
+- Env: `SANITY_API_READ_TOKEN` (Viewer, server-only) + `NEXT_PUBLIC_SITE_URL`
+- HOB-52 signed-URL preview staat op branch `feature/hob-52-signed-preview`
 
 ## Deploy (Vercel)
 

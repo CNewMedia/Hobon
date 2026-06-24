@@ -8,7 +8,6 @@ async function isDraftModeEnabled(): Promise<boolean> {
     const { isEnabled } = await draftMode();
     return isEnabled;
   } catch {
-    // draftMode() is unavailable during static generation (generateStaticParams, etc.)
     return false;
   }
 }
@@ -17,8 +16,7 @@ async function isDraftModeEnabled(): Promise<boolean> {
  * Fetches from Sanity and strips "[AI-translated] " from all string fields
  * before data reaches components or metadata builders.
  *
- * When Next.js Draft Mode is enabled: uses SANITY_API_READ_TOKEN (server-only)
- * with perspective previewDrafts to read unpublished drafts.
+ * Draft mode (Presentation Tool): read token + previewDrafts + stega for live preview.
  */
 export async function fetchSanity<QueryResponse = any>(
   query: string,
@@ -37,7 +35,7 @@ export async function fetchSanity<QueryResponse = any>(
         token,
         perspective: "previewDrafts",
         useCdn: false,
-        stega: { enabled: false },
+        stega: { enabled: true, studioUrl: "/studio" },
       })
       .fetch(query, params);
 

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans, Geist } from "next/font/google";
+import { draftMode } from "next/headers";
 import { headers } from "next/headers";
+import { DraftVisualEditing } from "@/components/sanity/DraftVisualEditing";
 import "./globals.css";
 import "./hobon-mock.css";
 
@@ -28,6 +30,12 @@ export default async function RootLayout({
 }>) {
   const h = await headers();
   const locale = h.get("x-locale") ?? "nl";
+  let draftEnabled = false;
+  try {
+    draftEnabled = (await draftMode()).isEnabled;
+  } catch {
+    draftEnabled = false;
+  }
 
   return (
     <html
@@ -36,7 +44,10 @@ export default async function RootLayout({
       className={`${geist.variable} ${dmSans.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        {draftEnabled ? <DraftVisualEditing /> : null}
+      </body>
     </html>
   );
 }
