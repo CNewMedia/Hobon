@@ -4,6 +4,7 @@
 import { ContactForm, type ContactFormLabels } from "@/components/contact/ContactForm";
 import { HeroMediaPanel } from "@/components/hero/HeroMedia";
 import type { HeroMediaData } from "@/components/hero/heroMediaTypes";
+import { hasHeroMedia } from "@/components/hero/heroMediaTypes";
 import { SimpleRichText } from "@/components/portable/SimpleRichText";
 import { resolveImageSrc } from "@/lib/sanity/resolveImageSrc";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
@@ -34,8 +35,59 @@ export type SiteSettingsContact = {
   }[] | null;
 };
 
+type LocationRow = NonNullable<SiteSettingsContact["locations"]>[number];
+
 const MOCK_SUCCESS_MESSAGE =
   "Bedankt voor uw bericht. Een van onze specialisten neemt binnen 1 werkdag contact met u op.";
+
+function LocationCards({
+  locations,
+  mapPlaceholder,
+}: {
+  locations: LocationRow[];
+  mapPlaceholder: string;
+}) {
+  return (
+    <div className="c-locs">
+      {locations.map((loc) => {
+        const addr = [loc.streetAddress, [loc.postalCode, loc.city].filter(Boolean).join(" "), loc.country]
+          .filter(Boolean)
+          .join(", ");
+        const mapImage = resolveImageSrc(loc.mapImage, { width: 640, quality: 82 });
+        return (
+          <div key={loc._key ?? loc.name} className="c-loc">
+            <div className="c-loc-map">
+              {mapImage.src ? (
+                <img
+                  className="c-loc-map-img"
+                  src={mapImage.src}
+                  alt={mapImage.alt || loc.name || ""}
+                  loading="lazy"
+                />
+              ) : (
+                <span className="c-loc-map-ph">{mapPlaceholder}</span>
+              )}
+            </div>
+            <div className="c-loc-body">
+              {loc.name ? <div className="c-loc-name">{loc.name}</div> : null}
+              {addr ? <div className="c-loc-line">{addr}</div> : null}
+              {loc.phone ? (
+                <div className="c-loc-line">
+                  <a href={`tel:${loc.phone.replace(/\s/g, "")}`}>{loc.phone}</a>
+                </div>
+              ) : null}
+              {loc.email ? (
+                <div className="c-loc-line">
+                  <a href={`mailto:${loc.email}`}>{loc.email}</a>
+                </div>
+              ) : null}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 export function ContactTemplate({
   contactPage,
@@ -48,6 +100,9 @@ export function ContactTemplate({
   const [submitted, setSubmitted] = useState(false);
   const hero = contactPage?.hero;
   const locations = siteSettings?.locations ?? [];
+  const splitHero = hasHeroMedia(contactPage?.heroMedia);
+  const headline = hero?.headline?.trim() || labels.listingContact;
+  const subline = hero?.subline?.trim() || "";
 
   useEffect(() => {
     const resetSubmitted = () => setSubmitted(false);
@@ -57,21 +112,34 @@ export function ContactTemplate({
   }, []);
 
   return (
-    <div className="c-page">
-      <div className="c-hero">
-        <div className="c-hero-l">
+    <div className={`c-page${splitHero ? " c-page--split-hero" : ""}`}>
+      {splitHero ? (
+        <section className="s-hero listing-overview-hero c-hero-band">
+          <div className="s-hero-dots" aria-hidden="true" />
+          <div className="s-hero-glow" aria-hidden="true" />
+          <div className="s-hero-l listing-overview-hero-l">
+            <div className="s-hero-eyebrow">
+              <div className="s-hero-eyebrow-line" aria-hidden="true" />
+              <span className="s-hero-eyebrow-txt">{labels.listingContact}</span>
+            </div>
+            <h1 className="s-hero-h1 listing-overview-h1">{headline}</h1>
+            {subline ? <p className="s-hero-intro">{subline}</p> : null}
+          </div>
+          <HeroMediaPanel media={contactPage?.heroMedia} />
+        </section>
+      ) : (
+        <section className="c-hero-fallback">
           <div className="c-eyebrow">
             <div className="c-eyebrow-line" aria-hidden />
             <span className="c-eyebrow-txt">{labels.listingContact}</span>
           </div>
-          {hero?.headline ? (
-            <h1 className="c-h1">
-              {hero.headline}
-              {hero.subline ? <span className="muted">{hero.subline}</span> : null}
-            </h1>
-          ) : (
-            <h1 className="c-h1">{labels.listingContact}</h1>
-          )}
+          <h1 className="c-h1">{headline}</h1>
+          {subline ? <p className="c-intro">{subline}</p> : null}
+        </section>
+      )}
+
+      <section className="c-body">
+        <div className="c-body-l">
           {contactPage?.intro ? <p className="c-intro">{contactPage.intro}</p> : null}
 
           {submitted ? (
@@ -98,47 +166,10 @@ export function ContactTemplate({
           ) : null}
         </div>
 
-        <div className="c-hero-r">
-          <HeroMediaPanel
-            media={contactPage?.heroMedia}
-            className="page-hero-media s-hero-r listing-overview-hero-r c-hero-media-panel"
-          />
-          <div className="c-hero-r-dots" aria-hidden />
-          <div className="c-locs">
-            {locations.map((loc) => {
-              const addr = [loc.streetAddress, [loc.postalCode, loc.city].filter(Boolean).join(" "), loc.country]
-                .filter(Boolean)
-                .join(", ");
-              const mapImage = resolveImageSrc(loc.mapImage, { width: 640, quality: 82 });
-              return (
-                <div key={loc._key ?? loc.name} className="c-loc">
-                  <div className="c-loc-map">
-                    {mapImage.src ? (
-                      <img className="c-loc-map-img" src={mapImage.src} alt={mapImage.alt || loc.name || ""} loading="lazy" />
-                    ) : (
-                      <span className="c-loc-map-ph">{labels.uiContactMapPlaceholder}</span>
-                    )}
-                  </div>
-                  <div className="c-loc-body">
-                    {loc.name ? <div className="c-loc-name">{loc.name}</div> : null}
-                    {addr ? <div className="c-loc-line">{addr}</div> : null}
-                    {loc.phone ? (
-                      <div className="c-loc-line">
-                        <a href={`tel:${loc.phone.replace(/\s/g, "")}`}>{loc.phone}</a>
-                      </div>
-                    ) : null}
-                    {loc.email ? (
-                      <div className="c-loc-line">
-                        <a href={`mailto:${loc.email}`}>{loc.email}</a>
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+        <div className="c-body-r">
+          <LocationCards locations={locations} mapPlaceholder={labels.uiContactMapPlaceholder} />
         </div>
-      </div>
+      </section>
     </div>
   );
 }
