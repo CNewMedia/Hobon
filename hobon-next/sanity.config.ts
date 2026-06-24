@@ -5,6 +5,7 @@ import { structureTool } from "sanity/structure";
 import { documentInternationalization } from "@sanity/document-internationalization";
 import { schemaTypes } from "./sanity/schemas";
 import { structure } from "./sanity/structure";
+import { openPreviewAction, isPreviewableSchemaType } from "./sanity/actions/openPreview";
 import {
   presentationAllowOrigins,
   presentationLocations,
@@ -64,5 +65,11 @@ export default defineConfig({
   ],
   schema: {
     types: schemaTypes,
+  },
+  document: {
+    actions: (prev, { schemaType }) => {
+      if (!isPreviewableSchemaType(schemaType)) return prev;
+      return [...prev, openPreviewAction];
+    },
   },
 });
