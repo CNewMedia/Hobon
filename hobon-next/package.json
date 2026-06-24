@@ -18,6 +18,7 @@
     "migrate:product-images-51g": "node --env-file=.env.local --import tsx scripts/migrate-product-images-51g.ts",
     "migrate:zakken-kratzakken-51h": "node --env-file=.env.local --import tsx scripts/migrate-zakken-kratzakken-51h.ts",
     "migrate:hardcoded-images-58": "node --env-file=.env.local --import tsx scripts/migrate-hardcoded-images-58.ts",
+    "migrate:local-photos-59": "node --env-file=.env.local --import tsx scripts/migrate-local-photos-59.ts",
     "seed:overview-singletons": "node --env-file=.env.local --import tsx scripts/seed-overview-singletons.ts",
     "patch:overview-copy": "node --env-file=.env.local --import tsx scripts/patch-overview-copy.ts",
     "seed:header-nl": "node --env-file=.env.local --import tsx scripts/seed-header-navigation-nl.ts",
