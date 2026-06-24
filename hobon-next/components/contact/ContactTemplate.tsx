@@ -105,7 +105,7 @@ export function ContactTemplate({
           />
           <div className="c-hero-r-dots" aria-hidden />
           <div className="c-locs">
-            {locations.map((loc, index) => {
+            {locations.map((loc) => {
               const addr = [loc.streetAddress, [loc.postalCode, loc.city].filter(Boolean).join(" "), loc.country]
                 .filter(Boolean)
                 .join(", ");
