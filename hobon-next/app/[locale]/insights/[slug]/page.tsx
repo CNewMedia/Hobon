@@ -1,7 +1,7 @@
 import { InsightDetailTemplate } from "@/components/insights/InsightDetailTemplate";
 import type { Locale } from "@/lib/i18n/config";
 import { fetchSanity } from "@/lib/sanity/fetchSanity";
-import { insightBySlugQuery } from "@/lib/sanity/queries";
+import { insightBySlugQuery, insightsOverviewPageQuery } from "@/lib/sanity/queries";
 import { getSeoDefaults } from "@/lib/sanity/seoDefaults";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { notFound } from "next/navigation";
@@ -44,8 +44,17 @@ export default async function InsightArticlePage({
 }) {
   const { locale, slug } = await params;
   const loc = locale as Locale;
-  const doc = await fetchSanity(insightBySlugQuery, { locale, slug });
+  const [doc, overview] = await Promise.all([
+    fetchSanity(insightBySlugQuery, { locale, slug }),
+    fetchSanity(insightsOverviewPageQuery, { locale: loc }),
+  ]);
   if (!doc) notFound();
 
-  return <InsightDetailTemplate locale={loc} article={doc} />;
+  return (
+    <InsightDetailTemplate
+      locale={loc}
+      article={doc}
+      cardFallbackImage={overview?.articleCardFallbackImage ?? null}
+    />
+  );
 }

@@ -80,7 +80,10 @@ export const sectorsForLocaleQuery = `*[_type == "sector" && language == $locale
   sortOrder,
   listingEyebrow,
   listingDescription,
+  listingImage,
   listingImageUrl,
+  heroMainImage,
+  heroMainImageUrl,
   listingPills
 }`;
 
@@ -135,7 +138,11 @@ export const sectorBySlugQuery = `*[_type == "sector" && language == $locale && 
 export const sectorNavQuery = `*[_type == "sector" && language == $locale] | order(sortOrder asc, title asc) {
   title,
   "slug": slug.current,
-  navLabel
+  navLabel,
+  listingImage,
+  listingImageUrl,
+  heroMainImage,
+  heroMainImageUrl
 }`;
 
 export const aboutPageQuery = `*[_type == "aboutPage" && language == $locale][0]{
@@ -212,7 +219,8 @@ export const insightsOverviewPageQuery = `*[_type == "insightsOverviewPage" && l
   ...,
   seo,
   hero,
-  intro
+  intro,
+  articleCardFallbackImage
 }`;
 
 export const insightCategoriesQuery = `*[_type == "insightCategory" && language == $locale] | order(title asc) {

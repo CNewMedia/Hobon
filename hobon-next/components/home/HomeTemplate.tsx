@@ -4,7 +4,10 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { buildLocalizedPath } from "@/lib/i18n/paths";
-import { urlFor } from "@/lib/sanity/image";
+import {
+  resolveImageSrc,
+  sectorCardImageSrc,
+} from "@/lib/sanity/resolveImageSrc";
 import { HeroMedia } from "@/components/hero/HeroMedia";
 import type { HeroMediaData } from "@/components/hero/heroMediaTypes";
 import { ArrowBtnIcon } from "@/components/layout/icons";
@@ -19,7 +22,10 @@ export type SectorCard = {
   sortOrder?: number | null;
   listingEyebrow?: string | null;
   listingDescription?: string | null;
+  listingImage?: { image?: unknown; alt?: string | null } | null;
   listingImageUrl?: string | null;
+  heroMainImage?: { image?: unknown; alt?: string | null } | null;
+  heroMainImageUrl?: string | null;
   listingPills?: string[] | null;
 };
 
@@ -95,10 +101,7 @@ export function HomeTemplate({
   const contactHref = buildLocalizedPath(locale, [{ type: "key", key: "contact" }]);
   const sectorsBase = buildLocalizedPath(locale, [{ type: "key", key: "sectors" }]);
 
-  const aboutImg =
-    data.aboutImage?.image != null
-      ? urlFor(data.aboutImage.image).width(800).quality(80).url()
-      : "https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=800&q=80&auto=format&fit=crop";
+  const aboutResolved = resolveImageSrc(data.aboutImage, { width: 800, quality: 80 });
 
   return (
     <>
@@ -217,7 +220,14 @@ export function HomeTemplate({
         </div>
         <div className="about-photo-wrap rvr d2">
           <div className="about-photo">
-            <img src={aboutImg} alt={data.aboutImage?.alt ?? ""} />
+            {aboutResolved.src ? (
+              <img src={aboutResolved.src} alt={aboutResolved.alt || data.aboutImage?.alt || ""} />
+            ) : (
+              <div className="p-hero-placeholder" aria-hidden="true">
+                <div className="p-hero-placeholder-grid" />
+                <span className="p-hero-placeholder-label">Hobon</span>
+              </div>
+            )}
             <div className="about-photo-overlay" />
             <div className="about-photo-caption">
               <span className="about-photo-tag">{data.aboutPhotoTag}</span>
@@ -333,14 +343,25 @@ export function HomeTemplate({
                       { type: "slug", value: sc.slug },
                     ])
                   : sectorsBase;
-              const img =
-                sc.listingImageUrl ??
-                "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=70&auto=format&fit=crop";
+              const img = sectorCardImageSrc(
+                sc.listingImage,
+                sc.listingImageUrl,
+                sc.heroMainImage,
+                sc.heroMainImageUrl,
+                500,
+              );
               const n = String(sc.sortOrder ?? idx + 1).padStart(2, "0");
               return (
                 <Link key={sc._id} href={href} className="sc">
                   <div className="sc-img">
-                    <img src={img} alt={sc.title} />
+                    {img ? (
+                      <img src={img} alt={sc.title} />
+                    ) : (
+                      <div className="p-hero-placeholder" aria-hidden="true">
+                        <div className="p-hero-placeholder-grid" />
+                        <span className="p-hero-placeholder-label">Hobon</span>
+                      </div>
+                    )}
                     <div className="sc-img-overlay" />
                   </div>
                   <div className="sc-body">

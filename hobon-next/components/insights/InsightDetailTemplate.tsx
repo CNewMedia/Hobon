@@ -2,13 +2,10 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { buildLocalizedPath } from "@/lib/i18n/paths";
-import { urlFor } from "@/lib/sanity/image";
+import { imageWithAltToUrl, resolveImageSrc } from "@/lib/sanity/resolveImageSrc";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { ArticlePortableText } from "@/components/portable/ArticlePortableText";
 import { estimateReadingMinutesFromPortableText } from "@/lib/insights/readingTime";
-
-const HERO_FALLBACK =
-  "https://images.unsplash.com/photo-1581090700227-1e37b190418e?w=1400&q=80&auto=format&fit=crop";
 
 export type InsightArticleDetail = {
   title?: string | null;
@@ -37,14 +34,41 @@ function formatArticleDate(locale: Locale, iso: string | null | undefined) {
   return new Intl.DateTimeFormat(tag, { day: "numeric", month: "short", year: "numeric" }).format(d);
 }
 
-export function InsightDetailTemplate({ locale, article }: { locale: Locale; article: InsightArticleDetail }) {
+function CardImagePlaceholder() {
+  return (
+    <div className="p-hero-placeholder" aria-hidden="true">
+      <div className="p-hero-placeholder-grid" />
+      <span className="p-hero-placeholder-label">Hobon</span>
+    </div>
+  );
+}
+
+function articleHeroSrc(
+  featuredImage: InsightArticleDetail["featuredImage"],
+  fallbackSrc: string | null,
+  width: number,
+) {
+  const featured = resolveImageSrc(featuredImage, { width, quality: width >= 1000 ? 82 : 78 });
+  return {
+    src: featured.src ?? fallbackSrc,
+    alt: featured.alt || featuredImage?.alt || "",
+  };
+}
+
+export function InsightDetailTemplate({
+  locale,
+  article,
+  cardFallbackImage,
+}: {
+  locale: Locale;
+  article: InsightArticleDetail;
+  cardFallbackImage?: { image?: unknown; alt?: string | null } | null;
+}) {
   const insightsHref = buildLocalizedPath(locale, [{ type: "key", key: "insights" }]);
   const contactHref = buildLocalizedPath(locale, [{ type: "key", key: "contact" }]);
   const readMin = estimateReadingMinutesFromPortableText(article.body);
-  const heroImg =
-    article.featuredImage?.image != null
-      ? urlFor(article.featuredImage.image as Parameters<typeof urlFor>[0]).width(1400).quality(82).url()
-      : HERO_FALLBACK;
+  const cardFallbackSrc = imageWithAltToUrl(cardFallbackImage, { width: 640, quality: 80 });
+  const hero = articleHeroSrc(article.featuredImage, cardFallbackSrc, 1400);
 
   const related = (article.relatedArticles ?? []).filter((r) => r.slug);
 
@@ -66,7 +90,11 @@ export function InsightDetailTemplate({ locale, article }: { locale: Locale; art
           <h1 className="ins-detail-title">{article.title}</h1>
           {article.lead ? <p className="ins-detail-intro">{article.lead}</p> : null}
           <div className="ins-detail-hero-media">
-            <img src={heroImg} alt={article.featuredImage?.alt ?? article.title ?? ""} />
+            {hero.src ? (
+              <img src={hero.src} alt={hero.alt || article.title || ""} />
+            ) : (
+              <CardImagePlaceholder />
+            )}
           </div>
         </header>
 
@@ -91,15 +119,16 @@ export function InsightDetailTemplate({ locale, article }: { locale: Locale; art
                 { type: "key", key: "insights" },
                 { type: "slug", value: r.slug as string },
               ]);
-              const img =
-                r.featuredImage?.image != null
-                  ? urlFor(r.featuredImage.image as Parameters<typeof urlFor>[0]).width(520).quality(78).url()
-                  : HERO_FALLBACK;
+              const card = articleHeroSrc(r.featuredImage, cardFallbackSrc, 520);
               return (
                 <article key={r.slug} className="ins-card">
                   <Link href={href} className="ins-card-link">
                     <div className="ins-card-media">
-                      <img src={img} alt={r.featuredImage?.alt ?? r.title ?? ""} />
+                      {card.src ? (
+                        <img src={card.src} alt={card.alt || r.title || ""} />
+                      ) : (
+                        <CardImagePlaceholder />
+                      )}
                     </div>
                     <div className="ins-card-body">
                       {r.category?.title ? <span className="ins-card-cat">{r.category.title}</span> : null}
@@ -118,20 +147,21 @@ export function InsightDetailTemplate({ locale, article }: { locale: Locale; art
         </section>
       ) : (
         <section className="ins-list" style={{ paddingTop: 48 }}>
-          <Link href={insightsHref} className="ins-detail-back">
-            Terug naar overzicht
+          <Link href={insightsHref} className="btn-primary">
+            <span>Alle insights</span>
+            <ArrowBtnIcon size={14} />
           </Link>
         </section>
       )}
 
-      <section className="ins-cta ins-cta--detail">
+      <section className="ins-cta">
         <div className="ins-cta-inner" style={{ gridTemplateColumns: "1fr" }}>
           <div>
             <h2 className="ins-cta-h2">
-              Heb je een verpakkingsvraag?
-              <span>Bespreek het met ons</span>
+              Vraag over folie of lijn?
+              <span>We denken technisch mee.</span>
             </h2>
-            <p className="ins-cta-body">Onze specialisten vertalen uw lijncontext naar concrete foliekeuzes.</p>
+            <p className="ins-cta-body">Neem contact op voor advies op maat — zonder verplichting.</p>
             <Link href={contactHref} className="btn-primary">
               <span>Naar contact</span>
               <ArrowBtnIcon size={14} />

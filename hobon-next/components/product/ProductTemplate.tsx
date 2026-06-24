@@ -6,9 +6,7 @@ import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { buildLocalizedPath } from "@/lib/i18n/paths";
 import {
-  productPlaceholderPool,
   resolveImageSrc,
-  resolveImageWithPool,
   sectorCardImageSrc,
   type ImageWithAlt,
 } from "@/lib/sanity/resolveImageSrc";
@@ -105,11 +103,11 @@ function hasWhyHobon(p: ProductDoc) {
   return Boolean(p.whyHobonBody?.trim() || p.whyHobonTitle?.trim());
 }
 
-function buildGallerySlides(items: ImageWithAlt[], slug: string | null): GallerySlide[] {
+function buildGallerySlides(items: ImageWithAlt[], _slug: string | null): GallerySlide[] {
   const slides: GallerySlide[] = [];
   items.forEach((item, i) => {
-    const thumb = resolveImageWithPool(item, slug, i, 720);
-    const large = resolveImageWithPool(item, slug, i, 1400);
+    const thumb = resolveImageSrc(item, { width: 720, quality: 80 });
+    const large = resolveImageSrc(item, { width: 1400, quality: 82 });
     if (!thumb.src) return;
     slides.push({ src: thumb.src, alt: thumb.alt, largeSrc: large.src ?? thumb.src });
   });
@@ -136,14 +134,12 @@ export function ProductTemplate({
   const contactHref = buildLocalizedPath(locale, [{ type: "key", key: "contact" }]);
   const productsHref = buildLocalizedPath(locale, [{ type: "key", key: "products" }]);
   const slug = product.slug?.current ?? null;
-  const placeholders = productPlaceholderPool(slug);
   const [heroThumbIndex, setHeroThumbIndex] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const heroResolved = resolveImageSrc(product.heroImage, {
     width: 1000,
     quality: 80,
-    placeholder: placeholders[0] ?? null,
   });
 
   const heroThumbs = (product.heroThumbs ?? []).filter((t) => t.label?.trim() || t.image?.image);
@@ -155,7 +151,7 @@ export function ProductTemplate({
   const activeHeroImg = useMemo(() => {
     if (heroThumbs.length > 0) {
       const idx = Math.min(heroThumbIndex, heroThumbs.length - 1);
-      return resolveImageWithPool(heroThumbs[idx].image, slug, idx + 1, 1000);
+      return resolveImageSrc(heroThumbs[idx].image, { width: 1000, quality: 80 });
     }
     return heroResolved;
   }, [heroThumbs, heroThumbIndex, slug, heroResolved]);
@@ -257,7 +253,7 @@ export function ProductTemplate({
           {heroThumbs.length > 0 ? (
             <div className="s-hero-thumbs" id="heroThumbs">
               {heroThumbs.map((thumb, i) => {
-                const thumbImg = resolveImageWithPool(thumb.image, slug, i + 1, 260);
+                const thumbImg = resolveImageSrc(thumb.image, { width: 260, quality: 78 });
                 return (
                   <button
                     key={thumb._key ?? thumb.label ?? i}
@@ -339,7 +335,7 @@ export function ProductTemplate({
           </div>
           <div className="sol-grid" data-sol-count={solutionCards.length}>
             {solutionCards.map((sol, i) => {
-              const cardImg = resolveImageWithPool(sol.image, slug, i, 800);
+              const cardImg = resolveImageSrc(sol.image, { width: 800, quality: 80 });
               return (
                 <div key={sol._key ?? sol.title ?? i} className={`sol rv ${i ? `d${i % 4}` : ""}`}>
                   <div className="sol-photo">
@@ -434,10 +430,12 @@ export function ProductTemplate({
                 { type: "key", key: "sectors" },
                 { type: "slug", value: s.slug },
               ]);
-              const img =
-                sectorCardImageSrc(s.listingImage, s.listingImageUrl, s.heroMainImage, s.heroMainImageUrl) ??
-                placeholders[0] ??
-                null;
+              const img = sectorCardImageSrc(
+                s.listingImage,
+                s.listingImageUrl,
+                s.heroMainImage,
+                s.heroMainImageUrl,
+              );
               return (
                 <Link key={s._id ?? s.slug} href={href} className="os-item">
                   <div className="os-item-photo">

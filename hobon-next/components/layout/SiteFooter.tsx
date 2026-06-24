@@ -74,15 +74,15 @@ export function SiteFooter({
   locale,
   footerNav,
   siteSettings,
-  fallbackLogoSrc,
+  logoSrc: layoutLogoSrc,
 }: {
   locale: Locale;
   footerNav: FooterNav;
   siteSettings: SiteSettings;
-  fallbackLogoSrc: string;
+  logoSrc?: string | null;
 }) {
   const labels = useUILabels();
-  const logoSrc = imageSrc(siteSettings?.logo ?? null, 320) ?? fallbackLogoSrc;
+  const logoSrc = layoutLogoSrc ?? imageSrc(siteSettings?.logo ?? null, 320) ?? null;
   const logoAlt =
     siteSettings?.logo?.alt?.trim() || siteSettings?.companyName?.trim() || "Hobon";
   const slogan = footerNav?.slogan ?? "";
@@ -101,14 +101,20 @@ export function SiteFooter({
     <footer>
       <div className="ft">
         <div>
-          <Image
-            src={logoSrc}
-            alt={logoAlt}
-            width={160}
-            height={44}
-            className="ft-logo h-auto max-h-11 w-auto"
-            style={{ height: "auto" }}
-          />
+          {logoSrc ? (
+            <Image
+              src={logoSrc}
+              alt={logoAlt}
+              width={160}
+              height={44}
+              className="ft-logo h-auto max-h-11 w-auto"
+              style={{ height: "auto" }}
+            />
+          ) : (
+            <span className="font-[family-name:var(--f-head)] text-lg font-bold text-[var(--navy)]">
+              {logoAlt}
+            </span>
+          )}
           {slogan ? <p className="ft-tagline">{slogan}</p> : null}
           {(phone || email || loc0) && (
             <div className="mt-6 space-y-2 text-sm text-[#5a5f72]">

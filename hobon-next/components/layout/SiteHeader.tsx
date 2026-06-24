@@ -115,17 +115,17 @@ export function SiteHeader({
   locale,
   headerNav,
   siteSettings,
-  fallbackLogoSrc,
+  logoSrc: layoutLogoSrc,
 }: {
   locale: Locale;
   headerNav: HeaderNav;
   siteSettings: SiteSettings;
-  fallbackLogoSrc: string;
+  logoSrc?: string | null;
 }) {
   const labels = useUILabels();
   const logoFromNav = imageSrc(headerNav?.logo ?? null, 320);
   const logoFromSettings = imageSrc(siteSettings?.logo ?? null, 320);
-  const logoSrc = logoFromNav ?? logoFromSettings ?? fallbackLogoSrc;
+  const logoSrc = layoutLogoSrc ?? logoFromNav ?? logoFromSettings ?? null;
   const logoAlt =
     headerNav?.logo?.alt?.trim() ||
     siteSettings?.logo?.alt?.trim() ||
@@ -148,15 +148,21 @@ export function SiteHeader({
     <>
       <header className="hdr" id="hdr">
         <Link href={home} className="hdr-logo" aria-label={logoAlt}>
-          <Image
-            src={logoSrc}
-            alt={logoAlt}
-            width={160}
-            height={44}
-            className="h-11 w-auto max-h-11"
-            style={{ width: "auto" }}
-            priority
-          />
+          {logoSrc ? (
+            <Image
+              src={logoSrc}
+              alt={logoAlt}
+              width={160}
+              height={44}
+              className="h-11 w-auto max-h-11"
+              style={{ width: "auto" }}
+              priority
+            />
+          ) : (
+            <span className="font-[family-name:var(--f-head)] text-lg font-bold text-[var(--navy)]">
+              {logoAlt}
+            </span>
+          )}
         </Link>
         <nav className="hdr-nav">
           <MenuRows items={items} locale={locale} mobile={false} />

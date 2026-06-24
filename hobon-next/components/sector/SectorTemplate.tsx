@@ -5,13 +5,25 @@ import Link from "next/link";
 import { Fragment } from "react";
 import type { Locale } from "@/lib/i18n/config";
 import { buildLocalizedPath } from "@/lib/i18n/paths";
-import { urlFor } from "@/lib/sanity/image";
+import {
+  resolveImageWithLegacyUrl,
+  sectorCardImageSrc,
+  type ImageWithAlt,
+} from "@/lib/sanity/resolveImageSrc";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { SectorCtaForm } from "./SectorCtaForm";
 import { SectorFaqs, type FaqItem } from "./SectorFaqs";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
 
-export type SectorNav = { slug: string | null; navLabel?: string | null; title: string };
+export type SectorNav = {
+  slug: string | null;
+  navLabel?: string | null;
+  title: string;
+  listingImage?: ImageWithAlt;
+  listingImageUrl?: string | null;
+  heroMainImage?: ImageWithAlt;
+  heroMainImageUrl?: string | null;
+};
 
 export type SectorDoc = {
   title?: string | null;
@@ -49,6 +61,7 @@ export type SectorDoc = {
   deepTitle1?: string | null;
   deepTitle2?: string | null;
   deepBody?: string | null;
+  deepPhoto?: ImageWithAlt;
   deepPhotoUrl?: string | null;
   deepPhotoCaptionTag?: string | null;
   deepPhotoCaption?: string | null;
@@ -89,15 +102,16 @@ export function SectorTemplate({
   const labels = useUILabels();
   const contactHref = buildLocalizedPath(locale, [{ type: "key", key: "contact" }]);
 
-  const mainImg =
-    sector.heroMainImage?.image != null
-      ? urlFor(sector.heroMainImage.image).width(1000).quality(80).url()
-      : sector.heroMainImageUrl ??
-        "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1000&q=80&auto=format&fit=crop";
+  const mainResolved = resolveImageWithLegacyUrl(
+    sector.heroMainImage,
+    sector.heroMainImageUrl,
+    { width: 1000, quality: 80 },
+  );
 
-  const deepPhoto =
-    sector.deepPhotoUrl ??
-    "https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=700&q=80&auto=format&fit=crop";
+  const deepResolved = resolveImageWithLegacyUrl(sector.deepPhoto, sector.deepPhotoUrl, {
+    width: 700,
+    quality: 80,
+  });
 
   return (
     <>
@@ -177,7 +191,14 @@ export function SectorTemplate({
 
         <div className="s-hero-r">
           <div className="s-hero-r-main">
-            <img src={mainImg} alt={sector.heroMainImage?.alt ?? sector.title ?? ""} />
+            {mainResolved.src ? (
+              <img src={mainResolved.src} alt={mainResolved.alt || sector.heroMainImage?.alt || sector.title || ""} />
+            ) : (
+              <div className="p-hero-placeholder" aria-hidden="true">
+                <div className="p-hero-placeholder-grid" />
+                <span className="p-hero-placeholder-label">Hobon</span>
+              </div>
+            )}
           </div>
           <div
             className="s-hero-r-overlay"
@@ -338,7 +359,14 @@ export function SectorTemplate({
               <p className="deep-body" dangerouslySetInnerHTML={{ __html: sector.deepBody }} />
             ) : null}
             <div className="deep-photo">
-              <img src={deepPhoto} alt="" />
+              {deepResolved.src ? (
+                <img src={deepResolved.src} alt={deepResolved.alt || sector.deepPhotoCaption || ""} />
+              ) : (
+                <div className="p-hero-placeholder" aria-hidden="true">
+                  <div className="p-hero-placeholder-grid" />
+                  <span className="p-hero-placeholder-label">Hobon</span>
+                </div>
+              )}
               <div className="deep-photo-cap">
                 <div className="deep-photo-cap-tag">{sector.deepPhotoCaptionTag}</div>
                 <div className="deep-photo-cap-txt">{sector.deepPhotoCaption}</div>
@@ -430,7 +458,14 @@ export function SectorTemplate({
         <div className="os-grid rv d2">
           {navSectors
             .filter((s) => s.slug && s.slug !== currentSlug)
-            .map((s) => (
+            .map((s) => {
+              const cardImg = sectorCardImageSrc(
+                s.listingImage,
+                s.listingImageUrl,
+                s.heroMainImage,
+                s.heroMainImageUrl,
+              );
+              return (
               <Link
                 key={s.slug}
                 href={buildLocalizedPath(locale, [
@@ -440,10 +475,14 @@ export function SectorTemplate({
                 className="os-item"
               >
                 <div className="os-item-photo">
-                  <img
-                    src="https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?w=400&q=65&auto=format&fit=crop"
-                    alt=""
-                  />
+                  {cardImg ? (
+                    <img src={cardImg} alt="" />
+                  ) : (
+                    <div className="p-hero-placeholder" aria-hidden="true">
+                      <div className="p-hero-placeholder-grid" />
+                      <span className="p-hero-placeholder-label">Hobon</span>
+                    </div>
+                  )}
                   <div className="os-item-photo-overlay" />
                 </div>
                 <div className="os-item-body">
@@ -454,7 +493,8 @@ export function SectorTemplate({
                   <ArrowBtnIcon size={10} />
                 </div>
               </Link>
-            ))}
+              );
+            })}
         </div>
       </section>
 

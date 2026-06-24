@@ -2,16 +2,14 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { buildLocalizedPath } from "@/lib/i18n/paths";
-import { urlFor } from "@/lib/sanity/image";
+import { imageWithAltToUrl, resolveImageSrc } from "@/lib/sanity/resolveImageSrc";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { InsightCategoryChips, type InsightCategoryChip } from "@/components/insights/InsightCategoryChips";
-
-const CARD_IMG_FALLBACK =
-  "https://images.unsplash.com/photo-1581090700227-1e37b190418e?w=800&q=80&auto=format&fit=crop";
 
 export type InsightsOverviewPageDoc = {
   hero?: { headline?: string | null; subline?: string | null } | null;
   intro?: string | null;
+  articleCardFallbackImage?: { image?: unknown; alt?: string | null } | null;
 };
 
 export type InsightListItem = {
@@ -33,6 +31,15 @@ function formatArticleDate(locale: Locale, iso: string | null | undefined) {
   return new Intl.DateTimeFormat(tag, { day: "numeric", month: "short", year: "numeric" }).format(d);
 }
 
+function CardImagePlaceholder() {
+  return (
+    <div className="p-hero-placeholder" aria-hidden="true">
+      <div className="p-hero-placeholder-grid" />
+      <span className="p-hero-placeholder-label">Hobon</span>
+    </div>
+  );
+}
+
 export function InsightsOverviewTemplate({
   locale,
   page,
@@ -45,6 +52,7 @@ export function InsightsOverviewTemplate({
   categories: InsightCategoryChip[];
 }) {
   const hero = page?.hero;
+  const cardFallbackSrc = imageWithAltToUrl(page?.articleCardFallbackImage, { width: 640, quality: 80 });
 
   return (
     <div className="ins-page">
@@ -75,15 +83,14 @@ export function InsightsOverviewTemplate({
                 { type: "key", key: "insights" },
                 { type: "slug", value: a.slug },
               ]);
-              const img =
-                a.featuredImage?.image != null
-                  ? urlFor(a.featuredImage.image as Parameters<typeof urlFor>[0]).width(640).quality(80).url()
-                  : CARD_IMG_FALLBACK;
+              const featured = resolveImageSrc(a.featuredImage, { width: 640, quality: 80 });
+              const imgSrc = featured.src ?? cardFallbackSrc;
+              const imgAlt = featured.alt || a.featuredImage?.alt || a.title || "";
               return (
                 <article key={a._id} className="ins-card">
                   <Link href={href} className="ins-card-link">
                     <div className="ins-card-media">
-                      <img src={img} alt={a.featuredImage?.alt ?? a.title ?? ""} />
+                      {imgSrc ? <img src={imgSrc} alt={imgAlt} /> : <CardImagePlaceholder />}
                     </div>
                     <div className="ins-card-body">
                       {a.category?.title ? (

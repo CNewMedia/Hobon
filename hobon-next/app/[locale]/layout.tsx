@@ -68,11 +68,10 @@ export default async function LocaleLayout({
   ]);
   const uiLabels = mergeUILabels(rawUILabels);
 
-  const fallbackLogoSrc = "/assets/images/logo.png";
   const logoSrc =
     logoUrlFromImageWithAlt(settings?.logo ?? null) ??
     logoUrlFromImageWithAlt(headerNav?.logo ?? null) ??
-    fallbackLogoSrc;
+    null;
 
   const cookiebotCbid = cookieConsent?.cookiebotCbid?.trim();
   const showCookiebot =
@@ -91,7 +90,7 @@ export default async function LocaleLayout({
     name: settings?.companyName?.trim() || "Hobon",
     legalName: seoDefaults?.organizationSchema?.legalName,
     url: SITE_ORIGIN,
-    logoUrl: logoSrc.startsWith("http") ? logoSrc : `${SITE_ORIGIN}${logoSrc}`,
+    logoUrl: logoSrc?.startsWith("http") ? logoSrc : logoSrc ? `${SITE_ORIGIN}${logoSrc}` : undefined,
     foundingDate: seoDefaults?.organizationSchema?.foundingDate ?? undefined,
     vatId: seoDefaults?.organizationSchema?.vatNumber,
     sameAs: seoDefaults?.organizationSchema?.socialLinks ?? undefined,
@@ -123,14 +122,14 @@ export default async function LocaleLayout({
           locale={locale}
           headerNav={headerNav}
           siteSettings={settings}
-          fallbackLogoSrc={fallbackLogoSrc}
+          logoSrc={logoSrc}
         />
         <main className="flex-1">{children}</main>
         <SiteFooter
           locale={locale}
           footerNav={footerNav}
           siteSettings={settings}
-          fallbackLogoSrc={fallbackLogoSrc}
+          logoSrc={logoSrc}
         />
       </UILabelsProvider>
     </>

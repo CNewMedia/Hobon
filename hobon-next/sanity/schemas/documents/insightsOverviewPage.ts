@@ -9,5 +9,11 @@ export const insightsOverviewPage = defineType({
     defineField({ name: "seo", type: "seo" }),
     defineField({ name: "hero", title: "Hero", type: "pageHero" }),
     defineField({ name: "intro", title: "Intro (optional legacy)", type: "text", rows: 3 }),
+    defineField({
+      name: "articleCardFallbackImage",
+      title: "Fallback — artikelkaartbeeld",
+      type: "imageWithAlt",
+      description: "Getoond wanneer een insight-artikel geen featuredImage heeft",
+    }),
   ],
 });

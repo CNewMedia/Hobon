@@ -5,6 +5,7 @@ import { ContactForm, type ContactFormLabels } from "@/components/contact/Contac
 import { HeroMediaPanel } from "@/components/hero/HeroMedia";
 import type { HeroMediaData } from "@/components/hero/heroMediaTypes";
 import { SimpleRichText } from "@/components/portable/SimpleRichText";
+import { resolveImageSrc } from "@/lib/sanity/resolveImageSrc";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
 import { useEffect, useState } from "react";
 
@@ -29,22 +30,12 @@ export type SiteSettingsContact = {
     country?: string | null;
     phone?: string | null;
     email?: string | null;
+    mapImage?: { image?: unknown; alt?: string | null } | null;
   }[] | null;
 };
 
 const MOCK_SUCCESS_MESSAGE =
   "Bedankt voor uw bericht. Een van onze specialisten neemt binnen 1 werkdag contact met u op.";
-
-function getLocationMapImage(name?: string | null, index?: number) {
-  const normalized = name?.toLowerCase() ?? "";
-  if (normalized.includes("vhp") || normalized.includes("roeselare") || index === 1) {
-    return { src: "/assets/images/vhp_map.jpg", alt: "Kaart van VHP Roeselare" };
-  }
-  if (normalized.includes("hobon") || normalized.includes("lievegem") || index === 0) {
-    return { src: "/assets/images/hobon_map.jpg", alt: "Kaart van Hobon Lievegem" };
-  }
-  return null;
-}
 
 export function ContactTemplate({
   contactPage,
@@ -118,12 +109,12 @@ export function ContactTemplate({
               const addr = [loc.streetAddress, [loc.postalCode, loc.city].filter(Boolean).join(" "), loc.country]
                 .filter(Boolean)
                 .join(", ");
-              const mapImage = getLocationMapImage(loc.name, index);
+              const mapImage = resolveImageSrc(loc.mapImage, { width: 640, quality: 82 });
               return (
                 <div key={loc._key ?? loc.name} className="c-loc">
                   <div className="c-loc-map">
-                    {mapImage ? (
-                      <img className="c-loc-map-img" src={mapImage.src} alt={mapImage.alt} loading="lazy" />
+                    {mapImage.src ? (
+                      <img className="c-loc-map-img" src={mapImage.src} alt={mapImage.alt || loc.name || ""} loading="lazy" />
                     ) : (
                       <span className="c-loc-map-ph">{labels.uiContactMapPlaceholder}</span>
                     )}

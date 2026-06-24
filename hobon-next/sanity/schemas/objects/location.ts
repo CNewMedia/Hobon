@@ -27,5 +27,11 @@ export const location = defineType({
       of: [{ type: "string" }],
       description: 'e.g. "Mo-Fr 08:00-17:00"',
     }),
+    defineField({
+      name: "mapImage",
+      title: "Map image",
+      type: "imageWithAlt",
+      description: "Kaartbeeld op contactpagina",
+    }),
   ],
 });
