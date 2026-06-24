@@ -6,6 +6,7 @@ import { resolveInternalHref } from "@/lib/sanity/resolveInternalHref";
 import { SimpleRichText } from "@/components/portable/SimpleRichText";
 import { HeroMediaPanel } from "@/components/hero/HeroMedia";
 import type { HeroMediaData } from "@/components/hero/heroMediaTypes";
+import { hasHeroMedia } from "@/components/hero/heroMediaTypes";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
 
@@ -26,15 +27,28 @@ export function AboutTemplate({ locale, aboutPage }: { locale: Locale; aboutPage
   const labels = useUILabels();
   const hero = aboutPage?.hero;
   const ctaHref = resolveInternalHref(locale, aboutPage?.cta?.buttonLink ?? null);
+  const headline = hero?.headline?.trim() || "Over Hobon";
+  const subline = hero?.subline?.trim() || "";
+  const splitHero = hasHeroMedia(aboutPage?.heroMedia);
 
   return (
-    <div className="abt-page">
-      <section className="abt-hero">
-        {hero?.headline ? <h1 className="abt-hero-h1">{hero.headline}</h1> : <h1 className="abt-hero-h1">Over Hobon</h1>}
-        {hero?.subline ? <p className="abt-hero-sub">{hero.subline}</p> : null}
-      </section>
-
-      <HeroMediaPanel media={aboutPage?.heroMedia} className="page-hero-media s-hero-r listing-overview-hero-r" />
+    <div className={`abt-page${splitHero ? " abt-page--split-hero" : ""}`}>
+      {splitHero ? (
+        <section className="s-hero listing-overview-hero abt-hero-band">
+          <div className="s-hero-dots" aria-hidden="true" />
+          <div className="s-hero-glow" aria-hidden="true" />
+          <div className="s-hero-l listing-overview-hero-l">
+            <h1 className="s-hero-h1 listing-overview-h1">{headline}</h1>
+            {subline ? <p className="s-hero-intro">{subline}</p> : null}
+          </div>
+          <HeroMediaPanel media={aboutPage?.heroMedia} />
+        </section>
+      ) : (
+        <section className="abt-hero">
+          <h1 className="abt-hero-h1">{headline}</h1>
+          {subline ? <p className="abt-hero-sub">{subline}</p> : null}
+        </section>
+      )}
 
       {(aboutPage?.storyBlocks ?? []).map((block, i) => (
         <section key={`${block.headline ?? "s"}-${i}`} className="abt-story">

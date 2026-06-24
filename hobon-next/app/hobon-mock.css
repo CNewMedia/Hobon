@@ -1048,6 +1048,11 @@ button.gal-item{border:none;padding:0;font:inherit;color:inherit;text-align:left
 
 /* About + sustainability inner pages */
 .abt-page,.sus-page{background:var(--white);padding-top:68px;}
+.abt-page--split-hero{padding-top:0;}
+.abt-hero-band .s-hero-l{padding-bottom:48px;}
+@media (max-width:1024px){
+  .abt-page--split-hero .abt-hero-band .s-hero-r{display:block;position:relative;min-height:clamp(220px,32vh,420px);}
+}
 .abt-hero,.sus-hero{background:var(--chalk);padding:88px 52px 64px;border-bottom:1px solid var(--rule-lt);}
 .abt-hero-h1,.sus-hero-h1{font-family:var(--f-head);font-size:clamp(36px,4vw,56px);font-weight:700;color:var(--navy);letter-spacing:-.02em;line-height:1.05;margin-bottom:16px;}
 .abt-hero-sub,.sus-hero-sub{font-size:16px;font-weight:300;line-height:1.75;color:#5a5f72;max-width:640px;}
