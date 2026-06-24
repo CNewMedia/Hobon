@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { SlugUrlPreview } from "../../components/SlugUrlPreview";
 
 export const product = defineType({
   name: "product",
@@ -28,6 +29,7 @@ export const product = defineType({
       options: { source: "title", maxLength: 96 },
       validation: (Rule) => Rule.required(),
       group: "hero",
+      components: { field: SlugUrlPreview },
     }),
     defineField({
       name: "heroEyebrow",

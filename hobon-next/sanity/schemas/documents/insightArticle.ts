@@ -1,4 +1,5 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
+import { SlugUrlPreview } from "../../components/SlugUrlPreview";
 
 export const insightArticle = defineType({
   name: "insightArticle",
@@ -13,6 +14,7 @@ export const insightArticle = defineType({
       type: "slug",
       options: { source: "title", maxLength: 96 },
       validation: (Rule) => Rule.required(),
+      components: { field: SlugUrlPreview },
     }),
     defineField({
       name: "lead",

@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { SlugUrlPreview } from "../../components/SlugUrlPreview";
 
 export const sector = defineType({
   name: "sector",
@@ -17,6 +18,7 @@ export const sector = defineType({
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),
+      components: { field: SlugUrlPreview },
     }),
     defineField({ name: "sortOrder", type: "number", initialValue: 0 }),
     defineField({ name: "navLabel", type: "string", description: "Kort label in sector-switcher" }),
