@@ -86,11 +86,6 @@ export function ProductGalleryLightbox({
           <img src={current.largeSrc ?? current.src} alt={current.alt} />
         </div>
         <div className="lb-cap">{current.alt}</div>
-        {slides.length > 1 ? (
-          <div className="lb-count">
-            {String((index ?? 0) + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
-          </div>
-        ) : null}
       </div>
     </div>,
     document.body,

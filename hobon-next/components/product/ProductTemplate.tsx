@@ -344,7 +344,11 @@ export function ProductTemplate({
                 <div key={sol._key ?? sol.title ?? i} className={`sol rv ${i ? `d${i % 4}` : ""}`}>
                   <div className="sol-photo">
                     {cardImg.src ? (
-                      <img src={cardImg.src} alt={cardImg.alt || sol.title || ""} />
+                      <img
+                        src={cardImg.src}
+                        alt={cardImg.alt || sol.title || ""}
+                        className="h-full w-full object-cover"
+                      />
                     ) : (
                       <HeroPlaceholder />
                     )}

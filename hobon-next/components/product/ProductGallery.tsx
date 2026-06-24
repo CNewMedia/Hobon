@@ -71,7 +71,6 @@ export function ProductGallery({
                 aria-label={`Vergroot: ${slide.alt}`}
               >
                 <img src={slide.src} alt={slide.alt} />
-                <span className="gal-num">{String(i + 1).padStart(2, "0")}</span>
                 <span className="gal-zoom">
                   <ZoomIcon />
                 </span>
