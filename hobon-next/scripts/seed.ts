@@ -847,7 +847,7 @@ async function main() {
       headline: "Bespreek uw verpakkingsvraag",
       subline: "Onze specialisten denken graag met u mee — zonder verplichting",
     },
-    intro: "Heeft u een verpakkingsvraag? Vul het formulier in of neem direct contact op.",
+    intro: "Heeft u een verpakkingsvraag? Vul het formulier in of neem direct contact\u00A0op.",
     formTitle: "Bespreek uw verpakkingsvraag",
     formSubmitLabel: "Verstuur mijn vraag",
     formThankYouMessage:
