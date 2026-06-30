@@ -333,7 +333,7 @@ export function ProductTemplate({
               <h2 className="solutions-h2 p-solutions-h2 rv d1">{solutionsHeading}</h2>
             </div>
           </div>
-          <div className="sol-grid" data-sol-count={solutionCards.length}>
+          <div className="sol-grid p-solutions-grid" data-sol-count={solutionCards.length}>
             {solutionCards.map((sol, i) => {
               const cardImg = resolveImageSrc(sol.image, { width: 800, quality: 80 });
               return (
