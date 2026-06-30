@@ -38,7 +38,11 @@
 
 ## Blokkers / vragen voor Christophe
 
-- **`SANITY_API_WRITE_TOKEN`**: seed en Studio-schrijfacties vereisen dit lokaal/Vercel; niet in git.
+- **`SANITY_API_WRITE_TOKEN`**: Editor-token voor **CLI/scripts** (`npm run seed`, `migrate:*`, `translate:*`); niet voor Studio (OAuth) of publieke site.
+- **`SANITY_API_READ_TOKEN`**: Viewer-token voor draft preview (server-only).
+- **`SANITY_PREVIEW_SECRET`**: signing secret voor `/api/draft` (server-only).
+
+Volledige inventaris en opkuis-checklist: [`docs/sanity-token-audit.md`](docs/sanity-token-audit.md).
 - **Sanity quota**: bulk seed overschrijft documenten met vaste `_id`s — bij conflict met handmatige edits in Studio vooraf backup overwegen.
 - Bevestiging gewenst of **Tailwind-only** refactoring later nog nodig is, gezien bewuste keuze voor geïmporteerde mock-CSS.
 

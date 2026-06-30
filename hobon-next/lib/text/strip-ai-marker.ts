@@ -1,5 +1,12 @@
 const MARKER_REGEX = /^\[AI-translated\]\s*/;
 
+export const AI_TRANSLATED_MARKER = "[AI-translated]";
+
+/** True when a string contains the AI translation marker. */
+export function containsAIMarker(text: string): boolean {
+  return text.includes(AI_TRANSLATED_MARKER);
+}
+
 /**
  * Removes the "[AI-translated] " prefix from a string.
  * Safe for null/undefined input.

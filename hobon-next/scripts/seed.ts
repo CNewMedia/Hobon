@@ -163,14 +163,14 @@ async function main() {
       menuItem("[FR: Accueil]", "internal", { refId: "homePage-fr" }),
       menuItem("[FR: Produits]", "dropdown", {
         sub: menuBlock([
-          menuItem("[FR: Aperçu des produits (NL détail — contenu FR à venir)]", "internal", {
+          menuItem("[FR: Aperçu des produits (NL détail, contenu FR à venir)]", "internal", {
             refId: "productOverviewPage-fr",
           }),
         ]),
       }),
       menuItem("[FR: Secteurs]", "dropdown", {
         sub: menuBlock([
-          menuItem("[FR: Aperçu des secteurs (NL détail — contenu FR à venir)]", "internal", {
+          menuItem("[FR: Aperçu des secteurs (NL détail, contenu FR à venir)]", "internal", {
             refId: "sectorOverviewPage-fr",
           }),
         ]),
@@ -195,14 +195,14 @@ async function main() {
       menuItem("[EN: Home]", "internal", { refId: "homePage-en" }),
       menuItem("[EN: Products]", "dropdown", {
         sub: menuBlock([
-          menuItem("[EN: Products overview (NL detail — EN content TODO)]", "internal", {
+          menuItem("[EN: Products overview (NL detail. EN content TODO)]", "internal", {
             refId: "productOverviewPage-en",
           }),
         ]),
       }),
       menuItem("[EN: Sectors]", "dropdown", {
         sub: menuBlock([
-          menuItem("[EN: Sectors overview (NL detail — EN content TODO)]", "internal", {
+          menuItem("[EN: Sectors overview (NL detail. EN content TODO)]", "internal", {
             refId: "sectorOverviewPage-en",
           }),
         ]),
@@ -246,7 +246,7 @@ async function main() {
     _id: "footerNavigation-nl",
     _type: "footerNavigation",
     language: "nl",
-    slogan: "Hobon — uw technische partner voor verpakkingsfolie op maat.",
+    slogan: "Hobon, uw technische partner voor verpakkingsfolie op maat.",
     columns: [
       footerColumn("Producten", [
         footerLink("Productoverzicht", "internal", { refId: "productOverviewPage-nl" }),
@@ -284,7 +284,7 @@ async function main() {
     _id: "footerNavigation-fr",
     _type: "footerNavigation",
     language: "fr",
-    slogan: "[FR: Hobon — votre partenaire technique pour films d'emballage sur mesure.]",
+    slogan: "[FR: Hobon, votre partenaire technique pour films d'emballage sur mesure.]",
     columns: [
       footerColumn("[FR: Produits]", [
         footerLink("[FR: Aperçu]", "internal", { refId: "productOverviewPage-fr" }),
@@ -356,7 +356,7 @@ async function main() {
     _id: "seoDefaults-nl",
     _type: "seoDefaults",
     language: "nl",
-    defaultMetaTitle: "Hobon — Verpakkingsfolie op maat",
+    defaultMetaTitle: "Hobon - Verpakkingsfolie op maat",
     defaultMetaTitleSuffix: " | Hobon",
     defaultMetaDescription:
       "Hobon is uw technische partner voor PE-verpakkingsfolie. Advies voor aankoop, minder faalkosten. Actief in BE, NL en FR.",
@@ -404,7 +404,7 @@ async function main() {
     _type: "homePage",
     language: "nl",
     seo: {
-      metaTitle: "Hobon — Verpakkingsfolie op maat — De juiste folie voorkomt problemen | BE & NL",
+      metaTitle: "Hobon - Verpakkingsfolie op maat - De juiste folie voorkomt problemen | BE & NL",
       metaDescription:
         "PE-verpakkingsfolie voor industrie, voeding en logistiek. Technisch advies op maat van uw machine en lijn. BRC Packaging Level AA gecertificeerd.",
       noindex: false,
@@ -414,7 +414,7 @@ async function main() {
     heroH1Accent: "folie",
     heroH1Soft: "voorkomt problemen",
     heroSub:
-      "Hobon helpt u <strong>de juiste verpakkingsfolie kiezen</strong> voor uw machine, uw lijn en uw duurzaamheidsdoelstellingen — vóór u bestelt. Geen catalogusproduct. <strong>Technisch advies op maat</strong>, van extrusie tot bedrukking in 6&nbsp;kleuren.",
+      "Hobon helpt u <strong>de juiste verpakkingsfolie kiezen</strong> voor uw machine, uw lijn en uw duurzaamheidsdoelstellingen, vóór u bestelt. Geen catalogusproduct. <strong>Technisch advies op maat</strong>, van extrusie tot bedrukking in 6&nbsp;kleuren.",
     heroPrimaryCta: { label: "Bespreek uw verpakkingsvraag", href: "/nl/contact" },
     heroSecondaryCta: { label: "Onze sectoren", href: "#sectoren" },
     brcTitle: "BRC Packaging Level AA",
@@ -443,16 +443,16 @@ async function main() {
     aboutHeadline1: "Waar andere leveranciers<br>een catalogus sturen,",
     aboutHeadlineSub: "stelt Hobon vragen",
     aboutBody:
-      "Uw verpakkingsvraag is geen cataloguskeuze. De juiste folie hangt af van uw machine, uw lijnsnelheid, uw product en uw compliance-vereisten. <strong>Verkeerde keuzes kosten u meer dan u denkt</strong> — breuk op de lijn, auditproblemen, stilstand.",
+      "Uw verpakkingsvraag is geen cataloguskeuze. De juiste folie hangt af van uw machine, uw lijnsnelheid, uw product en uw compliance-vereisten. <strong>Verkeerde keuzes kosten u meer dan u denkt</strong>. Breuk op de lijn, auditproblemen, stilstand.",
     aboutPhotoTag: "Productie in eigen beheer",
-    aboutPhotoCaption: "Van extrusie tot bedrukking in 6 kleuren — alles inhouse in Lievegem.",
+    aboutPhotoCaption: "Van extrusie tot bedrukking in 6 kleuren, alles inhouse in Lievegem.",
     aboutFloatNum: "AA",
     aboutFloatTitle: "BRC Packaging Level AA",
     aboutFloatSub: "Gecertificeerd voor food & industrie",
     usps: [
       {
         title: "Advies vóór aankoop",
-        body: "Wij helpen u de juiste specificaties bepalen vóór u bestelt — recyclaat of virgin, dunner of verstevigd, voeding of industrie.",
+        body: "Wij helpen u de juiste specificaties bepalen vóór u bestelt, recyclaat of virgin, dunner of verstevigd, voeding of industrie.",
       },
       {
         title: "Minder faalkosten",
@@ -460,7 +460,7 @@ async function main() {
       },
       {
         title: "Duurzaamheid in de praktijk",
-        body: "Recyclaat-oplossingen technisch en economisch haalbaar maken — zonder concessies aan lijnsnelheid of voedselveiligheid.",
+        body: "Recyclaat-oplossingen technisch en economisch haalbaar maken, zonder concessies aan lijnsnelheid of voedselveiligheid.",
       },
     ],
     processTag: "Werkwijze",
@@ -478,13 +478,13 @@ async function main() {
         step: "Advies",
         title: "Materiaaladvies op maat",
         description:
-          "Virgin of recyclaat, welke PE-samenstelling, welke dikte — afgestemd op uw lijneisen én uw duurzaamheidsdoelstellingen. Technisch onderbouwd.",
+          "Virgin of recyclaat, welke PE-samenstelling, welke dikte, afgestemd op uw lijneisen én uw duurzaamheidsdoelstellingen. Technisch onderbouwd.",
       },
       {
         step: "Productie",
         title: "Productie in eigen beheer",
         description:
-          "Extrusie, voorbehandeling, inkleuren, bedrukken en verwerking tot zakken en vellen — alles inhouse in Lievegem. Kwaliteitscontrole in elk stadium.",
+          "Extrusie, voorbehandeling, inkleuren, bedrukken en verwerking tot zakken en vellen, alles inhouse in Lievegem. Kwaliteitscontrole in elk stadium.",
       },
       {
         step: "Resultaat",
@@ -501,7 +501,7 @@ async function main() {
         tag: "Niche · hoge expertise vereist",
         title: "DOLAV-zakken",
         description:
-          "Één van de weinige Belgische producenten met diepgaande expertise in DOLAV-zakken. Stuifbestendigheid, lassterkte en weerstand tegen mechanische belasting bepalen de materiaalkeuze — een verkeerde samenstelling leidt tot breuk of productverlies op de lijn.",
+          "Één van de weinige Belgische producenten met diepgaande expertise in DOLAV-zakken. Stuifbestendigheid, lassterkte en weerstand tegen mechanische belasting bepalen de materiaalkeuze. Een verkeerde samenstelling leidt tot breuk of productverlies op de lijn.",
         featured: true,
         specs: [
           { key: "Materiaal", value: "LDPE / HDPE" },
@@ -521,7 +521,7 @@ async function main() {
         tag: "Palletverpakking",
         title: "Stretchfolie",
         description:
-          "Hobon bouwt het stretchfolieaanbod verder uit — van machinale stretchfolie tot handwikkelfolie, in diverse samenstellingen voor palletstabiliteit en bescherming.",
+          "Hobon bouwt het stretchfolieaanbod verder uit, van machinale stretchfolie tot handwikkelfolie, in diverse samenstellingen voor palletstabiliteit en bescherming.",
       },
       {
         tag: "Paperlook / food",
@@ -540,13 +540,13 @@ async function main() {
     sectorsCta: { label: "Alle sectoren", href: "/nl/sectoren" },
     qualityBig: "BRC<span>&nbsp;AA</span>",
     qualityLabel:
-      "<strong>Hoogste certificeringsniveau</strong>BRC Packaging Level AA — geverifieerd in elk productiestadium. Virgin materialen voor food-verpakkingen.",
+      "<strong>Hoogste certificeringsniveau</strong>BRC Packaging Level AA. Geverifieerd in elk productiestadium. Virgin materialen voor food-verpakkingen.",
     qualityItems: [
       {
         num: "01",
         title: "Kwaliteitscontrole in elk stadium",
         description:
-          "Van extrusie over voorbehandeling tot bedrukking — inhouse in Lievegem, niet uitbesteed.",
+          "Van extrusie over voorbehandeling tot bedrukking, inhouse in Lievegem, niet uitbesteed.",
       },
       {
         num: "02",
@@ -565,7 +565,7 @@ async function main() {
     contactHeadline1: "Bespreek uw",
     contactHeadline2: "verpakkingsvraag",
     contactBody:
-      "Heeft u een specifieke toepassing, machine of uitdaging? <strong>Leg het ons voor.</strong> Wij analyseren uw situatie en geven technisch advies — zonder verplichtingen. Gemiddelde reactietijd: 1 werkdag.",
+      "Heeft u een specifieke toepassing, machine of uitdaging? <strong>Leg het ons voor.</strong> Wij analyseren uw situatie en geven technisch advies, zonder verplichtingen. Gemiddelde reactietijd: 1 werkdag.",
     contactTeam: [
       { initials: "PV", name: "Philip Van den Eynde", role: "Sales Manager Food · +32 9 377 45 16" },
       { initials: "BV", name: "Bruno Van Beveren", role: "Sales Manager Non-Food · +32 9 377 45 16" },
@@ -629,7 +629,7 @@ async function main() {
     _id: "aboutPage-nl",
     _type: "aboutPage",
     language: "nl",
-    seo: { metaTitle: "Over Hobon | Hobon", metaDescription: "Hobon — uw technische partner voor verpakkingsfolie op maat." },
+    seo: { metaTitle: "Over Hobon | Hobon", metaDescription: "Hobon - uw technische partner voor verpakkingsfolie op maat." },
     hero: {
       headline: "Over Hobon",
       subline: "Uw technische partner voor verpakkingsfolie op maat",
@@ -640,7 +640,7 @@ async function main() {
         _key: k(),
         headline: "Een familiebedrijf met technische DNA",
         body: block(
-          "Hobon groeide uit een familiale onderneming met focus op productie én technische ondersteuning. [TODO: Frederik review — exact oprichtingsverhaal en cultuur aanvullen.]",
+          "Hobon groeide uit een familiale onderneming met focus op productie én technische ondersteuning. [TODO: Frederik review, exact oprichtingsverhaal en cultuur aanvullen.]",
         ),
       },
       {
@@ -648,7 +648,7 @@ async function main() {
         _key: k(),
         headline: "Onze missie: advies voor product",
         body: block(
-          "Wij geloven dat de juiste foliekeuze begint vóór de bestelling: machine, lijn, product en compliance samen bekijken — geen catalogusantwoord.",
+          "Wij geloven dat de juiste foliekeuze begint vóór de bestelling: machine, lijn, product en compliance samen bekijken, geen catalogusantwoord.",
         ),
       },
       {
@@ -664,7 +664,7 @@ async function main() {
         _key: k(),
         headline: "Waarom dit partnerschap uniek is",
         body: block(
-          "Advies, extrusie, bedrukking en kwaliteitscontrole onder één dak — minder interfaces, meer grip op uw lijnresultaat.",
+          "Advies, extrusie, bedrukking en kwaliteitscontrole onder één dak, minder interfaces, meer grip op uw lijnresultaat.",
         ),
       },
     ],
@@ -707,7 +707,7 @@ async function main() {
         ),
         pt(
           "normal",
-          "Ons team combineert sales engineers met productie-expertise — u spreekt met mensen die uw folie ook daadwerkelijk produceren. [TODO: Frederik review — teamcopy verfijnen.]",
+          "Ons team combineert sales engineers met productie-expertise. U spreekt met mensen die uw folie ook daadwerkelijk produceren. [TODO: Frederik review, teamcopy verfijnen.]",
         ),
       ],
     },
@@ -756,7 +756,7 @@ async function main() {
     language: "nl",
     seo: {
       metaTitle: "Duurzaamheid | Hobon",
-      metaDescription: "Duurzaamheid zonder concessies aan uw productielijn — recyclaat, virgin en materiaalreductie.",
+      metaDescription: "Duurzaamheid zonder concessies aan uw productielijn - recyclaat, virgin en materiaalreductie.",
     },
     hero: {
       headline: "Duurzaamheid zonder concessies aan uw lijn",
@@ -771,7 +771,7 @@ async function main() {
         ),
         pt(
           "normal",
-          "We helpen klanten ESG-doelen te vertalen naar haalbare PE-specs — zonder stilstand of kwaliteitsverlies op de lijn.",
+          "We helpen klanten ESG-doelen te vertalen naar haalbare PE-specs, zonder stilstand of kwaliteitsverlies op de lijn.",
         ),
       ],
     },
@@ -781,7 +781,7 @@ async function main() {
         _key: k(),
         title: "Recyclaat of virgin",
         body: block(
-          "Advies op maat per toepassing en sector — geen dogma's, wel technische realiteit.",
+          "Advies op maat per toepassing en sector, geen dogma's, wel technische realiteit.",
         ),
       },
       {
@@ -845,7 +845,7 @@ async function main() {
     seo: { metaTitle: "Contact | Hobon", metaDescription: "Bespreek uw verpakkingsvraag met Hobon." },
     hero: {
       headline: "Bespreek uw verpakkingsvraag",
-      subline: "Onze specialisten denken graag met u mee — zonder verplichting",
+      subline: "Onze specialisten denken graag met u mee, zonder verplichting",
     },
     intro: "Heeft u een verpakkingsvraag? Vul het formulier in of neem direct contact\u00A0op.",
     formTitle: "Bespreek uw verpakkingsvraag",
@@ -861,7 +861,7 @@ async function main() {
       sector: "Sector",
       message: "Bericht",
     },
-    additionalInfo: block("Liever telefonisch? Bel Hobon of VHP — de nummers vindt u rechts bij de locaties."),
+    additionalInfo: block("Liever telefonisch? Bel Hobon of VHP, de nummers vindt u rechts bij de locaties."),
   });
 
   tx.createOrReplace({
@@ -914,7 +914,7 @@ async function main() {
     _type: "productOverviewPage",
     language: "nl",
     title: "Producten",
-    intro: "[TODO: Copy Brief sectie 06 — productoverzicht intro]",
+    intro: "[TODO: Copy Brief sectie 06, productoverzicht intro]",
     heroEyebrow: fred,
     heroTitle: fred,
     heroIntro: fred,
@@ -959,7 +959,7 @@ async function main() {
     _type: "sectorOverviewPage",
     language: "nl",
     title: "Sectoren",
-    intro: "[TODO: Copy Brief sectie 07 — sectorenoverzicht intro]",
+    intro: "[TODO: Copy Brief sectie 07, sectorenoverzicht intro]",
     heroEyebrow: fred,
     heroTitle: fred,
     heroIntro: fred,
@@ -1048,7 +1048,7 @@ async function main() {
       heroEyebrow: "Sector · Voeding & levensmiddelen",
       heroHeadline: ["Folie die voldoet", "aan de strengste", "food-eisen"],
       heroIntro:
-        "In de voedingsindustrie is er geen ruimte voor foutieve materiaalkeuze. <strong>BRC AA gecertificeerd</strong>, volledig voedselveilig, afgestemd op uw machine en lijnsnelheid. Wij stellen eerst de juiste vragen — dan pas de juiste folie.",
+        "In de voedingsindustrie is er geen ruimte voor foutieve materiaalkeuze. <strong>BRC AA gecertificeerd</strong>, volledig voedselveilig, afgestemd op uw machine en lijnsnelheid. Wij stellen eerst de juiste vragen, dan pas de juiste folie.",
       heroPrimaryCta: { label: "Bespreek uw food-uitdaging", href: "/nl/contact" },
       heroSecondaryCta: { label: "Bekijk oplossingen", href: "#oplossingen" },
       heroMainImageUrl:
@@ -1095,7 +1095,7 @@ async function main() {
         {
           variant: "approach",
           label: "De Hobon-aanpak",
-          title: "Technisch advies vóór aankoop — geen catalogusvraag",
+          title: "Technisch advies vóór aankoop, geen catalogusvraag",
           description:
             "Wij analyseren uw machine, lijnsnelheid en compliancevereisten. Dan pas selecteren we de juiste food-grade folie.",
         },
@@ -1193,7 +1193,7 @@ async function main() {
         "In food kan een verkeerde materiaalkeuze leiden tot <strong>auditproblemen, productterugroeping of lijnstilstand</strong>. De juiste folie hangt af van meerdere factoren die alleen u kent: uw machine, uw product, uw snelheid, uw retailer-eisen.<br><br>Hobon helpt u die factoren in kaart brengen <strong>vóór er folie besteld wordt</strong>.",
       deepPhotoUrl: "https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=700&q=80&auto=format&fit=crop",
       deepPhotoCaptionTag: "Productie in eigen beheer",
-      deepPhotoCaption: "Kwaliteitscontrole in elk stadium — inhouse in Lievegem",
+      deepPhotoCaption: "Kwaliteitscontrole in elk stadium, inhouse in Lievegem",
       deepPrimaryCta: { label: "Start het gesprek", href: "/nl/contact" },
       deepFaqs: [
         {
@@ -1216,7 +1216,7 @@ async function main() {
         },
         {
           num: "04",
-          title: "Mijn leverancier levert niet langer — dringend alternatief",
+          title: "Mijn leverancier levert niet langer, dringend alternatief",
           body: "Productie volledig inhouse in Lievegem. Geen afhankelijkheid van externe producenten.",
           tags: ["Snelle levering", "Spec-equivalent", "Belgische productie"],
         },
@@ -1229,11 +1229,11 @@ async function main() {
       ],
       complianceBig: "BRC<span>&nbsp;AA</span>",
       complianceIntro:
-        "<strong>Hoogste food-certificeringsniveau</strong>BRC Packaging Level AA — geverifieerd in elk productiestadium.",
+        "<strong>Hoogste food-certificeringsniveau</strong>BRC Packaging Level AA. Geverifieerd in elk productiestadium.",
       complianceItems: [
         {
           num: "01",
-          title: "BRC Packaging Level AA — hoogste niveau",
+          title: "BRC Packaging Level AA, hoogste niveau",
           description:
             "Gecertificeerd voor verpakkingen in contact met levensmiddelen. Jaarlijkse externe audit.",
         },
@@ -1260,14 +1260,14 @@ async function main() {
           featured: true,
           imageUrl: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=700&q=70&auto=format&fit=crop",
           sectorLabel: "Vlees & gevogelte",
-          title: "FFS-lijn 65 meter/minuut — breuk na overschakeling leverancier",
+          title: "FFS-lijn 65 meter/minuut, breuk na overschakeling leverancier",
           description:
             "Na wisseling van leverancier trad breuk op bij hogere lijnsnelheid. Hobon analyseerde de machinespec en leverde een aangepaste samenstelling.",
           resultValue: "0%",
           resultLabel: "breuk na overschakeling<br>op Hobon-spec",
           quote:
             '"We hadden twee weken verlies door die wissel. Hobon had de juiste spec binnen 3 dagen op onze lijn."',
-          quoteAttr: "— Productiemanager, vleesverwerkend bedrijf, Gent",
+          quoteAttr: "- Productiemanager, vleesverwerkend bedrijf, Gent",
         },
         {
           featured: false,
@@ -1315,14 +1315,14 @@ async function main() {
       title: "Logistiek & palletverpakking",
       listingEyebrow: "Sector",
       listingDescription:
-        "[TODO: Copy Brief sectie 07 — logistiek sector samenvatting voor homepage-kaart]",
+        "[TODO: Copy Brief sectie 07, logistiek sector samenvatting voor homepage-kaart]",
       listingImageUrl:
         "https://images.unsplash.com/photo-1553413077-190dd305871c?w=500&q=70&auto=format&fit=crop",
       listingPills: ["Krimphoezen", "Topsheets", "Stretchfolie"],
       heroEyebrow: "Sector · Logistiek",
       heroHeadline: ["Placeholder", "sectorpagina", "logistiek"],
       heroIntro:
-        "[TODO: Copy Brief sectie 07 — volledige sectorcopy voor logistiek. Template volgt voeding-structuur.]",
+        "[TODO: Copy Brief sectie 07, volledige sectorcopy voor logistiek. Template volgt voeding-structuur.]",
       heroPrimaryCta: { label: "Contact", href: "/nl/contact" },
       heroSecondaryCta: { label: "Oplossingen", href: "#oplossingen" },
       heroMainImageUrl:
@@ -1370,7 +1370,7 @@ async function main() {
       slug: { _type: "slug", current: "chemie-industrie" },
       title: "Chemie-industrie",
       listingEyebrow: "Sector",
-      listingDescription: "[TODO: Copy Brief sectie 07 — chemie-industrie]",
+      listingDescription: "[TODO: Copy Brief sectie 07, chemie-industrie]",
       listingImageUrl:
         "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500&q=70&auto=format&fit=crop",
       listingPills: ["Buisfolie", "Krimpfolie", "Hulzen"],
@@ -1424,7 +1424,7 @@ async function main() {
       slug: { _type: "slug", current: "agro-industrie" },
       title: "Agro-industrie",
       listingEyebrow: "Sector",
-      listingDescription: "[TODO: Copy Brief sectie 07 — agro-industrie]",
+      listingDescription: "[TODO: Copy Brief sectie 07, agro-industrie]",
       listingImageUrl:
         "https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?w=500&q=70&auto=format&fit=crop",
       listingPills: ["Dolafzakken", "PE zakken", "Buisfolie"],
@@ -1561,7 +1561,7 @@ async function main() {
     pt("h2", "Wat AA-niveau is versus andere graden"),
     pt(
       "normal",
-      "BRC Packaging Level AA is het hoogste niveau binnen het Global Standard for Packaging Materials. Het betekent dat uw leverancier jaarlijks extern wordt geaudit op voedselveiligheid, traceerbaarheid en procesbeheersing — niet enkel op papier.",
+      "BRC Packaging Level AA is het hoogste niveau binnen het Global Standard for Packaging Materials. Het betekent dat uw leverancier jaarlijks extern wordt geaudit op voedselveiligheid, traceerbaarheid en procesbeheersing, niet enkel op papier.",
     ),
     pt("h2", "Welke audits en frequentie"),
     pt(
@@ -1576,16 +1576,16 @@ async function main() {
     pt("h2", "Hoe Hobon u begeleidt"),
     pt(
       "normal",
-      "We leveren certificaten, specificatiebladen en batchdocumentatie klaar voor uw QA-team. Vraag ons naar het BRC-packaging dossier vóór uw audit — dan zijn er geen verrassingen op de lijn.",
+      "We leveren certificaten, specificatiebladen en batchdocumentatie klaar voor uw QA-team. Vraag ons naar het BRC-packaging dossier vóór uw audit, dan zijn er geen verrassingen op de lijn.",
     ),
-    pt("blockquote", "Niet-conformiteit op folie is bijna altijd traceerbaar tot specificatie of batchdocumentatie — wij helpen die keten sluiten."),
+    pt("blockquote", "Niet-conformiteit op folie is bijna altijd traceerbaar tot specificatie of batchdocumentatie, wij helpen die keten sluiten."),
   ];
 
   const bodyRecyclaat = [
     pt("h2", "Verschil in eigenschappen"),
     pt(
       "normal",
-      "Recyclaat kan variëren in treksterkte, kleurstabiliteit en geur. Virgin PE is homogener — belangrijk wanneer uw retailer strikte sensorische limieten hanteert.",
+      "Recyclaat kan variëren in treksterkte, kleurstabiliteit en geur. Virgin PE is homogener, belangrijk wanneer uw retailer strikte sensorische limieten hanteert.",
     ),
     pt("h2", "EU 10/2011 en food contact"),
     pt(
@@ -1595,7 +1595,7 @@ async function main() {
     pt("h2", "Wanneer recyclaat wél werkt"),
     pt(
       "normal",
-      "Industriële zakken, secundaire verpakkingen of niet-hechtend food-contact — daar zien we recyclaat technisch en economisch renderen.",
+      "Industriële zakken, secundaire verpakkingen of niet-hechtend food-contact, daar zien we recyclaat technisch en economisch renderen.",
     ),
     pt("h2", "Hybride oplossingen"),
     pt(
@@ -1608,7 +1608,7 @@ async function main() {
     pt("h2", "Voorbeeld: geur-issue door verkeerde folie"),
     pt(
       "normal",
-      "Een voedingsproducent schakelde naar goedkopere LDPE — binnen weken meldingen van geur in het eindproduct. Root cause: onvoldoende barrière en batchvariatie.",
+      "Een voedingsproducent schakelde naar goedkopere LDPE, binnen weken meldingen van geur in het eindproduct. Root cause: onvoldoende barrière en batchvariatie.",
     ),
     pt("h2", "Voorbeeld: breuk door te dunne spec"),
     pt(
@@ -1623,7 +1623,7 @@ async function main() {
     pt("h2", "Hoe wij faalrisico's vroeg zien"),
     pt(
       "normal",
-      "Machineaudit, trek- en sealcurves, en batch-koppeling — we koppelen uw lijnparameters aan de folie-spec vóór productie.",
+      "Machineaudit, trek- en sealcurves, en batch-koppeling, we koppelen uw lijnparameters aan de folie-spec vóór productie.",
     ),
   ];
 
@@ -1636,17 +1636,17 @@ async function main() {
     pt("h2", "Technologie die dunner mogelijk maakt"),
     pt(
       "normal",
-      "Multi-layer en additivering kunnen barrière en sterkte leveren bij lagere micron — minder PE per pallet.",
+      "Multi-layer en additivering kunnen barrière en sterkte leveren bij lagere micron, minder PE per pallet.",
     ),
     pt("h2", "CO₂ per ton minder PE"),
     pt(
       "normal",
-      "Minder materiaal betekent minder extrusie-energie en transportgewicht — concrete CO₂-winst als de lijn het aankan.",
+      "Minder materiaal betekent minder extrusie-energie en transportgewicht, concrete CO₂-winst als de lijn het aankan.",
     ),
     pt("h2", "Cases"),
     pt(
       "normal",
-      "Klanten die van 80µm naar 50µm gingen zonder kwaliteitsverlies — na grondige lijntest en gecontroleerde trial-run.",
+      "Klanten die van 80µm naar 50µm gingen zonder kwaliteitsverlies, na grondige lijntest en gecontroleerde trial-run.",
     ),
   ];
 
@@ -1707,7 +1707,7 @@ async function main() {
     language: "nl",
     title: "Dunner folie, zelfde kwaliteit: waarom advies geld bespaart",
     slug: { _type: "slug", current: "dunner-folie-zelfde-kwaliteit" },
-    lead: "Materiaalreductie is de meest onderschatte duurzaamheidswinst — als u de technische specs goed afstemt.",
+    lead: "Materiaalreductie is de meest onderschatte duurzaamheidswinst, als u de technische specs goed afstemt.",
     publishedAt: daysAgoIso(21),
     category: { _type: "reference", _ref: "insight-cat-nl-duurzaamheid" },
     body: bodyDunner,

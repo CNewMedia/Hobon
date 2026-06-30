@@ -20,6 +20,8 @@
     "migrate:hardcoded-images-58": "node --env-file=.env.local --import tsx scripts/migrate-hardcoded-images-58.ts",
     "migrate:local-photos-59": "node --env-file=.env.local --import tsx scripts/migrate-local-photos-59.ts",
     "sync:locale-images-61": "node --env-file=.env.local --import tsx scripts/sync-locale-images-61.ts",
+    "migrate:dashes": "node --env-file=.env.local --import tsx scripts/migrate-dashes.ts",
+    "migrate:strip-ai-marker": "node --env-file=.env.local --import tsx scripts/migrate-strip-ai-marker.ts",
     "seed:overview-singletons": "node --env-file=.env.local --import tsx scripts/seed-overview-singletons.ts",
     "patch:overview-copy": "node --env-file=.env.local --import tsx scripts/patch-overview-copy.ts",
     "seed:header-nl": "node --env-file=.env.local --import tsx scripts/seed-header-navigation-nl.ts",
