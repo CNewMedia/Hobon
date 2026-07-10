@@ -1037,6 +1037,8 @@ button.gal-item{border:none;padding:0;font:inherit;color:inherit;text-align:left
 .c-success-text{max-width:620px;font-family:var(--f-head);font-size:clamp(22px,2.1vw,30px);font-weight:600;line-height:1.28;color:var(--navy);}
 .c-success-link{margin-top:22px;border:none;background:transparent;color:var(--navy);font-size:13px;font-weight:700;border-bottom:1px solid rgba(26,45,107,.25);padding:0 0 3px;cursor:pointer;}
 .c-success-link:hover{color:var(--orange);border-color:rgba(245,163,0,.45);}
+.c-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;}
+.c-form-error,.cf-form-error{margin:0 0 10px;font-size:13px;line-height:1.45;color:#b42318;font-weight:600;}
 .c-locs{display:flex;flex-direction:column;gap:20px;}
 .c-loc{background:var(--white);border:1px solid var(--rule-lt);border-radius:6px;overflow:hidden;box-shadow:0 8px 28px rgba(26,45,107,.06);}
 .c-loc-map{height:160px;background:var(--ink-lt);position:relative;display:flex;align-items:center;justify-content:center;}

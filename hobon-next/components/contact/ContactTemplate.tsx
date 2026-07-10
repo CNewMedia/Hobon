@@ -8,6 +8,7 @@ import { hasHeroMedia } from "@/components/hero/heroMediaTypes";
 import { SimpleRichText } from "@/components/portable/SimpleRichText";
 import { resolveImageSrc } from "@/lib/sanity/resolveImageSrc";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export type ContactPageDoc = {
@@ -16,6 +17,7 @@ export type ContactPageDoc = {
   intro?: string | null;
   formTitle?: string | null;
   formSubmitLabel?: string | null;
+  formThankYouMessage?: string | null;
   formFields?: ContactFormLabels | null;
   additionalInfo?: unknown;
 };
@@ -37,7 +39,7 @@ export type SiteSettingsContact = {
 
 type LocationRow = NonNullable<SiteSettingsContact["locations"]>[number];
 
-const MOCK_SUCCESS_MESSAGE =
+const FALLBACK_SUCCESS_MESSAGE =
   "Bedankt voor uw bericht. Een van onze specialisten neemt binnen 1 werkdag contact met u op.";
 
 function LocationCards({
@@ -97,6 +99,8 @@ export function ContactTemplate({
   siteSettings: SiteSettingsContact | null;
 }) {
   const labels = useUILabels();
+  const params = useParams();
+  const locale = typeof params?.locale === "string" ? params.locale : "nl";
   const [submitted, setSubmitted] = useState(false);
   const hero = contactPage?.hero;
   const locations = siteSettings?.locations ?? [];
@@ -145,7 +149,11 @@ export function ContactTemplate({
           {submitted ? (
             <div className="c-success" role="status" aria-live="polite">
               <div className="c-success-kicker">Aanvraag ontvangen</div>
-              <p className="c-success-text">{MOCK_SUCCESS_MESSAGE}</p>
+              <p className="c-success-text">
+                {contactPage?.formThankYouMessage?.trim() ||
+                  labels.formSuccessMessage ||
+                  FALLBACK_SUCCESS_MESSAGE}
+              </p>
               <button type="button" className="c-success-link" onClick={() => setSubmitted(false)}>
                 Stel een nieuwe vraag
               </button>
@@ -155,6 +163,9 @@ export function ContactTemplate({
               formFields={contactPage?.formFields ?? {}}
               formTitle={contactPage?.formTitle ?? ""}
               formSubmitLabel={contactPage?.formSubmitLabel ?? labels.formSubmitLabel}
+              formDisclaimerText={labels.formDisclaimerText}
+              formPrivacyHref={`/${locale}/privacy`}
+              formPrivacyLinkLabel={labels.formPrivacyLinkLabel}
               onSubmitted={() => setSubmitted(true)}
             />
           )}

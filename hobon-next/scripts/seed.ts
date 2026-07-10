@@ -422,7 +422,7 @@ async function main() {
     tapeItems: [
       "PE Folies",
       "Automatenfolie",
-      "Dolafzakken",
+      "Dolavzakken",
       "BRC Packaging AA",
       "Krimphoezen",
       "Technisch advies",
@@ -431,7 +431,7 @@ async function main() {
       "Virgin & Recyclaat",
       "FFS Folie",
       "Patijnrollen",
-      "Stretchfolie",
+      "stretchhood",
     ],
     stats: [
       { kind: "number", value: "40", label: "Jaar expertise in PE-verpakkingen" },
@@ -519,7 +519,7 @@ async function main() {
       },
       {
         tag: "Palletverpakking",
-        title: "Stretchfolie",
+        title: "stretchhood",
         description:
           "Hobon bouwt het stretchfolieaanbod verder uit, van machinale stretchfolie tot handwikkelfolie, in diverse samenstellingen voor palletstabiliteit en bescherming.",
       },
@@ -861,7 +861,7 @@ async function main() {
       sector: "Sector",
       message: "Bericht",
     },
-    additionalInfo: block("Liever telefonisch? Bel Hobon of VHP, de nummers vindt u rechts bij de locaties."),
+    additionalInfo: block("Liever telefonisch? Bel Hobon, het nummer vindt u rechts."),
   });
 
   tx.createOrReplace({
@@ -883,6 +883,7 @@ async function main() {
       sector: "[FR]",
       message: "[FR]",
     },
+    additionalInfo: block("Vous préférez appeler ? Contactez Hobon, le numéro se trouve à droite."),
   });
 
   tx.createOrReplace({
@@ -904,6 +905,7 @@ async function main() {
       sector: "[EN]",
       message: "[EN]",
     },
+    additionalInfo: block("Prefer to call? Phone Hobon, the number is on the right."),
   });
 
   const fred = "[Frederik nalezen aparte file]";
@@ -1073,7 +1075,7 @@ async function main() {
         "Virgin PE materialen",
         "Automatenfolie & FFS",
         "Paperlike zakken",
-        "Bag-in-box liners",
+        "Bags in carton boxes LDPE-MDPE-HDPE liners",
         "HACCP-conform",
         "Bedrukking 6 kleuren",
       ],
@@ -1135,7 +1137,7 @@ async function main() {
         {
           imageUrl: "https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=800&q=80&auto=format&fit=crop",
           num: "04",
-          title: "Bag-in-box liners",
+          title: "Bags in carton boxes LDPE-MDPE-HDPE liners",
           description:
             "Buisfolie met zijvouwen in diverse PE-samenstellingen voor bag-in-box toepassingen in de voedings- en drankenindustrie.",
           tags: ["Voeding & dranken", "Buisfolie", "Maatwerk"],
@@ -1318,7 +1320,7 @@ async function main() {
         "[TODO: Copy Brief sectie 07, logistiek sector samenvatting voor homepage-kaart]",
       listingImageUrl:
         "https://images.unsplash.com/photo-1553413077-190dd305871c?w=500&q=70&auto=format&fit=crop",
-      listingPills: ["Krimphoezen", "Topsheets", "Stretchfolie"],
+      listingPills: ["Krimphoezen", "Topsheets", "stretchhood"],
       heroEyebrow: "Sector · Logistiek",
       heroHeadline: ["Placeholder", "sectorpagina", "logistiek"],
       heroIntro:
@@ -1427,7 +1429,7 @@ async function main() {
       listingDescription: "[TODO: Copy Brief sectie 07, agro-industrie]",
       listingImageUrl:
         "https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?w=500&q=70&auto=format&fit=crop",
-      listingPills: ["Dolafzakken", "PE zakken", "Buisfolie"],
+      listingPills: ["Dolavzakken", "PE zakken", "Buisfolie"],
       heroEyebrow: "Sector · Agro-industrie",
       heroHeadline: ["Placeholder", "agro", "industrie"],
       heroIntro: "[TODO: sectorcopy agro-industrie]",

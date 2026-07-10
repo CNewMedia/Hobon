@@ -22,6 +22,7 @@
     "sync:locale-images-61": "node --env-file=.env.local --import tsx scripts/sync-locale-images-61.ts",
     "migrate:dashes": "node --env-file=.env.local --import tsx scripts/migrate-dashes.ts",
     "migrate:strip-ai-marker": "node --env-file=.env.local --import tsx scripts/migrate-strip-ai-marker.ts",
+    "migrate:contact-additional-info-56b": "node --env-file=.env.local --import tsx scripts/migrate-contact-additional-info-56b.ts",
     "seed:overview-singletons": "node --env-file=.env.local --import tsx scripts/seed-overview-singletons.ts",
     "patch:overview-copy": "node --env-file=.env.local --import tsx scripts/patch-overview-copy.ts",
     "seed:header-nl": "node --env-file=.env.local --import tsx scripts/seed-header-navigation-nl.ts",
@@ -35,7 +36,9 @@
     "translate:navigation": "node --env-file=.env.local --import tsx scripts/translate-navigation.ts",
     "translate:ui-labels": "node --env-file=.env.local --import tsx scripts/translate-ui-labels.ts",
     "translate:placeholders": "node --env-file=.env.local --import tsx scripts/translate-placeholders.ts",
-    "translate:placeholders:dry-run": "node --env-file=.env.local --import tsx scripts/translate-placeholders.ts --dry-run"
+    "translate:placeholders:dry-run": "node --env-file=.env.local --import tsx scripts/translate-placeholders.ts --dry-run",
+    "export:translations": "node --env-file=.env.local --import tsx scripts/export-translations.ts",
+    "import:red-nl": "node --env-file=.env.local --import tsx scripts/import-red-nl-translations.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.93.0",
@@ -48,6 +51,7 @@
     "@sanity/vision": "^3.99.0",
     "next": "^15.5.18",
     "next-sanity": "^9.12.3",
+    "nodemailer": "^9.0.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-is": "^19.2.5",
@@ -58,10 +62,12 @@
     "@sanity/cli": "^3.99.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/nodemailer": "^8.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "^15.2.4",
+    "exceljs": "^4.4.0",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5"

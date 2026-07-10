@@ -1,7 +1,9 @@
 "use client";
 
-import { useMemo, type FormEvent } from "react";
+import { useMemo, useState, type FormEvent } from "react";
+import { useParams } from "next/navigation";
 import { ArrowBtnIcon } from "@/components/layout/icons";
+import { submitContactForm } from "@/lib/contact/client";
 
 export type ContactFormLabels = {
   firstname?: string | null;
@@ -21,29 +23,71 @@ const SECTOR_OPTIONS = [
   "Andere",
 ] as const;
 
+const ERROR_FALLBACK: Record<string, string> = {
+  nl: "Verzenden mislukt. Probeer het opnieuw of mail ons rechtstreeks.",
+  fr: "L'envoi a échoué. Réessayez ou contactez-nous directement par e-mail.",
+  en: "Sending failed. Please try again or email us directly.",
+};
+
 export function ContactForm({
   formFields,
   formTitle,
   formSubmitLabel,
+  formDisclaimerText,
+  formPrivacyHref,
+  formPrivacyLinkLabel,
   onSubmitted,
 }: {
   formFields: ContactFormLabels;
   formTitle: string;
   formSubmitLabel: string;
+  formDisclaimerText?: string;
+  formPrivacyHref?: string;
+  formPrivacyLinkLabel?: string;
   onSubmitted?: () => void;
 }) {
+  const params = useParams();
+  const locale = typeof params?.locale === "string" ? params.locale : "nl";
   const labels = useMemo(() => formFields ?? {}, [formFields]);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    e.currentTarget.reset();
+    setError(null);
+    setSubmitting(true);
+
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+
+    const result = await submitContactForm({
+      source: "contact",
+      locale,
+      firstname: String(fd.get("firstname") ?? ""),
+      lastname: String(fd.get("lastname") ?? ""),
+      company: String(fd.get("company") ?? ""),
+      email: String(fd.get("email") ?? ""),
+      phone: String(fd.get("phone") ?? ""),
+      sector: String(fd.get("sector") ?? ""),
+      message: String(fd.get("message") ?? ""),
+      website: String(fd.get("website") ?? ""),
+    });
+
+    setSubmitting(false);
+
+    if (!result.ok) {
+      setError(result.error || ERROR_FALLBACK[locale] || ERROR_FALLBACK.nl);
+      return;
+    }
+
+    form.reset();
     onSubmitted?.();
   }
 
   const L = (k: keyof ContactFormLabels, fallback: string) => labels[k] ?? fallback;
 
   return (
-    <form className="c-form" onSubmit={onSubmit}>
+    <form className="c-form" onSubmit={onSubmit} noValidate>
       {formTitle ? <h2 className="c-form-title">{formTitle}</h2> : null}
       <div className="c-row">
         <div className="c-field">
@@ -104,15 +148,30 @@ export function ContactForm({
           <textarea id="message" name="message" className="c-ta" required />
         </div>
       </div>
+      <div className="c-hp" aria-hidden="true">
+        <label htmlFor="website">Website</label>
+        <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
       <div className="c-form-bottom">
         <div className="c-privacy-wrap">
+          {error ? (
+            <p className="c-form-error" role="alert">
+              {error}
+            </p>
+          ) : null}
           <p className="c-privacy">
-            Door te verzenden bevestigen we uw aanvraag meteen op deze pagina. Een echte koppeling met het
-            aanvraagsysteem volgt later.
+            {formDisclaimerText ||
+              "Uw gegevens worden uitsluitend gebruikt voor de behandeling van uw aanvraag."}
+            {formPrivacyHref ? (
+              <>
+                {" "}
+                <a href={formPrivacyHref}>{formPrivacyLinkLabel || "Privacybeleid"}</a>.
+              </>
+            ) : null}
           </p>
         </div>
-        <button type="submit" className="c-submit">
-          <span>{formSubmitLabel}</span>
+        <button type="submit" className="c-submit" disabled={submitting}>
+          <span>{submitting ? "…" : formSubmitLabel}</span>
           <ArrowBtnIcon size={14} />
         </button>
       </div>
