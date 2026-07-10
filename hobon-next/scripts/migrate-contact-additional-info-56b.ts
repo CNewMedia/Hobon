@@ -11,9 +11,9 @@ const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production";
 const token = process.env.SANITY_API_WRITE_TOKEN;
 
 const COPY: Record<string, string> = {
-  nl: "Liever telefonisch? Bel Hobon, het nummer vindt u rechts.",
-  fr: "Vous préférez appeler ? Contactez Hobon, le numéro se trouve à droite.",
-  en: "Prefer to call? Phone Hobon, the number is on the right.",
+  nl: "Liever telefonisch? Bel Hobon, u vindt ons nummer bij onze contactgegevens.",
+  fr: "Vous préférez appeler ? Vous trouverez notre numéro avec nos coordonnées.",
+  en: "Prefer to call? You'll find our number with our contact details.",
 };
 
 function block(text: string) {
