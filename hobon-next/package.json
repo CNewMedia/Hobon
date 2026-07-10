@@ -38,7 +38,10 @@
     "translate:placeholders": "node --env-file=.env.local --import tsx scripts/translate-placeholders.ts",
     "translate:placeholders:dry-run": "node --env-file=.env.local --import tsx scripts/translate-placeholders.ts --dry-run",
     "export:translations": "node --env-file=.env.local --import tsx scripts/export-translations.ts",
-    "import:red-nl": "node --env-file=.env.local --import tsx scripts/import-red-nl-translations.ts"
+    "import:red-nl": "node --env-file=.env.local --import tsx scripts/import-red-nl-translations.ts",
+    "audit:patijn": "node --env-file=.env.local --import tsx scripts/audit-patijn.ts",
+    "migrate:patijn-pattyn-homepage-61": "node --env-file=.env.local --import tsx scripts/migrate-patijn-pattyn-homepage-61.ts",
+    "migrate:insight-product-names-61": "node --env-file=.env.local --import tsx scripts/migrate-insight-product-names-61.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.93.0",

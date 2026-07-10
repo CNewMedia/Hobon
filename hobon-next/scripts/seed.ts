@@ -430,7 +430,7 @@ async function main() {
       "Bedrukking 6 kleuren",
       "Virgin & Recyclaat",
       "FFS Folie",
-      "Patijnrollen",
+      "PATTYN rollen",
       "stretchhood",
     ],
     stats: [
@@ -513,9 +513,9 @@ async function main() {
       },
       {
         tag: "Geautomatiseerde lijnen",
-        title: "Patijnrollen",
+        title: "PATTYN rollen",
         description:
-          "Patijnbuis en rollen voor geautomatiseerde inpaklijnen. Geschikt voor voedings- en industriële toepassingen met aandacht voor consistente kwaliteit op hoge lijnsnelheid.",
+          "PATTYN buis en rollen voor geautomatiseerde inpaklijnen. Geschikt voor voedings- en industriële toepassingen met aandacht voor consistente kwaliteit op hoge lijnsnelheid.",
       },
       {
         tag: "Palletverpakking",

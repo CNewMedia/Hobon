@@ -224,7 +224,7 @@ export function buildPatchValue(
   return wordt;
 }
 
-function replaceInPortableText(
+export function replaceInPortableText(
   blocks: Record<string, unknown>[],
   find: string,
   replace: string,
