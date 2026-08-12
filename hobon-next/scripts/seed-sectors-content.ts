@@ -202,16 +202,9 @@ const chemiePatch = {
     "REACH-conform",
     "Maatwerk PE",
     "Mono / multi-layer",
-    "ATEX-advies",
     "Industriële specs",
   ],
   problemBand: [
-    prob(
-      "problem",
-      "Typisch probleem",
-      "Statische ontlading risico",
-      "Bij gevoelige chemische producten of in ATEX-zones is anti-statische folie geen luxe — het is veiligheid.",
-    ),
     prob(
       "problem",
       "Typisch probleem",
@@ -272,11 +265,6 @@ const chemiePatch = {
       "01",
       "Voldoet jullie folie aan REACH?",
       "Onze materialen zijn REACH-conform. Specifieke certificaten leveren we op aanvraag per product.",
-    ),
-    faq(
-      "02",
-      "Kunnen jullie folie maken voor ATEX-zones?",
-      "Ja — anti-statische PE-folie met de juiste oppervlakteweerstand. Specs op aanvraag.",
     ),
     faq(
       "03",

@@ -41,6 +41,7 @@
     "import:red-nl": "node --env-file=.env.local --import tsx scripts/import-red-nl-translations.ts",
     "import:fr-62a": "node --env-file=.env.local --import tsx scripts/import-fr-translations-62a.ts",
     "migrate:62b-deel1": "node --env-file=.env.local --import tsx scripts/migrate-62b-deel1.ts",
+    "migrate:62b-deel2": "node --env-file=.env.local --import tsx scripts/migrate-62b-deel2.ts",
     "audit:patijn": "node --env-file=.env.local --import tsx scripts/audit-patijn.ts",
     "migrate:patijn-pattyn-homepage-61": "node --env-file=.env.local --import tsx scripts/migrate-patijn-pattyn-homepage-61.ts",
     "migrate:insight-product-names-61": "node --env-file=.env.local --import tsx scripts/migrate-insight-product-names-61.ts"
