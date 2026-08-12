@@ -63,6 +63,16 @@ export const uiLabels = defineType({
     defineField({ name: "insightsCtaBody", title: "CTA — ondertitel (span)", type: "string", group: "insights" }),
     defineField({ name: "insightsCtaButton", title: "CTA — knop", type: "string", group: "insights" }),
     defineField({ name: "insightsEmpty", title: "Lege staat", type: "string", group: "insights" }),
+    defineField({ name: "insightsCtaParagraph", title: "CTA — paragraaf", type: "string", group: "insights" }),
+    defineField({ name: "insightsBackToList", title: "Detail — terug naar lijst", type: "string", group: "insights" }),
+    defineField({
+      name: "insightsReadingTime",
+      title: "Detail — leestijd ({n} = minuten)",
+      type: "string",
+      group: "insights",
+    }),
+    defineField({ name: "insightsRelatedTitle", title: "Detail — gerelateerde artikels", type: "string", group: "insights" }),
+    defineField({ name: "insightsAllLink", title: "Detail — alle artikels (fallback)", type: "string", group: "insights" }),
 
     defineField({ name: "uiOpenMenu", type: "string", group: "ui" }),
     defineField({ name: "uiBrcLevelLabel", type: "string", group: "ui" }),

@@ -123,7 +123,7 @@ export function InsightsOverviewTemplate({
               {labels.insightsCtaTitle}
               <span>{labels.insightsCtaBody}</span>
             </h2>
-            <p className="ins-cta-body">Neem contact op voor advies op maat — zonder verplichting.</p>
+            <p className="ins-cta-body">{labels.insightsCtaParagraph}</p>
             <Link href={buildLocalizedPath(locale, [{ type: "key", key: "contact" }])} className="btn-primary">
               <span>{labels.insightsCtaButton}</span>
               <ArrowBtnIcon size={14} />

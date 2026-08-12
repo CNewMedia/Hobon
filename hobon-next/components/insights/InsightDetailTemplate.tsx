@@ -58,6 +58,10 @@ function articleHeroSrc(
   };
 }
 
+function formatReadingTime(template: string, minutes: number): string {
+  return template.replace("{n}", String(minutes));
+}
+
 export function InsightDetailTemplate({
   locale,
   article,
@@ -82,13 +86,13 @@ export function InsightDetailTemplate({
         <header className="ins-detail-hero">
           <div className="ins-detail-meta">
             <Link href={insightsHref} className="ins-detail-back">
-              Terug naar insights
+              {labels.insightsBackToList}
             </Link>
             {article.category?.title ? <span className="ins-detail-cat">{article.category.title}</span> : null}
             <div className="ins-detail-meta-row">
               <span>{formatArticleDate(locale, article.publishedAt)}</span>
               <span aria-hidden>·</span>
-              <span>{readMin} min leestijd</span>
+              <span>{formatReadingTime(labels.insightsReadingTime, readMin)}</span>
             </div>
           </div>
           <h1 className="ins-detail-title">{article.title}</h1>
@@ -112,10 +116,7 @@ export function InsightDetailTemplate({
       {related.length > 0 ? (
         <section className="ins-related">
           <div className="ins-related-hdr">
-            <h2 className="ins-related-h2">
-              Verder lezen
-              <span>Gerelateerde artikels</span>
-            </h2>
+            <h2 className="ins-related-h2">{labels.insightsRelatedTitle}</h2>
           </div>
           <div className="ins-related-grid">
             {related.slice(0, 3).map((r) => {
@@ -152,7 +153,7 @@ export function InsightDetailTemplate({
       ) : (
         <section className="ins-list" style={{ paddingTop: 48 }}>
           <Link href={insightsHref} className="btn-primary">
-            <span>Alle insights</span>
+            <span>{labels.insightsAllLink}</span>
             <ArrowBtnIcon size={14} />
           </Link>
         </section>
@@ -165,7 +166,7 @@ export function InsightDetailTemplate({
               {labels.insightsCtaTitle}
               <span>{labels.insightsCtaBody}</span>
             </h2>
-            <p className="ins-cta-body">Neem contact op voor advies op maat — zonder verplichting.</p>
+            <p className="ins-cta-body">{labels.insightsCtaParagraph}</p>
             <Link href={contactHref} className="btn-primary">
               <span>{labels.insightsCtaButton}</span>
               <ArrowBtnIcon size={14} />

@@ -22,6 +22,11 @@ const PATCH_ON_EXISTING: Partial<typeof defaultUILabels> = {
   insightsCtaBody: defaultUILabels.insightsCtaBody,
   insightsCtaButton: defaultUILabels.insightsCtaButton,
   insightsEmpty: defaultUILabels.insightsEmpty,
+  insightsCtaParagraph: defaultUILabels.insightsCtaParagraph,
+  insightsBackToList: defaultUILabels.insightsBackToList,
+  insightsReadingTime: defaultUILabels.insightsReadingTime,
+  insightsRelatedTitle: defaultUILabels.insightsRelatedTitle,
+  insightsAllLink: defaultUILabels.insightsAllLink,
 };
 
 async function main() {
