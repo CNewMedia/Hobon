@@ -39,6 +39,7 @@
     "translate:placeholders:dry-run": "node --env-file=.env.local --import tsx scripts/translate-placeholders.ts --dry-run",
     "export:translations": "node --env-file=.env.local --import tsx scripts/export-translations.ts",
     "import:red-nl": "node --env-file=.env.local --import tsx scripts/import-red-nl-translations.ts",
+    "import:fr-62a": "node --env-file=.env.local --import tsx scripts/import-fr-translations-62a.ts",
     "audit:patijn": "node --env-file=.env.local --import tsx scripts/audit-patijn.ts",
     "migrate:patijn-pattyn-homepage-61": "node --env-file=.env.local --import tsx scripts/migrate-patijn-pattyn-homepage-61.ts",
     "migrate:insight-product-names-61": "node --env-file=.env.local --import tsx scripts/migrate-insight-product-names-61.ts"
