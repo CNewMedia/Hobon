@@ -44,6 +44,13 @@ export type UILabels = {
 
   aboutKeyFactsTitle: string;
 
+  insightsListTitle: string;
+  insightsListSubtitle: string;
+  insightsCtaTitle: string;
+  insightsCtaBody: string;
+  insightsCtaButton: string;
+  insightsEmpty: string;
+
   uiOpenMenu: string;
   uiBrcLevelLabel: string;
   uiContactMailSubject: string;
@@ -103,6 +110,13 @@ export const defaultUILabels: UILabels = {
   homeDragSectors: "Versleep om meer sectoren te bekijken",
 
   aboutKeyFactsTitle: "Kerncijfers",
+
+  insightsListTitle: "Artikels",
+  insightsListSubtitle: "Praktische inzichten voor uw verpakkingslijn.",
+  insightsCtaTitle: "Vraag over folie of lijn?",
+  insightsCtaBody: "We denken technisch mee.",
+  insightsCtaButton: "Naar contact",
+  insightsEmpty: "Nog geen artikels in deze taal.",
 
   uiOpenMenu: "Menu openen",
   uiBrcLevelLabel: "BRC Packaging Level AA",

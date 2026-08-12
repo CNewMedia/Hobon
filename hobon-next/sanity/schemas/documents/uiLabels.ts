@@ -10,6 +10,7 @@ export const uiLabels = defineType({
     { name: "listing", title: "Listing" },
     { name: "home", title: "Home" },
     { name: "about", title: "About" },
+    { name: "insights", title: "Insights" },
     { name: "ui", title: "UI" },
     { name: "form", title: "Form" },
   ],
@@ -55,6 +56,13 @@ export const uiLabels = defineType({
     defineField({ name: "homeDragSectors", type: "string", group: "home" }),
 
     defineField({ name: "aboutKeyFactsTitle", title: "Kerncijfers (sectietitel)", type: "string", group: "about" }),
+
+    defineField({ name: "insightsListTitle", title: "Lijst — titel", type: "string", group: "insights" }),
+    defineField({ name: "insightsListSubtitle", title: "Lijst — ondertitel", type: "string", group: "insights" }),
+    defineField({ name: "insightsCtaTitle", title: "CTA — titel", type: "string", group: "insights" }),
+    defineField({ name: "insightsCtaBody", title: "CTA — ondertitel (span)", type: "string", group: "insights" }),
+    defineField({ name: "insightsCtaButton", title: "CTA — knop", type: "string", group: "insights" }),
+    defineField({ name: "insightsEmpty", title: "Lege staat", type: "string", group: "insights" }),
 
     defineField({ name: "uiOpenMenu", type: "string", group: "ui" }),
     defineField({ name: "uiBrcLevelLabel", type: "string", group: "ui" }),

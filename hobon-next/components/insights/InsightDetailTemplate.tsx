@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
@@ -6,6 +8,7 @@ import { imageWithAltToUrl, resolveImageSrc } from "@/lib/sanity/resolveImageSrc
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { ArticlePortableText } from "@/components/portable/ArticlePortableText";
 import { estimateReadingMinutesFromPortableText } from "@/lib/insights/readingTime";
+import { useUILabels } from "@/components/providers/UILabelsProvider";
 
 export type InsightArticleDetail = {
   title?: string | null;
@@ -64,6 +67,7 @@ export function InsightDetailTemplate({
   article: InsightArticleDetail;
   cardFallbackImage?: { image?: unknown; alt?: string | null } | null;
 }) {
+  const labels = useUILabels();
   const insightsHref = buildLocalizedPath(locale, [{ type: "key", key: "insights" }]);
   const contactHref = buildLocalizedPath(locale, [{ type: "key", key: "contact" }]);
   const readMin = estimateReadingMinutesFromPortableText(article.body);
@@ -158,12 +162,12 @@ export function InsightDetailTemplate({
         <div className="ins-cta-inner" style={{ gridTemplateColumns: "1fr" }}>
           <div>
             <h2 className="ins-cta-h2">
-              Vraag over folie of lijn?
-              <span>We denken technisch mee.</span>
+              {labels.insightsCtaTitle}
+              <span>{labels.insightsCtaBody}</span>
             </h2>
             <p className="ins-cta-body">Neem contact op voor advies op maat — zonder verplichting.</p>
             <Link href={contactHref} className="btn-primary">
-              <span>Naar contact</span>
+              <span>{labels.insightsCtaButton}</span>
               <ArrowBtnIcon size={14} />
             </Link>
           </div>

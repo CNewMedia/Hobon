@@ -13,17 +13,25 @@ const client = createClient({
   useCdn: false,
 });
 
+/** Velden die seed altijd mag bijwerken zonder bestaande vertalingen te overschrijven. */
+const PATCH_ON_EXISTING: Partial<typeof defaultUILabels> = {
+  aboutKeyFactsTitle: defaultUILabels.aboutKeyFactsTitle,
+  insightsListTitle: defaultUILabels.insightsListTitle,
+  insightsListSubtitle: defaultUILabels.insightsListSubtitle,
+  insightsCtaTitle: defaultUILabels.insightsCtaTitle,
+  insightsCtaBody: defaultUILabels.insightsCtaBody,
+  insightsCtaButton: defaultUILabels.insightsCtaButton,
+  insightsEmpty: defaultUILabels.insightsEmpty,
+};
+
 async function main() {
   if (!token) throw new Error("Missing SANITY_API_WRITE_TOKEN");
 
   const existing = await client.fetch<{ _id: string } | null>(`*[_id == "uiLabels-nl"][0]{ _id }`);
 
   if (existing) {
-    await client
-      .patch("uiLabels-nl")
-      .set({ aboutKeyFactsTitle: defaultUILabels.aboutKeyFactsTitle })
-      .commit();
-    console.log("Patched uiLabels-nl: aboutKeyFactsTitle");
+    await client.patch("uiLabels-nl").set(PATCH_ON_EXISTING).commit();
+    console.log("Patched uiLabels-nl:", Object.keys(PATCH_ON_EXISTING).join(", "));
     return;
   }
 

@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
@@ -5,6 +7,7 @@ import { buildLocalizedPath } from "@/lib/i18n/paths";
 import { imageWithAltToUrl, resolveImageSrc } from "@/lib/sanity/resolveImageSrc";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { InsightCategoryChips, type InsightCategoryChip } from "@/components/insights/InsightCategoryChips";
+import { useUILabels } from "@/components/providers/UILabelsProvider";
 
 export type InsightsOverviewPageDoc = {
   hero?: { headline?: string | null; subline?: string | null } | null;
@@ -51,6 +54,7 @@ export function InsightsOverviewTemplate({
   articles: InsightListItem[];
   categories: InsightCategoryChip[];
 }) {
+  const labels = useUILabels();
   const hero = page?.hero;
   const cardFallbackSrc = imageWithAltToUrl(page?.articleCardFallbackImage, { width: 640, quality: 80 });
 
@@ -68,13 +72,13 @@ export function InsightsOverviewTemplate({
       <section className="ins-list">
         <div className="ins-list-hdr">
           <div>
-            <h2 className="ins-list-h2">Artikels</h2>
-            <p className="ins-list-sub">Praktische inzichten voor uw verpakkingslijn.</p>
+            <h2 className="ins-list-h2">{labels.insightsListTitle}</h2>
+            <p className="ins-list-sub">{labels.insightsListSubtitle}</p>
           </div>
         </div>
 
         {articles.length === 0 ? (
-          <p className="text-[#5a5f72]">Nog geen artikels in deze taal.</p>
+          <p className="text-[#5a5f72]">{labels.insightsEmpty}</p>
         ) : (
           <div className="ins-grid">
             {articles.map((a) => {
@@ -116,12 +120,12 @@ export function InsightsOverviewTemplate({
         <div className="ins-cta-inner" style={{ gridTemplateColumns: "1fr" }}>
           <div>
             <h2 className="ins-cta-h2">
-              Vraag over folie of lijn?
-              <span>We denken technisch mee.</span>
+              {labels.insightsCtaTitle}
+              <span>{labels.insightsCtaBody}</span>
             </h2>
             <p className="ins-cta-body">Neem contact op voor advies op maat — zonder verplichting.</p>
             <Link href={buildLocalizedPath(locale, [{ type: "key", key: "contact" }])} className="btn-primary">
-              <span>Naar contact</span>
+              <span>{labels.insightsCtaButton}</span>
               <ArrowBtnIcon size={14} />
             </Link>
           </div>
