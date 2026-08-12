@@ -1,3 +1,5 @@
+import type { ContactErrorCode } from "./error-codes";
+
 export type ContactFormSource = "contact" | "cta";
 
 export type ContactPayload = {
@@ -19,4 +21,4 @@ export type ContactPayload = {
 
 export type ContactValidationResult =
   | { ok: true; data: ContactPayload }
-  | { ok: false; error: string };
+  | { ok: false; errorCode: ContactErrorCode };

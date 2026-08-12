@@ -5,12 +5,7 @@ import { useParams } from "next/navigation";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
 import { submitContactForm } from "@/lib/contact/client";
-
-const ERROR_FALLBACK: Record<string, string> = {
-  nl: "Verzenden mislukt. Probeer het opnieuw of mail ons rechtstreeks.",
-  fr: "L'envoi a échoué. Réessayez ou contactez-nous directement par e-mail.",
-  en: "Sending failed. Please try again or email us directly.",
-};
+import { resolveContactErrorLabel } from "@/lib/contact/resolve-error";
 
 export function SectorCtaForm() {
   const labels = useUILabels();
@@ -31,10 +26,10 @@ export function SectorCtaForm() {
   if (sent) {
     return (
       <div id="cta-success" className="cf-success" role="status" aria-live="polite">
-        <div className="cf-success-kicker">Aanvraag ontvangen</div>
+        <div className="cf-success-kicker">{labels.formSuccessKicker}</div>
         <p className="cf-success-text">{labels.formSuccessMessage}</p>
         <button type="button" className="cf-success-link" onClick={() => setSent(false)}>
-          Stel een nieuwe vraag
+          {labels.formAskAgain}
         </button>
       </div>
     );
@@ -71,7 +66,7 @@ export function SectorCtaForm() {
         setSubmitting(false);
 
         if (!result.ok) {
-          setError(result.error || ERROR_FALLBACK[locale] || ERROR_FALLBACK.nl);
+          setError(resolveContactErrorLabel(labels, result.errorCode));
           return;
         }
 
@@ -84,13 +79,27 @@ export function SectorCtaForm() {
           <label className="cf-lbl" htmlFor="cfn">
             {labels.formFieldNameLabel}
           </label>
-          <input className="cf-in" id="cfn" name="name" type="text" placeholder="Jan Janssen" required />
+          <input
+            className="cf-in"
+            id="cfn"
+            name="name"
+            type="text"
+            placeholder={labels.formPlaceholderName}
+            required
+          />
         </div>
         <div className="cf-field">
           <label className="cf-lbl" htmlFor="cfb">
             {labels.formFieldCompanyLabel}
           </label>
-          <input className="cf-in" id="cfb" name="company" type="text" placeholder="Uw bedrijfsnaam" required />
+          <input
+            className="cf-in"
+            id="cfb"
+            name="company"
+            type="text"
+            placeholder={labels.formPlaceholderCompany}
+            required
+          />
         </div>
       </div>
       <div className="cf-row">
@@ -98,7 +107,14 @@ export function SectorCtaForm() {
           <label className="cf-lbl" htmlFor="cfe">
             {labels.formFieldEmailLabel}
           </label>
-          <input className="cf-in" id="cfe" name="email" type="email" placeholder="jan@bedrijf.be" required />
+          <input
+            className="cf-in"
+            id="cfe"
+            name="email"
+            type="email"
+            placeholder={labels.formPlaceholderEmail}
+            required
+          />
         </div>
         <div className="cf-field">
           <label className="cf-lbl" htmlFor="cft">

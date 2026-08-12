@@ -62,17 +62,40 @@ export type UILabels = {
   uiContactMapPlaceholder: string;
 
   formFieldNameLabel: string;
+  formFieldFirstnameLabel: string;
+  formFieldLastnameLabel: string;
   formFieldCompanyLabel: string;
   formFieldEmailLabel: string;
+  formFieldPhoneLabel: string;
+  formFieldSectorLabel: string;
+  formFieldMessageLabel: string;
   formFieldChallengeLabel: string;
   formChallengePlaceholder: string;
+  formPlaceholderName: string;
+  formPlaceholderCompany: string;
+  formPlaceholderEmail: string;
   formIntentLabel: string;
   formIntentPlaceholder: string;
   formIntentOptions: UILabelOption[];
+  formSectorOptions: UILabelOption[];
   formSubmitLabel: string;
   formDisclaimerText: string;
   formPrivacyLinkLabel: string;
   formSuccessMessage: string;
+  formContactSuccessMessage: string;
+  formSuccessKicker: string;
+  formAskAgain: string;
+  formErrorInvalidJson: string;
+  formErrorRateLimit: string;
+  formErrorSendFailed: string;
+  formErrorInvalidRequest: string;
+  formErrorInvalidEmail: string;
+  formErrorRequiredFirstname: string;
+  formErrorRequiredLastname: string;
+  formErrorRequiredSector: string;
+  formErrorRequiredMessage: string;
+  formErrorRequiredName: string;
+  formErrorRequiredCompany: string;
 };
 
 export const defaultUILabels: UILabels = {
@@ -134,11 +157,19 @@ export const defaultUILabels: UILabels = {
   uiContactMapPlaceholder: "Kaart — later",
 
   formFieldNameLabel: "Naam *",
+  formFieldFirstnameLabel: "Voornaam",
+  formFieldLastnameLabel: "Naam",
   formFieldCompanyLabel: "Bedrijf *",
   formFieldEmailLabel: "E-mail *",
+  formFieldPhoneLabel: "Telefoon",
+  formFieldSectorLabel: "Sector",
+  formFieldMessageLabel: "Bericht",
   formFieldChallengeLabel: "Uw uitdaging of machine",
   formChallengePlaceholder:
     "Beschrijf uw machine, lijnsnelheid, product of probleem. Hoe meer detail, hoe sneller en gerichter ons advies.",
+  formPlaceholderName: "Jan Janssen",
+  formPlaceholderCompany: "Uw bedrijfsnaam",
+  formPlaceholderEmail: "jan@bedrijf.be",
   formIntentLabel: "Ik zoek...",
   formIntentPlaceholder: "Kies een optie",
   formIntentOptions: [
@@ -149,16 +180,43 @@ export const defaultUILabels: UILabels = {
     { value: "request-quote", label: "Offerte aanvragen" },
     { value: "other-question", label: "Andere vraag" },
   ],
+  formSectorOptions: [
+    { value: "voeding", label: "Voeding" },
+    { value: "logistiek", label: "Logistiek" },
+    { value: "chemie-industrie", label: "Chemie & industrie" },
+    { value: "agro-industrie", label: "Agro-industrie" },
+    { value: "andere", label: "Andere" },
+  ],
   formSubmitLabel: "Vraag versturen",
   formDisclaimerText: "Uw gegevens worden uitsluitend gebruikt voor de behandeling van uw aanvraag.",
   formPrivacyLinkLabel: "Privacybeleid",
-  formSuccessMessage: "Bedankt — we nemen zo snel mogelijk contact met u op.",
+  formSuccessMessage: "Bedankt, we nemen zo snel mogelijk contact met u op.",
+  formContactSuccessMessage:
+    "Bedankt voor uw bericht. Een van onze specialisten neemt binnen 1 werkdag contact met u op.",
+  formSuccessKicker: "Aanvraag ontvangen",
+  formAskAgain: "Stel een nieuwe vraag",
+  formErrorInvalidJson: "Ongeldige JSON.",
+  formErrorRateLimit: "Te veel aanvragen. Probeer het over enkele minuten opnieuw.",
+  formErrorSendFailed: "Verzenden mislukt. Probeer het later opnieuw of mail ons rechtstreeks.",
+  formErrorInvalidRequest: "Ongeldige aanvraag.",
+  formErrorInvalidEmail: "Voer een geldig e-mailadres in.",
+  formErrorRequiredFirstname: "Voornaam is verplicht.",
+  formErrorRequiredLastname: "Naam is verplicht.",
+  formErrorRequiredSector: "Sector is verplicht.",
+  formErrorRequiredMessage: "Bericht is verplicht.",
+  formErrorRequiredName: "Naam is verplicht.",
+  formErrorRequiredCompany: "Bedrijf is verplicht.",
 };
 
 export function mergeUILabels(input?: Partial<UILabels> | null): UILabels {
   return {
     ...defaultUILabels,
     ...(input ?? {}),
-    formIntentOptions: input?.formIntentOptions?.length ? input.formIntentOptions : defaultUILabels.formIntentOptions,
+    formIntentOptions: input?.formIntentOptions?.length
+      ? input.formIntentOptions
+      : defaultUILabels.formIntentOptions,
+    formSectorOptions: input?.formSectorOptions?.length
+      ? input.formSectorOptions
+      : defaultUILabels.formSectorOptions,
   };
 }

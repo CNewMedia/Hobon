@@ -1,4 +1,5 @@
 import type { ContactPayload, ContactValidationResult } from "./types";
+import type { ContactErrorCode } from "./error-codes";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -9,7 +10,7 @@ function clean(value: unknown, max = 500): string {
 
 export function validateContactPayload(body: unknown): ContactValidationResult {
   if (!body || typeof body !== "object") {
-    return { ok: false, error: "Ongeldige aanvraag." };
+    return { ok: false, errorCode: "invalid_request" satisfies ContactErrorCode };
   }
 
   const raw = body as Record<string, unknown>;
@@ -17,7 +18,7 @@ export function validateContactPayload(body: unknown): ContactValidationResult {
   const email = clean(raw.email, 254).toLowerCase();
 
   if (!email || !EMAIL_RE.test(email)) {
-    return { ok: false, error: "Voer een geldig e-mailadres in." };
+    return { ok: false, errorCode: "invalid_email" };
   }
 
   const firstname = clean(raw.firstname, 120);
@@ -33,13 +34,13 @@ export function validateContactPayload(body: unknown): ContactValidationResult {
   const website = clean(raw.website, 200);
 
   if (source === "contact") {
-    if (!firstname) return { ok: false, error: "Voornaam is verplicht." };
-    if (!lastname) return { ok: false, error: "Naam is verplicht." };
-    if (!sector) return { ok: false, error: "Sector is verplicht." };
-    if (!message) return { ok: false, error: "Bericht is verplicht." };
+    if (!firstname) return { ok: false, errorCode: "required_firstname" };
+    if (!lastname) return { ok: false, errorCode: "required_lastname" };
+    if (!sector) return { ok: false, errorCode: "required_sector" };
+    if (!message) return { ok: false, errorCode: "required_message" };
   } else {
-    if (!name) return { ok: false, error: "Naam is verplicht." };
-    if (!company) return { ok: false, error: "Bedrijf is verplicht." };
+    if (!name) return { ok: false, errorCode: "required_name" };
+    if (!company) return { ok: false, errorCode: "required_company" };
   }
 
   return {

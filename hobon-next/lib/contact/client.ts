@@ -1,8 +1,9 @@
 import type { ContactPayload } from "./types";
+import { isContactErrorCode, type ContactErrorCode } from "./error-codes";
 
 export type ContactSubmitResult =
   | { ok: true }
-  | { ok: false; error: string };
+  | { ok: false; errorCode: ContactErrorCode };
 
 export async function submitContactForm(payload: ContactPayload): Promise<ContactSubmitResult> {
   const res = await fetch("/api/contact", {
@@ -11,10 +12,11 @@ export async function submitContactForm(payload: ContactPayload): Promise<Contac
     body: JSON.stringify(payload),
   });
 
-  const body = (await res.json().catch(() => null)) as { error?: string } | null;
+  const body = (await res.json().catch(() => null)) as { errorCode?: string } | null;
 
   if (!res.ok) {
-    return { ok: false, error: body?.error || "Verzenden mislukt. Probeer het later opnieuw." };
+    const code = isContactErrorCode(body?.errorCode) ? body.errorCode : "send_failed";
+    return { ok: false, errorCode: code };
   }
 
   return { ok: true };

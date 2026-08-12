@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/contact/rate-limit";
 import { sendContactEmail } from "@/lib/contact/send-mail";
 import { validateContactPayload } from "@/lib/contact/validate";
+import type { ContactErrorCode } from "@/lib/contact/error-codes";
 
 export const runtime = "nodejs";
 
@@ -11,17 +12,21 @@ function clientIp(request: Request): string {
   return request.headers.get("x-real-ip") || "unknown";
 }
 
+function errorResponse(errorCode: ContactErrorCode, status: number) {
+  return NextResponse.json({ errorCode }, { status });
+}
+
 export async function POST(request: Request) {
   let body: unknown;
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Ongeldige JSON." }, { status: 400 });
+    return errorResponse("invalid_json", 400);
   }
 
   const validated = validateContactPayload(body);
   if (!validated.ok) {
-    return NextResponse.json({ error: validated.error }, { status: 400 });
+    return errorResponse(validated.errorCode, 400);
   }
 
   const data = validated.data;
@@ -31,10 +36,7 @@ export async function POST(request: Request) {
   }
 
   if (!checkRateLimit(clientIp(request))) {
-    return NextResponse.json(
-      { error: "Te veel aanvragen. Probeer het over enkele minuten opnieuw." },
-      { status: 429 },
-    );
+    return errorResponse("rate_limit", 429);
   }
 
   try {
@@ -42,9 +44,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("[contact] mail send failed", err);
-    return NextResponse.json(
-      { error: "Verzenden mislukt. Probeer het later opnieuw of mail ons rechtstreeks." },
-      { status: 500 },
-    );
+    return errorResponse("send_failed", 500);
   }
 }

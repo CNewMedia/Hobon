@@ -3,7 +3,9 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { useParams } from "next/navigation";
 import { ArrowBtnIcon } from "@/components/layout/icons";
+import { useUILabels } from "@/components/providers/UILabelsProvider";
 import { submitContactForm } from "@/lib/contact/client";
+import { resolveContactErrorLabel } from "@/lib/contact/resolve-error";
 
 export type ContactFormLabels = {
   firstname?: string | null;
@@ -13,20 +15,6 @@ export type ContactFormLabels = {
   phone?: string | null;
   sector?: string | null;
   message?: string | null;
-};
-
-const SECTOR_OPTIONS = [
-  "Voeding",
-  "Logistiek",
-  "Chemie & industrie",
-  "Agro-industrie",
-  "Andere",
-] as const;
-
-const ERROR_FALLBACK: Record<string, string> = {
-  nl: "Verzenden mislukt. Probeer het opnieuw of mail ons rechtstreeks.",
-  fr: "L'envoi a échoué. Réessayez ou contactez-nous directement par e-mail.",
-  en: "Sending failed. Please try again or email us directly.",
 };
 
 export function ContactForm({
@@ -46,6 +34,7 @@ export function ContactForm({
   formPrivacyLinkLabel?: string;
   onSubmitted?: () => void;
 }) {
+  const ui = useUILabels();
   const params = useParams();
   const locale = typeof params?.locale === "string" ? params.locale : "nl";
   const labels = useMemo(() => formFields ?? {}, [formFields]);
@@ -59,6 +48,9 @@ export function ContactForm({
 
     const form = e.currentTarget;
     const fd = new FormData(form);
+    const sectorValue = String(fd.get("sector") ?? "");
+    const sectorLabel =
+      ui.formSectorOptions.find((opt) => opt.value === sectorValue)?.label || sectorValue;
 
     const result = await submitContactForm({
       source: "contact",
@@ -68,7 +60,7 @@ export function ContactForm({
       company: String(fd.get("company") ?? ""),
       email: String(fd.get("email") ?? ""),
       phone: String(fd.get("phone") ?? ""),
-      sector: String(fd.get("sector") ?? ""),
+      sector: sectorLabel,
       message: String(fd.get("message") ?? ""),
       website: String(fd.get("website") ?? ""),
     });
@@ -76,7 +68,7 @@ export function ContactForm({
     setSubmitting(false);
 
     if (!result.ok) {
-      setError(result.error || ERROR_FALLBACK[locale] || ERROR_FALLBACK.nl);
+      setError(resolveContactErrorLabel(ui, result.errorCode));
       return;
     }
 
@@ -92,13 +84,13 @@ export function ContactForm({
       <div className="c-row">
         <div className="c-field">
           <label className="c-lbl" htmlFor="firstname">
-            {L("firstname", "Voornaam")}
+            {L("firstname", ui.formFieldFirstnameLabel)}
           </label>
           <input id="firstname" name="firstname" className="c-in" type="text" autoComplete="given-name" required />
         </div>
         <div className="c-field">
           <label className="c-lbl" htmlFor="lastname">
-            {L("lastname", "Naam")}
+            {L("lastname", ui.formFieldLastnameLabel)}
           </label>
           <input id="lastname" name="lastname" className="c-in" type="text" autoComplete="family-name" required />
         </div>
@@ -106,13 +98,13 @@ export function ContactForm({
       <div className="c-row">
         <div className="c-field">
           <label className="c-lbl" htmlFor="company">
-            {L("company", "Bedrijf")}
+            {L("company", ui.formFieldCompanyLabel.replace(/\s*\*$/, ""))}
           </label>
           <input id="company" name="company" className="c-in" type="text" autoComplete="organization" />
         </div>
         <div className="c-field">
           <label className="c-lbl" htmlFor="email">
-            {L("email", "E-mail")}
+            {L("email", ui.formFieldEmailLabel.replace(/\s*\*$/, ""))}
           </label>
           <input id="email" name="email" className="c-in" type="email" autoComplete="email" required />
         </div>
@@ -120,21 +112,21 @@ export function ContactForm({
       <div className="c-row">
         <div className="c-field">
           <label className="c-lbl" htmlFor="phone">
-            {L("phone", "Telefoon")}
+            {L("phone", ui.formFieldPhoneLabel)}
           </label>
           <input id="phone" name="phone" className="c-in" type="tel" autoComplete="tel" />
         </div>
         <div className="c-field">
           <label className="c-lbl" htmlFor="sector">
-            {L("sector", "Sector")}
+            {L("sector", ui.formFieldSectorLabel)}
           </label>
           <select id="sector" name="sector" className="c-sel" required defaultValue="">
             <option value="" disabled>
               —
             </option>
-            {SECTOR_OPTIONS.map((opt) => (
-              <option key={opt} value={opt}>
-                {opt}
+            {ui.formSectorOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
               </option>
             ))}
           </select>
@@ -143,7 +135,7 @@ export function ContactForm({
       <div className="c-row full">
         <div className="c-field">
           <label className="c-lbl" htmlFor="message">
-            {L("message", "Bericht")}
+            {L("message", ui.formFieldMessageLabel)}
           </label>
           <textarea id="message" name="message" className="c-ta" required />
         </div>
@@ -160,12 +152,11 @@ export function ContactForm({
             </p>
           ) : null}
           <p className="c-privacy">
-            {formDisclaimerText ||
-              "Uw gegevens worden uitsluitend gebruikt voor de behandeling van uw aanvraag."}
+            {formDisclaimerText || ui.formDisclaimerText}
             {formPrivacyHref ? (
               <>
                 {" "}
-                <a href={formPrivacyHref}>{formPrivacyLinkLabel || "Privacybeleid"}</a>.
+                <a href={formPrivacyHref}>{formPrivacyLinkLabel || ui.formPrivacyLinkLabel}</a>.
               </>
             ) : null}
           </p>

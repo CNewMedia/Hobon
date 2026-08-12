@@ -39,9 +39,6 @@ export type SiteSettingsContact = {
 
 type LocationRow = NonNullable<SiteSettingsContact["locations"]>[number];
 
-const FALLBACK_SUCCESS_MESSAGE =
-  "Bedankt voor uw bericht. Een van onze specialisten neemt binnen 1 werkdag contact met u op.";
-
 function LocationCards({
   locations,
   mapPlaceholder,
@@ -148,14 +145,14 @@ export function ContactTemplate({
 
           {submitted ? (
             <div className="c-success" role="status" aria-live="polite">
-              <div className="c-success-kicker">Aanvraag ontvangen</div>
+              <div className="c-success-kicker">{labels.formSuccessKicker}</div>
               <p className="c-success-text">
                 {contactPage?.formThankYouMessage?.trim() ||
-                  labels.formSuccessMessage ||
-                  FALLBACK_SUCCESS_MESSAGE}
+                  labels.formContactSuccessMessage ||
+                  labels.formSuccessMessage}
               </p>
               <button type="button" className="c-success-link" onClick={() => setSubmitted(false)}>
-                Stel een nieuwe vraag
+                {labels.formAskAgain}
               </button>
             </div>
           ) : (
