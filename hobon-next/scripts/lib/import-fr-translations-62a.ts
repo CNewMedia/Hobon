@@ -395,6 +395,110 @@ function randomKey(): string {
   return Math.random().toString(36).slice(2, 12);
 }
 
+const TEXT_BLOCK_STYLES = new Set(["normal", "h2", "h3"]);
+
+export function splitFrParagraphs(frPlain: string): string[] {
+  return frPlain.split(/\n\n+/).map((p) => p.trim()).filter(Boolean);
+}
+
+export function getBlockSpanText(block: Record<string, unknown>): string {
+  const children = Array.isArray(block.children) ? block.children : [];
+  return children
+    .filter((c) => c && typeof c === "object" && (c as { _type?: string })._type === "span")
+    .map((c) => String((c as { text?: string }).text ?? ""))
+    .join("")
+    .trim();
+}
+
+/** NL tekst-block = block met style normal/h2/h3 (leeg of met tekst). */
+export function isNlTextBlock(block: Record<string, unknown>): boolean {
+  if (block._type !== "block") return false;
+  const style = String(block.style ?? "normal");
+  return TEXT_BLOCK_STYLES.has(style);
+}
+
+export function countNlNonEmptyTextBlocks(nlBody: Record<string, unknown>[]): number {
+  return nlBody.filter((b) => isNlTextBlock(b) && getBlockSpanText(b).length > 0).length;
+}
+
+export function bodyStyleSignature(body: Record<string, unknown>[]): string {
+  return body
+    .map((b) => {
+      if (b._type !== "block") return `@${b._type ?? "?"}`;
+      const style = String(b.style ?? "normal");
+      const text = getBlockSpanText(b);
+      if (TEXT_BLOCK_STYLES.has(style) && !text) return `${style}:empty`;
+      if (TEXT_BLOCK_STYLES.has(style)) return style;
+      return `@${style}`;
+    })
+    .join("|");
+}
+
+export type MapFrBodyResult =
+  | {
+      ok: true;
+      body: Record<string, unknown>[];
+      nlTextBlocks: number;
+      frParagraphs: number;
+    }
+  | {
+      ok: false;
+      reason: "paragraph_count_mismatch";
+      nlTextBlocks: number;
+      frParagraphs: number;
+    };
+
+/**
+ * HOB-62f — Map FR body: NL block-structuur + styles, Herman FR-tekst per \n\n-alinea.
+ * Lege NL spacers en niet-tekst blocks blijven op hun index.
+ */
+export function mapFrBodyFromNlStructure(
+  nlBody: Record<string, unknown>[],
+  frPlainFromXlsx: string,
+): MapFrBodyResult {
+  const frParagraphs = splitFrParagraphs(frPlainFromXlsx);
+  const nlTextBlocks = countNlNonEmptyTextBlocks(nlBody);
+
+  if (nlTextBlocks !== frParagraphs.length) {
+    return {
+      ok: false,
+      reason: "paragraph_count_mismatch",
+      nlTextBlocks,
+      frParagraphs: frParagraphs.length,
+    };
+  }
+
+  let paraIdx = 0;
+  const body = nlBody.map((block) => {
+    if (!isNlTextBlock(block)) return block;
+
+    const text = getBlockSpanText(block);
+    if (!text) return block;
+
+    const frText = frParagraphs[paraIdx]!;
+    paraIdx++;
+
+    const children = Array.isArray(block.children) ? block.children : [];
+    const firstChild =
+      children[0] && typeof children[0] === "object"
+        ? (children[0] as Record<string, unknown>)
+        : { _type: "span", _key: randomKey(), marks: [], text: "" };
+
+    return {
+      ...block,
+      style: block.style ?? "normal",
+      children: [{ ...firstChild, text: frText }],
+    };
+  });
+
+  return {
+    ok: true,
+    body,
+    nlTextBlocks,
+    frParagraphs: frParagraphs.length,
+  };
+}
+
 /** Vervang portable-text inhoud; behoud block/spans-structuur per paragraaf. */
 export function replacePortableTextBody(
   blocks: Record<string, unknown>[],
