@@ -43,6 +43,7 @@
     "migrate:62b-deel1": "node --env-file=.env.local --import tsx scripts/migrate-62b-deel1.ts",
     "migrate:62b-deel2": "node --env-file=.env.local --import tsx scripts/migrate-62b-deel2.ts",
     "migrate:62c": "node --env-file=.env.local --import tsx scripts/migrate-62c.ts",
+    "migrate:62d": "node --env-file=.env.local --import tsx scripts/migrate-62d.ts",
     "migrate:58-insights-labels": "node --env-file=.env.local --import tsx scripts/migrate-58-insights-labels.ts",
     "migrate:58b-insights-labels": "node --env-file=.env.local --import tsx scripts/migrate-58b-insights-labels.ts",
     "migrate:63-contact-labels": "node --env-file=.env.local --import tsx scripts/migrate-63-contact-labels.ts",
