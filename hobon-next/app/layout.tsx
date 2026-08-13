@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { DM_Sans, Geist } from "next/font/google";
 import { draftMode } from "next/headers";
 import { headers } from "next/headers";
+import Script from "next/script";
 import { DraftVisualEditing } from "@/components/sanity/DraftVisualEditing";
+import { cookiebotCulture, getCookiebotCbid } from "@/lib/cookiebot";
 import "./globals.css";
 import "./hobon-mock.css";
 
@@ -30,6 +32,7 @@ export default async function RootLayout({
 }>) {
   const h = await headers();
   const locale = h.get("x-locale") ?? "nl";
+  const cookiebotCbid = getCookiebotCbid();
   let draftEnabled = false;
   try {
     draftEnabled = (await draftMode()).isEnabled;
@@ -45,6 +48,16 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
+        {cookiebotCbid ? (
+          <Script
+            id="Cookiebot"
+            src="https://consent.cookiebot.com/uc.js"
+            data-cbid={cookiebotCbid}
+            data-blockingmode="auto"
+            data-culture={cookiebotCulture(locale)}
+            strategy="beforeInteractive"
+          />
+        ) : null}
         {children}
         {draftEnabled ? <DraftVisualEditing /> : null}
       </body>

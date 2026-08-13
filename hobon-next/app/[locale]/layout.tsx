@@ -1,10 +1,10 @@
-import Script from "next/script";
 import { headers } from "next/headers";
 import { GtmNoScript, SiteAnalytics } from "@/components/tracking/SiteAnalytics";
 import { SiteEffects } from "@/components/site/SiteEffects";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { UILabelsProvider } from "@/components/providers/UILabelsProvider";
+import { getCookiebotCbid } from "@/lib/cookiebot";
 import type { Locale } from "@/lib/i18n/config";
 import { isLocale } from "@/lib/i18n/config";
 import { SITE_ORIGIN } from "@/lib/siteUrl";
@@ -15,7 +15,6 @@ import { pathnameWithoutLocale } from "@/lib/sanity/resolveInternalHref";
 import { getSeoDefaults } from "@/lib/sanity/seoDefaults";
 import {
   analyticsAndTrackingQuery,
-  cookieConsentQuery,
   footerNavigationQuery,
   headerNavigationQuery,
   siteSettingsQuery,
@@ -57,12 +56,11 @@ export default async function LocaleLayout({
   const h = await headers();
   const pathnameBare = normalizePath(pathnameWithoutLocale(h.get("x-pathname") ?? "/"));
 
-  const [settings, headerNav, footerNav, seoDefaults, cookieConsent, tracking, rawUILabels] = await Promise.all([
+  const [settings, headerNav, footerNav, seoDefaults, tracking, rawUILabels] = await Promise.all([
     fetchSanity(siteSettingsQuery),
     fetchSanity(headerNavigationQuery, { locale }),
     fetchSanity(footerNavigationQuery, { locale }),
     getSeoDefaults(locale),
-    fetchSanity(cookieConsentQuery),
     fetchSanity(analyticsAndTrackingQuery),
     fetchSanity(uiLabelsQuery, { locale }),
   ]);
@@ -73,18 +71,8 @@ export default async function LocaleLayout({
     logoUrlFromImageWithAlt(headerNav?.logo ?? null) ??
     null;
 
-  const cookiebotCbid = cookieConsent?.cookiebotCbid?.trim();
-  const showCookiebot =
-    cookieConsent?.provider === "cookiebot" &&
-    cookieConsent?.cookiebotEnabled === true &&
-    Boolean(cookiebotCbid) &&
-    cookiebotCbid !== "[YOUR_COOKIEBOT_CBID]";
-
-  const consentReady =
-    cookieConsent?.provider === "cookiebot" &&
-    cookieConsent?.cookiebotEnabled === true &&
-    Boolean(cookiebotCbid) &&
-    cookiebotCbid !== "[YOUR_COOKIEBOT_CBID]";
+  /** Tracking only when Cookiebot env CBID is set — banner blocks until consent (auto). */
+  const consentReady = Boolean(getCookiebotCbid());
 
   const orgLd = organizationJsonLd({
     name: settings?.companyName?.trim() || "Hobon",
@@ -101,15 +89,6 @@ export default async function LocaleLayout({
 
   return (
     <>
-      {showCookiebot && cookiebotCbid ? (
-        <Script
-          id="Cookiebot"
-          src="https://consent.cookiebot.com/uc.js"
-          data-cbid={cookiebotCbid}
-          data-blockingmode="auto"
-          strategy="beforeInteractive"
-        />
-      ) : null}
       <SiteAnalytics tracking={tracking} enabled={consentReady} pathnameBare={pathnameBare} />
       <script
         type="application/ld+json"
