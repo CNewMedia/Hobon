@@ -3,6 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useUILabels } from "@/components/providers/UILabelsProvider";
 
 export type GallerySlide = {
   src: string;
@@ -23,6 +24,7 @@ export function ProductGalleryLightbox({
   onClose,
   onNavigate,
 }: ProductGalleryLightboxProps) {
+  const labels = useUILabels();
   const open = index !== null && slides.length > 0;
   const current = open ? slides[index] : null;
 
@@ -68,15 +70,15 @@ export function ProductGalleryLightbox({
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <button type="button" className="lb-x" aria-label="Sluiten" onClick={onClose}>
+      <button type="button" className="lb-x" aria-label={labels.uiAriaClose} onClick={onClose}>
         &times;
       </button>
       {slides.length > 1 ? (
         <>
-          <button type="button" className="lb-nav lb-prev" aria-label="Vorige" onClick={goPrev}>
+          <button type="button" className="lb-nav lb-prev" aria-label={labels.uiAriaPrev} onClick={goPrev}>
             &#8249;
           </button>
-          <button type="button" className="lb-nav lb-next" aria-label="Volgende" onClick={goNext}>
+          <button type="button" className="lb-nav lb-next" aria-label={labels.uiAriaNext} onClick={goNext}>
             &#8250;
           </button>
         </>

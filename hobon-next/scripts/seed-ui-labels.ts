@@ -55,6 +55,15 @@ const PATCH_ON_EXISTING: Partial<typeof defaultUILabels> = {
   formErrorRequiredName: defaultUILabels.formErrorRequiredName,
   formErrorRequiredCompany: defaultUILabels.formErrorRequiredCompany,
   formSuccessMessage: defaultUILabels.formSuccessMessage,
+  // HOB-67 — product sectiekoppen + lightbox-aria (NL seed only; FR/EN via migrate:67-product-labels)
+  productGalleryTag: defaultUILabels.productGalleryTag,
+  productGalleryTitle: defaultUILabels.productGalleryTitle,
+  productSolutionsTag: defaultUILabels.productSolutionsTag,
+  productSolutionsTitle: defaultUILabels.productSolutionsTitle,
+  productFaqTitle: defaultUILabels.productFaqTitle,
+  uiAriaClose: defaultUILabels.uiAriaClose,
+  uiAriaPrev: defaultUILabels.uiAriaPrev,
+  uiAriaNext: defaultUILabels.uiAriaNext,
 };
 
 async function main() {

@@ -60,6 +60,9 @@ export type UILabels = {
   uiBrcLevelLabel: string;
   uiContactMailSubject: string;
   uiContactMapPlaceholder: string;
+  uiAriaClose: string;
+  uiAriaPrev: string;
+  uiAriaNext: string;
 
   formFieldNameLabel: string;
   formFieldFirstnameLabel: string;
@@ -155,6 +158,9 @@ export const defaultUILabels: UILabels = {
   uiBrcLevelLabel: "BRC Packaging Level AA",
   uiContactMailSubject: "Verpakkingsvraag via hobon.be",
   uiContactMapPlaceholder: "Kaart — later",
+  uiAriaClose: "Sluiten",
+  uiAriaPrev: "Vorige",
+  uiAriaNext: "Volgende",
 
   formFieldNameLabel: "Naam *",
   formFieldFirstnameLabel: "Voornaam",

@@ -78,6 +78,9 @@ export const uiLabels = defineType({
     defineField({ name: "uiBrcLevelLabel", type: "string", group: "ui" }),
     defineField({ name: "uiContactMailSubject", type: "string", group: "ui" }),
     defineField({ name: "uiContactMapPlaceholder", type: "string", group: "ui" }),
+    defineField({ name: "uiAriaClose", type: "string", group: "ui" }),
+    defineField({ name: "uiAriaPrev", type: "string", group: "ui" }),
+    defineField({ name: "uiAriaNext", type: "string", group: "ui" }),
 
     defineField({ name: "formFieldNameLabel", type: "string", group: "form" }),
     defineField({ name: "formFieldFirstnameLabel", type: "string", group: "form" }),
