@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n/config";
-import { locales } from "@/lib/i18n/config";
+import { defaultLocale, locales } from "@/lib/i18n/config";
 import { SITE_ORIGIN } from "@/lib/siteUrl";
 import { buildLocalizedPath, type PathPart } from "@/lib/i18n/paths";
 import { urlFor } from "@/lib/sanity/image";
@@ -37,6 +37,8 @@ export async function buildPageMetadata(input: {
   locale: Locale;
   seo: SeoInput;
   pathParts: PathPart[];
+  /** Per-locale path parts for hreflang. Missing locales are omitted. */
+  languagePathParts?: Partial<Record<Locale, PathPart[]>>;
   defaults?: SeoDefaults | null;
 }): Promise<Metadata> {
   const suffix = input.defaults?.defaultMetaTitleSuffix;
@@ -57,7 +59,17 @@ export async function buildPageMetadata(input: {
 
   const languageAlternates: Record<string, string> = {};
   for (const loc of locales) {
-    languageAlternates[loc] = `${SITE_ORIGIN}${buildLocalizedPath(loc, input.pathParts)}`;
+    const parts = input.languagePathParts ? input.languagePathParts[loc] : input.pathParts;
+    if (!parts) continue;
+    languageAlternates[loc] = `${SITE_ORIGIN}${buildLocalizedPath(loc, parts)}`;
+  }
+  if (input.languagePathParts) {
+    const nlParts = input.languagePathParts[defaultLocale];
+    languageAlternates["x-default"] = nlParts
+      ? `${SITE_ORIGIN}${buildLocalizedPath(defaultLocale, nlParts)}`
+      : canonical;
+  } else {
+    languageAlternates["x-default"] = `${SITE_ORIGIN}${buildLocalizedPath(defaultLocale, input.pathParts)}`;
   }
 
   const ogImage =

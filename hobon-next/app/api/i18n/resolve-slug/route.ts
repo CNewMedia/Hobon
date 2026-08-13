@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isLocale } from "@/lib/i18n/config";
 import {
-  getDocKeyBySlug,
-  getLocalizedSlug,
-  getOverviewFallbackPath,
+  resolveSiblingSlug,
   type LocalizedDocType,
 } from "@/lib/sanity/locale-mapping";
 import { client } from "@/lib/sanity/client";
@@ -24,17 +22,17 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "invalid_locale" }, { status: 400 });
   }
 
-  const fetcher = <T,>(query: string, params: Record<string, string>) => client.fetch<T>(query, params);
+  const resolved = await resolveSiblingSlug(
+    documentType,
+    sourceLocale,
+    sourceSlug,
+    targetLocale,
+    (query, params) => client.fetch(query, params),
+  );
 
-  const docKey = await getDocKeyBySlug(documentType, sourceLocale, sourceSlug, fetcher);
-  if (!docKey) {
-    return NextResponse.json({ path: getOverviewFallbackPath(documentType, targetLocale) });
+  if ("path" in resolved) {
+    return NextResponse.json({ path: resolved.path });
   }
 
-  const slugOrFallback = await getLocalizedSlug(documentType, docKey, targetLocale, fetcher);
-  if (slugOrFallback.startsWith("/")) {
-    return NextResponse.json({ path: slugOrFallback });
-  }
-
-  return NextResponse.json({ slug: slugOrFallback });
+  return NextResponse.json({ slug: resolved.slug });
 }

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
+import { SITE_ORIGIN } from "@/lib/siteUrl";
 
-const SITEMAP = "https://hobon-next.vercel.app/sitemap.xml";
+const SITEMAP = `${SITE_ORIGIN}/sitemap.xml`;
 
 export default function robots(): MetadataRoute.Robots {
   return {

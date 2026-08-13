@@ -1,6 +1,10 @@
 import { InsightDetailTemplate } from "@/components/insights/InsightDetailTemplate";
 import type { Locale } from "@/lib/i18n/config";
 import { fetchSanity } from "@/lib/sanity/fetchSanity";
+import {
+  pathPartsByLocaleFromSlugs,
+  resolveSiblingSlugsByLocale,
+} from "@/lib/sanity/locale-mapping";
 import { insightBySlugQuery, insightsOverviewPageQuery } from "@/lib/sanity/queries";
 import { getSeoDefaults } from "@/lib/sanity/seoDefaults";
 import { buildPageMetadata } from "@/lib/seo/metadata";
@@ -22,9 +26,10 @@ export async function generateMetadata({
 }) {
   const { locale, slug } = await params;
   const loc = locale as Locale;
-  const [doc, defaults] = await Promise.all([
+  const [doc, defaults, siblingSlugs] = await Promise.all([
     fetchSanity(insightBySlugQuery, { locale, slug }),
     getSeoDefaults(loc),
+    resolveSiblingSlugsByLocale("insightArticle", loc, slug, fetchSanity),
   ]);
   return buildPageMetadata({
     locale: loc,
@@ -33,6 +38,7 @@ export async function generateMetadata({
       { type: "key", key: "insights" },
       { type: "slug", value: slug },
     ],
+    languagePathParts: pathPartsByLocaleFromSlugs("insights", siblingSlugs),
     defaults,
   });
 }
