@@ -1,5 +1,6 @@
 import { defineField, defineType } from "sanity";
 import { SlugUrlPreview } from "../../components/SlugUrlPreview";
+import { isUniquePerLanguage } from "../isUniquePerLanguage";
 
 export const sector = defineType({
   name: "sector",
@@ -16,6 +17,7 @@ export const sector = defineType({
       options: {
         source: "title",
         maxLength: 96,
+        isUnique: isUniquePerLanguage,
       },
       validation: (Rule) => Rule.required(),
       components: { field: SlugUrlPreview },

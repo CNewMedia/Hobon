@@ -1,5 +1,6 @@
 import { defineField, defineType } from "sanity";
 import { SlugUrlPreview } from "../../components/SlugUrlPreview";
+import { isUniquePerLanguage } from "../isUniquePerLanguage";
 
 export const product = defineType({
   name: "product",
@@ -26,7 +27,7 @@ export const product = defineType({
     defineField({
       name: "slug",
       type: "slug",
-      options: { source: "title", maxLength: 96 },
+      options: { source: "title", maxLength: 96, isUnique: isUniquePerLanguage },
       validation: (Rule) => Rule.required(),
       group: "hero",
       components: { field: SlugUrlPreview },
