@@ -2,6 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
+import { useUILabels } from "@/components/providers/UILabelsProvider";
 import { ProductGalleryLightbox, type GallerySlide } from "./ProductGalleryLightbox";
 
 type ProductGalleryProps = {
@@ -31,6 +32,7 @@ export function ProductGallery({
   onLightboxClose,
   onLightboxNavigate,
 }: ProductGalleryProps) {
+  const labels = useUILabels();
   const [internalIndex, setInternalIndex] = useState<number | null>(null);
   const isControlled = controlledIndex !== undefined;
   const lightboxIndex = isControlled ? controlledIndex : internalIndex;
@@ -68,7 +70,7 @@ export function ProductGallery({
                 type="button"
                 className="gal-item"
                 onClick={() => openAt(i)}
-                aria-label={`Vergroot: ${slide.alt}`}
+                aria-label={`${labels.uiLightboxEnlarge}: ${slide.alt}`}
               >
                 <img src={slide.src} alt={slide.alt} />
                 <span className="gal-zoom">

@@ -81,6 +81,7 @@ export const uiLabels = defineType({
     defineField({ name: "uiAriaClose", type: "string", group: "ui" }),
     defineField({ name: "uiAriaPrev", type: "string", group: "ui" }),
     defineField({ name: "uiAriaNext", type: "string", group: "ui" }),
+    defineField({ name: "uiLightboxEnlarge", type: "string", group: "ui" }),
 
     defineField({ name: "formFieldNameLabel", type: "string", group: "form" }),
     defineField({ name: "formFieldFirstnameLabel", type: "string", group: "form" }),

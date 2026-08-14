@@ -48,6 +48,7 @@
     "migrate:58b-insights-labels": "node --env-file=.env.local --import tsx scripts/migrate-58b-insights-labels.ts",
     "migrate:63-contact-labels": "node --env-file=.env.local --import tsx scripts/migrate-63-contact-labels.ts",
     "migrate:67-product-labels": "node --env-file=.env.local --import tsx scripts/migrate-67-product-labels.ts",
+    "migrate:68-lightbox-enlarge": "node --env-file=.env.local --import tsx scripts/migrate-68-lightbox-enlarge.ts",
     "migrate:62f": "node --env-file=.env.local --import tsx scripts/migrate-62f.ts",
     "audit:patijn": "node --env-file=.env.local --import tsx scripts/audit-patijn.ts",
     "migrate:patijn-pattyn-homepage-61": "node --env-file=.env.local --import tsx scripts/migrate-patijn-pattyn-homepage-61.ts",

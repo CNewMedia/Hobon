@@ -64,6 +64,7 @@ const PATCH_ON_EXISTING: Partial<typeof defaultUILabels> = {
   uiAriaClose: defaultUILabels.uiAriaClose,
   uiAriaPrev: defaultUILabels.uiAriaPrev,
   uiAriaNext: defaultUILabels.uiAriaNext,
+  uiLightboxEnlarge: defaultUILabels.uiLightboxEnlarge,
 };
 
 async function main() {

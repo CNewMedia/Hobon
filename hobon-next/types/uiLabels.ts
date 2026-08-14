@@ -63,6 +63,7 @@ export type UILabels = {
   uiAriaClose: string;
   uiAriaPrev: string;
   uiAriaNext: string;
+  uiLightboxEnlarge: string;
 
   formFieldNameLabel: string;
   formFieldFirstnameLabel: string;
@@ -161,6 +162,7 @@ export const defaultUILabels: UILabels = {
   uiAriaClose: "Sluiten",
   uiAriaPrev: "Vorige",
   uiAriaNext: "Volgende",
+  uiLightboxEnlarge: "Vergroot",
 
   formFieldNameLabel: "Naam *",
   formFieldFirstnameLabel: "Voornaam",
