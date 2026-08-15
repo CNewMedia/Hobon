@@ -6,6 +6,7 @@ import { Fragment } from "react";
 import type { Locale } from "@/lib/i18n/config";
 import { buildLocalizedPath } from "@/lib/i18n/paths";
 import {
+  resolveImageSrc,
   resolveImageWithLegacyUrl,
   sectorCardImageSrc,
   type ImageWithAlt,
@@ -14,6 +15,15 @@ import { ArrowBtnIcon } from "@/components/layout/icons";
 import { SectorCtaForm } from "./SectorCtaForm";
 import { SectorFaqs, type FaqItem } from "./SectorFaqs";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
+
+function HeroPlaceholder() {
+  return (
+    <div className="p-hero-placeholder" aria-hidden="true">
+      <div className="p-hero-placeholder-grid" />
+      <span className="p-hero-placeholder-label">Hobon</span>
+    </div>
+  );
+}
 
 export type SectorNav = {
   slug: string | null;
@@ -49,6 +59,7 @@ export type SectorDoc = {
   solutionsTitle2?: string | null;
   solutionsCta?: { label?: string | null; href?: string | null } | null;
   solutionCards?: {
+    image?: ImageWithAlt;
     imageUrl?: string | null;
     num?: string | null;
     title?: string | null;
@@ -302,7 +313,14 @@ export function SectorTemplate({
           {(sector.solutionCards ?? []).map((sol, i) => (
             <div key={sol.title} className={`sol rv ${i ? `d${i % 4}` : ""}`}>
               <div className="sol-photo">
-                <img src={sol.imageUrl ?? ""} alt={sol.title ?? ""} />
+                {(() => {
+                  const cardImg = resolveImageSrc(sol.image, { width: 800, quality: 80 });
+                  return cardImg.src ? (
+                    <img src={cardImg.src} alt={cardImg.alt || sol.title || ""} />
+                  ) : (
+                    <HeroPlaceholder />
+                  );
+                })()}
               </div>
               <span className="sol-n">{sol.num}</span>
               <h3 className="sol-title">{sol.title}</h3>
