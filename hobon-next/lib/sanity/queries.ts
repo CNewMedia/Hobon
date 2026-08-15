@@ -186,9 +186,6 @@ export const contactPageQuery = `*[_type == "contactPage" && language == $locale
   additionalInfo
 }`;
 
-export const productOverviewPageQuery = `*[_type == "productOverviewPage" && language == $locale][0]`;
-export const sectorOverviewPageQuery = `*[_type == "sectorOverviewPage" && language == $locale][0]`;
-
 export const productOverviewQuery = `*[_type == "productOverviewPage" && language == $locale][0]{
   ...,
   seo,
@@ -239,10 +236,6 @@ export const insightsListQuery = `*[_type == "insightArticle" && language == $lo
   featuredImage
 }`;
 
-export const insightSlugsForLocaleQuery = `*[_type == "insightArticle" && language == $locale && defined(slug.current)]{
-  "slug": slug.current
-}`;
-
 export const productBySlugQuery = `*[_type == "product" && language == $locale && slug.current == $slug][0]{
   ...,
   seo,
@@ -284,11 +277,6 @@ export const productBySlugQuery = `*[_type == "product" && language == $locale &
     heroMainImage,
     heroMainImageUrl
   }
-}`;
-
-export const productsForLocaleQuery = `*[_type == "product" && language == $locale] | order(title asc) {
-  title,
-  "slug": slug.current
 }`;
 
 export const insightBySlugQuery = `*[_type == "insightArticle" && language == $locale && slug.current == $slug][0]{
