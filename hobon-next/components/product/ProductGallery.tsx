@@ -72,7 +72,7 @@ export function ProductGallery({
                 onClick={() => openAt(i)}
                 aria-label={`${labels.uiLightboxEnlarge}: ${slide.alt}`}
               >
-                <img src={slide.src} alt={slide.alt} />
+                <img src={slide.src} alt={slide.alt} loading="lazy" decoding="async" />
                 <span className="gal-zoom">
                   <ZoomIcon />
                 </span>

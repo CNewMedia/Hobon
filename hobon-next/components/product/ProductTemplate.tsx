@@ -2,6 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { buildLocalizedPath } from "@/lib/i18n/paths";
@@ -244,7 +245,14 @@ export function ProductTemplate({
             }}
           >
             {activeHeroImg.src ? (
-              <img src={activeHeroImg.src} alt={activeHeroImg.alt || product.title || ""} />
+              <Image
+                src={activeHeroImg.src}
+                alt={activeHeroImg.alt || product.title || ""}
+                fill
+                sizes="(max-width: 900px) 100vw, 52vw"
+                style={{ objectFit: "cover" }}
+                priority
+              />
             ) : (
               <HeroPlaceholder />
             )}
@@ -439,7 +447,17 @@ export function ProductTemplate({
               return (
                 <Link key={s._id ?? s.slug} href={href} className="os-item">
                   <div className="os-item-photo">
-                    {img ? <img src={img} alt="" /> : <HeroPlaceholder />}
+                    {img ? (
+                      <Image
+                        src={img}
+                        alt={s.title ?? ""}
+                        fill
+                        sizes="(max-width: 700px) 50vw, 220px"
+                        style={{ objectFit: "cover" }}
+                      />
+                    ) : (
+                      <HeroPlaceholder />
+                    )}
                     <div className="os-item-photo-overlay" />
                   </div>
                   <div className="os-item-body">
