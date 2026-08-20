@@ -442,8 +442,11 @@ footer{background:var(--white);padding:76px 52px 44px;border-top:2px solid var(-
   .hero-brc{margin-top:32px;flex-direction:row;}
 
   .numbers{grid-template-columns:1fr 1fr;}
-  .num{padding:36px 24px;}
+  .num{padding:36px 16px;}
   .num-val{font-size:clamp(40px,10vw,56px);}
+  /* Long text stats (e.g. BE+NL+FR) must fit 2-col cards; --md/--sm were fixed px and clipped */
+  .num-val--md{font-size:clamp(26px,6.8vw,40px);letter-spacing:-.02em;}
+  .num-val--sm{font-size:clamp(28px,7.2vw,40px);}
 
   .pos{padding:56px 20px;}
   .sec-tag{margin-bottom:12px;}
