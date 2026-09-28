@@ -1,3 +1,4 @@
+import { hasAttribution, sanitizeAttribution } from "./attribution";
 import type { ContactPayload, ContactValidationResult } from "./types";
 import type { ContactErrorCode } from "./error-codes";
 
@@ -33,6 +34,14 @@ export function validateContactPayload(body: unknown): ContactValidationResult {
   const locale = clean(raw.locale, 8);
   const website = clean(raw.website, 200);
 
+  // Nested `attribution` object and/or flat UTM/gclid fields on the payload.
+  const fromNested =
+    raw.attribution && typeof raw.attribution === "object"
+      ? sanitizeAttribution(raw.attribution as Record<string, unknown>)
+      : {};
+  const fromFlat = sanitizeAttribution(raw);
+  const attribution = { ...fromFlat, ...fromNested };
+
   if (source === "contact") {
     if (!firstname) return { ok: false, errorCode: "required_firstname" };
     if (!lastname) return { ok: false, errorCode: "required_lastname" };
@@ -59,6 +68,7 @@ export function validateContactPayload(body: unknown): ContactValidationResult {
       message: message || undefined,
       locale: locale || undefined,
       website: website || undefined,
+      attribution: hasAttribution(attribution) ? attribution : undefined,
     },
   };
 }

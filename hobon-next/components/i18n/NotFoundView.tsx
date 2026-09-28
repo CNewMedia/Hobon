@@ -10,7 +10,7 @@ export async function NotFoundView() {
   return (
     <div className="flex min-h-[50vh] flex-col items-center justify-center bg-[var(--chalk)] px-6 py-24 text-center">
       <p className="font-[family-name:var(--f-head)] text-2xl font-semibold text-[var(--navy)]">{copy.title}</p>
-      <Link href={`/${locale}/`} className="mt-6 text-[var(--navy)] underline underline-offset-4">
+      <Link href={`/${locale}`} className="mt-6 text-[var(--navy)] underline underline-offset-4">
         {copy.home}
       </Link>
     </div>

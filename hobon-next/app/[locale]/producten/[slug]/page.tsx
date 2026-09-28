@@ -1,4 +1,5 @@
 import { ProductTemplate } from "@/components/product/ProductTemplate";
+import { JsonLd } from "@/components/seo/JsonLd";
 import type { Locale } from "@/lib/i18n/config";
 import { fetchSanity } from "@/lib/sanity/fetchSanity";
 import {
@@ -8,7 +9,14 @@ import {
 import { productBySlugQuery } from "@/lib/sanity/queries";
 import { getSeoDefaults } from "@/lib/sanity/seoDefaults";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { breadcrumbJsonLd } from "@/lib/seo/structuredData";
 import { notFound } from "next/navigation";
+
+const productsCrumb: Record<Locale, string> = {
+  nl: "Producten",
+  fr: "Produits",
+  en: "Products",
+};
 
 export async function generateMetadata({
   params,
@@ -44,5 +52,23 @@ export default async function ProductDetailPage({
   const doc = await fetchSanity(productBySlugQuery, { locale, slug });
   if (!doc) notFound();
 
-  return <ProductTemplate locale={loc} product={doc} />;
+  const title = doc.title?.trim() || doc.heroHeadline?.trim() || slug;
+  const crumbLd = breadcrumbJsonLd(loc, [
+    { name: "Hobon", pathParts: [] },
+    { name: productsCrumb[loc], pathParts: [{ type: "key", key: "products" }] },
+    {
+      name: title,
+      pathParts: [
+        { type: "key", key: "products" },
+        { type: "slug", value: slug },
+      ],
+    },
+  ]);
+
+  return (
+    <>
+      <JsonLd data={crumbLd} />
+      <ProductTemplate locale={loc} product={doc} />
+    </>
+  );
 }

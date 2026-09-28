@@ -4,6 +4,7 @@ import { SiteEffects } from "@/components/site/SiteEffects";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { UILabelsProvider } from "@/components/providers/UILabelsProvider";
+import { LandingAttributionCapture } from "@/lib/contact/LandingAttributionCapture";
 import { getCookiebotCbid } from "@/lib/cookiebot";
 import type { Locale } from "@/lib/i18n/config";
 import { isLocale } from "@/lib/i18n/config";
@@ -22,6 +23,8 @@ import {
 } from "@/lib/sanity/queries";
 import { mergeUILabels } from "@/types/uiLabels";
 import { notFound } from "next/navigation";
+import { resolveLocaleSwitchHrefs } from "@/lib/i18n/switch-locale";
+import { buildLocalizedPath } from "@/lib/i18n/paths";
 
 export function generateStaticParams() {
   return [{ locale: "nl" }, { locale: "fr" }, { locale: "en" }];
@@ -54,16 +57,20 @@ export default async function LocaleLayout({
   const locale = raw as Locale;
 
   const h = await headers();
-  const pathnameBare = normalizePath(pathnameWithoutLocale(h.get("x-pathname") ?? "/"));
+  const rawPathname = h.get("x-pathname")?.trim() || buildLocalizedPath(locale, []);
+  const pathnameFull = normalizePath(rawPathname === "/" ? `/${locale}` : rawPathname);
+  const pathnameBare = normalizePath(pathnameWithoutLocale(pathnameFull));
 
-  const [settings, headerNav, footerNav, seoDefaults, tracking, rawUILabels] = await Promise.all([
-    fetchSanity(siteSettingsQuery),
-    fetchSanity(headerNavigationQuery, { locale }),
-    fetchSanity(footerNavigationQuery, { locale }),
-    getSeoDefaults(locale),
-    fetchSanity(analyticsAndTrackingQuery),
-    fetchSanity(uiLabelsQuery, { locale }),
-  ]);
+  const [settings, headerNav, footerNav, seoDefaults, tracking, rawUILabels, localeSwitchHrefs] =
+    await Promise.all([
+      fetchSanity(siteSettingsQuery),
+      fetchSanity(headerNavigationQuery, { locale }),
+      fetchSanity(footerNavigationQuery, { locale }),
+      getSeoDefaults(locale),
+      fetchSanity(analyticsAndTrackingQuery),
+      fetchSanity(uiLabelsQuery, { locale }),
+      resolveLocaleSwitchHrefs(pathnameFull, fetchSanity),
+    ]);
   const uiLabels = mergeUILabels(rawUILabels);
 
   const logoSrc =
@@ -95,6 +102,7 @@ export default async function LocaleLayout({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }}
       />
       <GtmNoScript tracking={tracking} enabled={consentReady} />
+      <LandingAttributionCapture />
       <SiteEffects />
       <UILabelsProvider value={uiLabels}>
         <SiteHeader
@@ -102,6 +110,8 @@ export default async function LocaleLayout({
           headerNav={headerNav}
           siteSettings={settings}
           logoSrc={logoSrc}
+          localeSwitchHrefs={localeSwitchHrefs}
+          localeSwitchPathname={pathnameFull}
         />
         <main className="flex-1">{children}</main>
         <SiteFooter

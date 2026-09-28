@@ -1,3 +1,4 @@
+import type { AttributionFields } from "./attribution";
 import type { ContactErrorCode } from "./error-codes";
 
 export type ContactFormSource = "contact" | "cta";
@@ -17,6 +18,8 @@ export type ContactPayload = {
   locale?: string;
   /** Honeypot — must stay empty. */
   website?: string;
+  /** Landing-URL UTM/gclid (no PII). */
+  attribution?: AttributionFields;
 };
 
 export type ContactValidationResult =

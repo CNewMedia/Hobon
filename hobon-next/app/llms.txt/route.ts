@@ -33,7 +33,7 @@ export async function GET() {
 
 ## Belangrijke pagina's
 
-- [Home](${SITE_ORIGIN}/nl/)
+- [Home](${SITE_ORIGIN}${buildLocalizedPath("nl", [])})
 - [Over Hobon](${SITE_ORIGIN}${buildLocalizedPath("nl", [{ type: "key", key: "about" }])})
 - [Sectoren](${SITE_ORIGIN}${buildLocalizedPath("nl", [{ type: "key", key: "sectors" }])})
 - [Producten](${SITE_ORIGIN}${buildLocalizedPath("nl", [{ type: "key", key: "products" }])})

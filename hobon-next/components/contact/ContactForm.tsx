@@ -1,11 +1,14 @@
 "use client";
 
-import { useMemo, useState, type FormEvent } from "react";
+import { useMemo, useRef, useState, type FormEvent } from "react";
 import { useParams } from "next/navigation";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
+import { ATTRIBUTION_KEYS } from "@/lib/contact/attribution";
 import { submitContactForm } from "@/lib/contact/client";
 import { resolveContactErrorLabel } from "@/lib/contact/resolve-error";
+import { useLandingAttribution } from "@/lib/contact/useLandingAttribution";
+import { pushDataLayerEvent } from "@/lib/tracking/dataLayer";
 
 export type ContactFormLabels = {
   firstname?: string | null;
@@ -38,11 +41,15 @@ export function ContactForm({
   const params = useParams();
   const locale = typeof params?.locale === "string" ? params.locale : "nl";
   const labels = useMemo(() => formFields ?? {}, [formFields]);
+  const attribution = useLandingAttribution();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const leadEventSentRef = useRef(false);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (submitting || leadEventSentRef.current) return;
+
     setError(null);
     setSubmitting(true);
 
@@ -51,6 +58,12 @@ export function ContactForm({
     const sectorValue = String(fd.get("sector") ?? "");
     const sectorLabel =
       ui.formSectorOptions.find((opt) => opt.value === sectorValue)?.label || sectorValue;
+
+    const attrFromForm: Record<string, string> = {};
+    for (const key of ATTRIBUTION_KEYS) {
+      const v = String(fd.get(key) ?? "").trim();
+      if (v) attrFromForm[key] = v;
+    }
 
     const result = await submitContactForm({
       source: "contact",
@@ -63,13 +76,24 @@ export function ContactForm({
       sector: sectorLabel,
       message: String(fd.get("message") ?? ""),
       website: String(fd.get("website") ?? ""),
+      attribution: attrFromForm,
     });
 
-    setSubmitting(false);
-
     if (!result.ok) {
+      setSubmitting(false);
       setError(resolveContactErrorLabel(ui, result.errorCode));
       return;
+    }
+
+    // Exact once: only after a successful /api/contact response.
+    if (!leadEventSentRef.current) {
+      leadEventSentRef.current = true;
+      pushDataLayerEvent({
+        event: "hobon_lead_submit_success",
+        form_name: "contact",
+        language: locale,
+        page_type: "contact",
+      });
     }
 
     form.reset();
@@ -144,6 +168,9 @@ export function ContactForm({
         <label htmlFor="website">Website</label>
         <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
+      {ATTRIBUTION_KEYS.map((key) => (
+        <input key={key} type="hidden" name={key} value={attribution[key] ?? ""} readOnly />
+      ))}
       <div className="c-form-bottom">
         <div className="c-privacy-wrap">
           {error ? (

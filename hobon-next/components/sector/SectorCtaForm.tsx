@@ -4,14 +4,17 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { ArrowBtnIcon } from "@/components/layout/icons";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
+import { ATTRIBUTION_KEYS } from "@/lib/contact/attribution";
 import { submitContactForm } from "@/lib/contact/client";
 import { resolveContactErrorLabel } from "@/lib/contact/resolve-error";
+import { useLandingAttribution } from "@/lib/contact/useLandingAttribution";
 
 export function SectorCtaForm() {
   const labels = useUILabels();
   const params = useParams();
   const locale = typeof params?.locale === "string" ? params.locale : "nl";
   const privacyHref = `/${locale}/privacy`;
+  const attribution = useLandingAttribution();
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -51,6 +54,12 @@ export function SectorCtaForm() {
         const intentLabel =
           labels.formIntentOptions.find((opt) => opt.value === intentValue)?.label || intentValue;
 
+        const attrFromForm: Record<string, string> = {};
+        for (const key of ATTRIBUTION_KEYS) {
+          const v = String(fd.get(key) ?? "").trim();
+          if (v) attrFromForm[key] = v;
+        }
+
         const result = await submitContactForm({
           source: "cta",
           locale,
@@ -61,6 +70,7 @@ export function SectorCtaForm() {
           intentLabel: intentLabel || undefined,
           message: String(fd.get("message") ?? ""),
           website: String(fd.get("website") ?? ""),
+          attribution: attrFromForm,
         });
 
         setSubmitting(false);
@@ -149,6 +159,9 @@ export function SectorCtaForm() {
         <label htmlFor="cta-website">Website</label>
         <input id="cta-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
+      {ATTRIBUTION_KEYS.map((key) => (
+        <input key={key} type="hidden" name={key} value={attribution[key] ?? ""} readOnly />
+      ))}
       {error ? (
         <p className="cf-form-error" role="alert">
           {error}

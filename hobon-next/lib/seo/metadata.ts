@@ -26,11 +26,20 @@ function ogUrlFromImage(source: unknown): string | undefined {
 
 function normalizeTitleWithSuffix(baseRaw: string, suffixRaw: string | null | undefined): string {
   const suffix = (suffixRaw ?? " | Hobon").trim();
-  if (!suffix) return baseRaw;
-  const normalizedSuffix = suffix.startsWith("|") ? ` ${suffix}` : suffix;
+  if (!suffix) return baseRaw.trim();
+  const normalizedSuffix = suffix.startsWith("|") ? ` ${suffix}` : suffix.startsWith(" ") ? suffix : ` ${suffix}`;
   const trimmedBase = baseRaw.trim();
-  if (trimmedBase.endsWith(normalizedSuffix.trim())) return trimmedBase;
-  return `${trimmedBase}${normalizedSuffix}`;
+  // Strip any existing brand suffix occurrences so we never double-apply.
+  const brandNeedle = " | Hobon";
+  let cleaned = trimmedBase;
+  while (cleaned.endsWith(brandNeedle) || cleaned.endsWith("| Hobon")) {
+    cleaned = cleaned.replace(/\s*\|\s*Hobon\s*$/i, "").trim();
+  }
+  if (normalizedSuffix.trim().toLowerCase() === "| hobon") {
+    return `${cleaned}${brandNeedle}`;
+  }
+  if (cleaned.toLowerCase().endsWith(normalizedSuffix.trim().toLowerCase())) return cleaned;
+  return `${cleaned}${normalizedSuffix}`;
 }
 
 export async function buildPageMetadata(input: {
@@ -54,8 +63,14 @@ export async function buildPageMetadata(input: {
     "";
 
   const path = buildLocalizedPath(input.locale, input.pathParts);
-  const canonical =
-    input.seo?.canonical?.trim() || `${SITE_ORIGIN}${path}`;
+  let canonical = input.seo?.canonical?.trim() || `${SITE_ORIGIN}${path}`;
+  // Locale homepages: preferred URL has no trailing slash.
+  if (!input.pathParts.length) {
+    canonical = canonical.replace(/\/(nl|fr|en)\/$/i, "/$1").replace(/\/$/, "");
+    if (!/\/(nl|fr|en)$/i.test(canonical)) {
+      canonical = `${SITE_ORIGIN}${path}`;
+    }
+  }
 
   const languageAlternates: Record<string, string> = {};
   for (const loc of locales) {
@@ -88,7 +103,7 @@ export async function buildPageMetadata(input: {
       : { card: "summary_large_image", title, description };
 
   return {
-    title,
+    title: { absolute: title },
     description,
     metadataBase: new URL(SITE_ORIGIN),
     alternates: {

@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
   /** Permanente URL-renames (Next gebruikt `permanent: true` → HTTP 308). */
   async redirects() {
     return [
+      // Locale homepages: trailing-slash variants → preferred URL without slash.
+      { source: "/nl/", destination: "/nl", permanent: true },
+      { source: "/fr/", destination: "/fr", permanent: true },
+      { source: "/en/", destination: "/en", permanent: true },
       {
         source: "/nl/sectoren/voeding",
         destination: "/nl/sectoren/voedingsindustrie",

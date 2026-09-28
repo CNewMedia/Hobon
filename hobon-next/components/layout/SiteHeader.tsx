@@ -8,6 +8,7 @@ import { resolveInternalHref, type InternalLinkTarget } from "@/lib/sanity/resol
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { ArrowNavIcon } from "./icons";
 import { useUILabels } from "@/components/providers/UILabelsProvider";
+import type { LocaleSwitchMap } from "@/lib/i18n/switch-locale";
 
 type ImageWithAlt = { image?: unknown; alt?: string | null } | null;
 
@@ -116,11 +117,15 @@ export function SiteHeader({
   headerNav,
   siteSettings,
   logoSrc: layoutLogoSrc,
+  localeSwitchHrefs,
+  localeSwitchPathname,
 }: {
   locale: Locale;
   headerNav: HeaderNav;
   siteSettings: SiteSettings;
   logoSrc?: string | null;
+  localeSwitchHrefs: LocaleSwitchMap;
+  localeSwitchPathname: string;
 }) {
   const labels = useUILabels();
   const logoFromNav = imageSrc(headerNav?.logo ?? null, 320);
@@ -132,7 +137,7 @@ export function SiteHeader({
     siteSettings?.companyName?.trim() ||
     "Hobon";
 
-  const home = `/${locale}/`;
+  const home = `/${locale}`;
   const items = headerNav?.menuItems ?? [];
   const cta = headerNav?.ctaButton;
   const ctaLabel = cta?.label ?? "";
@@ -168,7 +173,11 @@ export function SiteHeader({
           <MenuRows items={items} locale={locale} mobile={false} />
         </nav>
         <div className="mr-3 hidden items-center gap-3 lg:flex">
-          <LocaleSwitcher active={locale} />
+          <LocaleSwitcher
+            active={locale}
+            initialHrefs={localeSwitchHrefs}
+            initialPathname={localeSwitchPathname}
+          />
         </div>
         {ctaUrl ? (
           ctaIsExternal ? (
@@ -208,7 +217,11 @@ export function SiteHeader({
           )
         ) : null}
         <div className="flex justify-center px-6 pb-6 pt-2 lg:hidden">
-          <LocaleSwitcher active={locale} />
+          <LocaleSwitcher
+            active={locale}
+            initialHrefs={localeSwitchHrefs}
+            initialPathname={localeSwitchPathname}
+          />
         </div>
       </nav>
     </>

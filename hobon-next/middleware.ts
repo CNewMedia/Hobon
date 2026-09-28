@@ -8,7 +8,7 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname === "/") {
-    return NextResponse.redirect(new URL("/nl/", request.url));
+    return NextResponse.redirect(new URL("/nl", request.url));
   }
 
   const first = pathname.split("/").filter(Boolean)[0];

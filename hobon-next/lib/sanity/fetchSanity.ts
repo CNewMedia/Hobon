@@ -42,6 +42,9 @@ export async function fetchSanity<QueryResponse = any>(
     return stripAIMarkersDeep(result) as QueryResponse;
   }
 
-  const result = await client.fetch(query, params);
+  // Short revalidate so Studio/CMS edits (e.g. GTM ID) reach production without a redeploy.
+  const result = await client.fetch(query, params, {
+    next: { revalidate: 60 },
+  });
   return stripAIMarkersDeep(result) as QueryResponse;
 }

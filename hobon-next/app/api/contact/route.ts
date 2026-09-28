@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { formatAttributionLogLine } from "@/lib/contact/attribution";
 import { checkRateLimit } from "@/lib/contact/rate-limit";
 import { sendContactEmail } from "@/lib/contact/send-mail";
 import { validateContactPayload } from "@/lib/contact/validate";
@@ -41,6 +42,13 @@ export async function POST(request: Request) {
 
   try {
     await sendContactEmail(data);
+    console.log(
+      formatAttributionLogLine({
+        source: data.source,
+        locale: data.locale,
+        attribution: data.attribution,
+      }),
+    );
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("[contact] mail send failed", err);

@@ -30,8 +30,11 @@ export async function GET(req: NextRequest) {
     (query, params) => client.fetch(query, params),
   );
 
-  if ("path" in resolved) {
-    return NextResponse.json({ path: resolved.path });
+  if (resolved.kind === "missing") {
+    return NextResponse.json({
+      missing: true,
+      fallbackPath: resolved.fallbackPath,
+    });
   }
 
   return NextResponse.json({ slug: resolved.slug });

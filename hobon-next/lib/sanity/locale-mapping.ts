@@ -25,6 +25,7 @@ export function getLocalizedRef(currentRef: string, targetLocale: Exclude<Locale
   return currentRef;
 }
 
+/** Overview path for language-switcher UI only — never use as hreflang equivalent. */
 export function getOverviewFallbackPath(type: LocalizedDocType, locale: Locale) {
   if (type === "sector") return `/${locale}/${segmentByLocale[locale].sectors}`;
   if (type === "product") return `/${locale}/${segmentByLocale[locale].products}`;
@@ -41,7 +42,7 @@ function patternedKey(documentType: LocalizedDocType, locale: Locale, id: string
  * Resolve sibling slugs for all locales.
  * 1) translation.metadata (UUID + mixed IDs)
  * 2) patterned `_id` (`{prefix}-{locale}-{key}`)
- * Missing siblings are omitted (caller: hreflang skip / switcher → overview).
+ * Missing siblings are omitted (hreflang must skip; switcher uses overview fallback separately).
  */
 export async function resolveSiblingSlugsByLocale(
   documentType: LocalizedDocType,
@@ -96,18 +97,27 @@ export async function resolveSiblingSlugsByLocale(
   return result;
 }
 
+export type SiblingResolveResult =
+  | { kind: "slug"; slug: string }
+  | { kind: "missing"; fallbackPath: string };
+
+/**
+ * Shared translation resolution for a single target locale.
+ * - Published equivalent → `{ kind: "slug", slug }`
+ * - Missing → `{ kind: "missing", fallbackPath }` (switcher UI only; not for hreflang)
+ */
 export async function resolveSiblingSlug(
   documentType: LocalizedDocType,
   sourceLocale: Locale,
   sourceSlug: string,
   targetLocale: Locale,
   fetcher: LocaleMappingFetcher,
-): Promise<{ slug: string } | { path: string }> {
-  if (sourceLocale === targetLocale) return { slug: sourceSlug };
+): Promise<SiblingResolveResult> {
+  if (sourceLocale === targetLocale) return { kind: "slug", slug: sourceSlug };
   const slugs = await resolveSiblingSlugsByLocale(documentType, sourceLocale, sourceSlug, fetcher);
   const slug = slugs[targetLocale];
-  if (slug) return { slug };
-  return { path: getOverviewFallbackPath(documentType, targetLocale) };
+  if (slug) return { kind: "slug", slug };
+  return { kind: "missing", fallbackPath: getOverviewFallbackPath(documentType, targetLocale) };
 }
 
 export function pathPartsByLocaleFromSlugs(
@@ -132,12 +142,11 @@ export async function getLocalizedSlug(
   key: string,
   locale: Locale,
   fetcher: LocaleMappingFetcher,
-): Promise<string> {
+): Promise<string | null> {
   const id = `${ID_PREFIX[documentType]}-${locale}-${key}`;
   const result = await fetcher<{ slug?: { current?: string } | null } | null>(`*[_id == $id][0]{slug}`, { id });
   const slug = result?.slug?.current?.trim();
-  if (slug) return slug;
-  return getOverviewFallbackPath(documentType, locale);
+  return slug || null;
 }
 
 /** Patterned-ID key only. UUID docs return null — use `resolveSiblingSlug`. */

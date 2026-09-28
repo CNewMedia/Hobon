@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { ATTRIBUTION_KEYS, hasAttribution } from "./attribution";
 import type { ContactPayload } from "./types";
 
 function displayName(data: ContactPayload): string {
@@ -36,6 +37,15 @@ function buildPlainText(data: ContactPayload): string {
   }
 
   lines.push("", "Bericht:", data.message || "—", "");
+
+  if (hasAttribution(data.attribution)) {
+    lines.push("Attribution (landing):");
+    for (const key of ATTRIBUTION_KEYS) {
+      const v = data.attribution?.[key];
+      if (v) lines.push(`${key}: ${v}`);
+    }
+    lines.push("");
+  }
 
   return lines.filter((line) => line !== null).join("\n");
 }
