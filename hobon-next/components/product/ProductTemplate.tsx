@@ -106,9 +106,9 @@ function hasWhyHobon(p: ProductDoc) {
 
 function buildGallerySlides(items: ImageWithAlt[], _slug: string | null): GallerySlide[] {
   const slides: GallerySlide[] = [];
-  items.forEach((item, i) => {
-    const thumb = resolveImageSrc(item, { width: 720, quality: 80 });
-    const large = resolveImageSrc(item, { width: 1400, quality: 82 });
+  items.forEach((item) => {
+    const thumb = resolveImageSrc(item, { width: 720, quality: 75 });
+    const large = resolveImageSrc(item, { width: 1200, quality: 75 });
     if (!thumb.src) return;
     slides.push({ src: thumb.src, alt: thumb.alt, largeSrc: large.src ?? thumb.src });
   });
@@ -139,8 +139,8 @@ export function ProductTemplate({
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const heroResolved = resolveImageSrc(product.heroImage, {
-    width: 1000,
-    quality: 80,
+    width: 1200,
+    quality: 75,
   });
 
   const heroThumbs = (product.heroThumbs ?? []).filter((t) => t.label?.trim() || t.image?.image);
@@ -152,10 +152,10 @@ export function ProductTemplate({
   const activeHeroImg = useMemo(() => {
     if (heroThumbs.length > 0) {
       const idx = Math.min(heroThumbIndex, heroThumbs.length - 1);
-      return resolveImageSrc(heroThumbs[idx].image, { width: 1000, quality: 80 });
+      return resolveImageSrc(heroThumbs[idx].image, { width: 1200, quality: 75 });
     }
     return heroResolved;
-  }, [heroThumbs, heroThumbIndex, slug, heroResolved]);
+  }, [heroThumbs, heroThumbIndex, heroResolved]);
   const solutionCards = (product.solutionCards ?? []).filter((c) => c.title?.trim());
   const faqItems = (product.faqs ?? []).filter((f) => f.question?.trim() && f.answer?.trim());
   const relatedSectors = (product.relatedSectors ?? []).filter((s) => s.slug);
@@ -249,9 +249,10 @@ export function ProductTemplate({
                 src={activeHeroImg.src}
                 alt={activeHeroImg.alt || product.title || ""}
                 fill
-                sizes="(max-width: 900px) 100vw, 52vw"
+                sizes="(max-width: 900px) 100vw, 620px"
                 style={{ objectFit: "cover" }}
-                priority
+                priority={heroThumbIndex === 0}
+                fetchPriority={heroThumbIndex === 0 ? "high" : "auto"}
               />
             ) : (
               <HeroPlaceholder />
@@ -261,7 +262,7 @@ export function ProductTemplate({
           {heroThumbs.length > 0 ? (
             <div className="s-hero-thumbs" id="heroThumbs">
               {heroThumbs.map((thumb, i) => {
-                const thumbImg = resolveImageSrc(thumb.image, { width: 260, quality: 78 });
+                const thumbImg = resolveImageSrc(thumb.image, { width: 160, quality: 70 });
                 return (
                   <button
                     key={thumb._key ?? thumb.label ?? i}
@@ -272,7 +273,14 @@ export function ProductTemplate({
                     onClick={() => setHeroThumbIndex(i)}
                   >
                     {thumbImg.src ? (
-                      <img src={thumbImg.src} alt={thumbImg.alt || thumb.label || ""} />
+                      <img
+                        src={thumbImg.src}
+                        alt={thumbImg.alt || thumb.label || ""}
+                        width={74}
+                        height={54}
+                        loading="lazy"
+                        decoding="async"
+                      />
                     ) : (
                       <HeroPlaceholder />
                     )}
@@ -343,7 +351,7 @@ export function ProductTemplate({
           </div>
           <div className="sol-grid p-solutions-grid" data-sol-count={solutionCards.length}>
             {solutionCards.map((sol, i) => {
-              const cardImg = resolveImageSrc(sol.image, { width: 800, quality: 80 });
+              const cardImg = resolveImageSrc(sol.image, { width: 640, quality: 75 });
               return (
                 <div key={sol._key ?? sol.title ?? i} className={`sol rv ${i ? `d${i % 4}` : ""}`}>
                   <div className="sol-photo">
@@ -351,6 +359,10 @@ export function ProductTemplate({
                       <img
                         src={cardImg.src}
                         alt={cardImg.alt || sol.title || ""}
+                        width={640}
+                        height={480}
+                        loading="lazy"
+                        decoding="async"
                         className="h-full w-full object-cover"
                       />
                     ) : (

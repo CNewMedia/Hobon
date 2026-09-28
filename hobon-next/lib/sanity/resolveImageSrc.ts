@@ -13,13 +13,18 @@ export function resolveImageSrc(
   source: ImageWithAlt,
   options: ResolveImageOptions = {},
 ): ResolvedImage {
-  const { width = 800, quality = 80 } = options;
+  const { width = 800, quality = 75 } = options;
   const alt = source?.alt?.trim() ?? "";
 
   if (source?.image != null) {
     try {
       return {
-        src: urlFor(source.image as Parameters<typeof urlFor>[0]).width(width).quality(quality).url(),
+        src: urlFor(source.image as Parameters<typeof urlFor>[0])
+          .width(width)
+          .quality(quality)
+          .auto("format")
+          .fit("max")
+          .url(),
         alt,
       };
     } catch {

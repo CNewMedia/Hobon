@@ -65,7 +65,7 @@ gtag('config', '${gaId}');
   return (
     <>
       {gtmSnippet ? (
-        <Script id="gtm" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: gtmSnippet }} />
+        <Script id="gtm" strategy="lazyOnload" dangerouslySetInnerHTML={{ __html: gtmSnippet }} />
       ) : null}
       {ga4Head}
       {tracking.customHeadScripts?.trim() ? (

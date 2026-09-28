@@ -59,14 +59,24 @@ export function SiteEffects() {
 
     const hero = document.querySelector(".hero");
     const glow = document.getElementById("heroGlow");
+    let heroRect: DOMRect | null = null;
+    function refreshHeroRect() {
+      if (!hero) return;
+      heroRect = hero.getBoundingClientRect();
+    }
     function onHeroMove(e: Event) {
       if (!hero || !glow) return;
       const ev = e as MouseEvent;
-      const r = hero.getBoundingClientRect();
-      glow.style.left = `${ev.clientX - r.left}px`;
-      glow.style.top = `${ev.clientY - r.top}px`;
+      if (!heroRect) refreshHeroRect();
+      if (!heroRect) return;
+      glow.style.left = `${ev.clientX - heroRect.left}px`;
+      glow.style.top = `${ev.clientY - heroRect.top}px`;
     }
-    if (hero && glow) hero.addEventListener("mousemove", onHeroMove);
+    if (hero && glow) {
+      refreshHeroRect();
+      window.addEventListener("resize", refreshHeroRect);
+      hero.addEventListener("mousemove", onHeroMove);
+    }
 
     const io = new IntersectionObserver(
       (entries) => {
@@ -81,8 +91,16 @@ export function SiteEffects() {
     );
     document.querySelectorAll(".rv, .rvl, .rvr, .rvd").forEach((el) => io.observe(el));
 
-    const tape = document.querySelector(".tape-track");
-    if (tape) tape.innerHTML += tape.innerHTML;
+    const tape = document.querySelector<HTMLElement>(".tape-track");
+    // Duplicate marquee nodes without reading/writing innerHTML (avoids forced reflow).
+    if (tape && tape.childElementCount > 0 && !tape.dataset.marqueeDuped) {
+      const frag = document.createDocumentFragment();
+      Array.from(tape.children).forEach((child) => {
+        frag.appendChild(child.cloneNode(true));
+      });
+      tape.appendChild(frag);
+      tape.dataset.marqueeDuped = "1";
+    }
 
     const numIO = new IntersectionObserver(
       (entries) => {
@@ -112,11 +130,17 @@ export function SiteEffects() {
     let down = false;
     let sx = 0;
     let sl = 0;
+    let railLeft = 0;
+    function refreshRailLeft() {
+      if (!rail) return;
+      railLeft = rail.getBoundingClientRect().left + window.scrollX;
+    }
     function onRailDown(e: Event) {
       if (!rail) return;
       const ev = e as MouseEvent;
       down = true;
-      sx = ev.pageX - rail.offsetLeft;
+      refreshRailLeft();
+      sx = ev.pageX - railLeft;
       sl = rail.scrollLeft;
       rail.classList.add("grab");
     }
@@ -127,18 +151,19 @@ export function SiteEffects() {
     function onRailMove(e: Event) {
       if (!down || !rail) return;
       const ev = e as MouseEvent;
-      rail.scrollLeft = sl - (ev.pageX - rail.offsetLeft - sx);
+      rail.scrollLeft = sl - (ev.pageX - railLeft - sx);
     }
     function onRailTouchStart(e: Event) {
       if (!rail) return;
       const te = e as TouchEvent;
-      sx = te.touches[0].pageX - rail.offsetLeft;
+      refreshRailLeft();
+      sx = te.touches[0].pageX - railLeft;
       sl = rail.scrollLeft;
     }
     function onRailTouchMove(e: Event) {
       if (!rail) return;
       const te = e as TouchEvent;
-      rail.scrollLeft = sl - (te.touches[0].pageX - rail.offsetLeft - sx);
+      rail.scrollLeft = sl - (te.touches[0].pageX - railLeft - sx);
     }
     const railTouchOpts: AddEventListenerOptions = { passive: true };
     if (rail) {
@@ -200,7 +225,10 @@ export function SiteEffects() {
       document.body.classList.remove("js-ready");
       cancelAnimationFrame(raf);
       document.removeEventListener("mousemove", onMove);
-      if (hero && glow) hero.removeEventListener("mousemove", onHeroMove);
+      if (hero && glow) {
+        hero.removeEventListener("mousemove", onHeroMove);
+        window.removeEventListener("resize", refreshHeroRect);
+      }
       if (hoverEls) {
         hoverEls.forEach((el) => {
           el.removeEventListener("mouseenter", onCursorHoverEnter);
